@@ -1,203 +1,193 @@
 <title>Oficina de la Agencia</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: maqueta suave — la oficina 3D es la portada; debajo, tarjetas pastel por área. Un solo mundo claro, a propósito. */
+/* Layout: estudio corporativo — la oficina 3D arriba como vidriera; debajo, fichas sobrias con retrato, frase y área. Un solo mundo claro, a propósito. */
 :root{
   color-scheme:light;
-  --bg:#f2f0f6; --surface:#ffffff; --ink:#2b2838; --soft:#77738a; --line:#e7e3ef; --sunk:#f6f4fa;
-  --accent:#6d5fd0;
-  --dir-t:#dfd9f7; --dir:#6d5fd0;
-  --neg-t:#ffe0d2; --neg:#d9734e;
-  --sol-t:#d4e7fb; --sol:#4384cf;
-  --mkt-t:#f7d9ec; --mkt:#bb5b9b;
-  --cli-t:#d2f0de; --cli:#3a9d6e;
-  --display:"Bricolage Grotesque",ui-rounded,"SF Pro Rounded",system-ui,sans-serif;
-  --body:"Manrope",ui-sans-serif,system-ui,sans-serif;
-  --r-lg:28px; --r-md:20px; --r-sm:12px;
-  --shadow:0 1px 2px rgba(43,40,56,.04),0 8px 24px -8px rgba(43,40,56,.12);
+  --bg:#eef0f3; --surface:#ffffff; --ink:#151b26; --soft:#5f6b7a; --line:#e3e7ec; --sunk:#f5f6f8;
+  --accent:#2d5be3;
+  --dir:#5a4fcf; --neg:#cf6a33; --sol:#2d7fd3; --mkt:#b4478a; --cli:#2c9468;
+  --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r-lg:20px; --r-md:14px;
+  --shadow:0 1px 2px rgba(21,27,38,.05),0 6px 20px -10px rgba(21,27,38,.18);
 }
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font:500 15px/1.55 var(--body)}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--surface)}
 .gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
-.in{max-width:1120px;margin:0 auto}
-a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:10px}
+.in{max-width:1160px;margin:0 auto}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-header.top .in{padding-block:22px 6px;display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
-.brand{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
-h1{margin:6px 0 0;font:700 clamp(34px,8vw,52px)/1 var(--display);letter-spacing:-.02em}
-.stats{display:flex;flex-wrap:wrap;gap:8px}
-.stat{background:var(--surface);border-radius:999px;padding:8px 14px;box-shadow:var(--shadow);display:flex;gap:8px;align-items:baseline;font-size:13px;color:var(--soft)}
-.stat b{font:700 18px/1 var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
+header.top{background:var(--surface);border-bottom:1px solid var(--line)}
+header.top .in{padding-block:18px 0;display:flex;flex-direction:column;gap:14px}
+.row{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+.brand{font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+h1{margin:6px 0 0;font:600 clamp(28px,6vw,40px)/1.05 var(--sans);letter-spacing:-.025em;text-wrap:balance}
+.stats{display:flex;gap:22px;flex-wrap:wrap}
+.stat{display:flex;flex-direction:column;gap:2px}
+.stat b{font:600 20px/1 var(--sans);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.stat span{font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:var(--soft)}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--surface);border-bottom:1px solid var(--line)}
+nav .in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+nav a{flex:none;text-decoration:none;color:var(--soft);font:500 14px/1 var(--sans);padding:14px 12px 13px;border-bottom:2px solid transparent}
+nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--ink)}
 
-nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
-nav .in{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:12px}
-nav a{flex:none;text-decoration:none;color:var(--soft);font:600 14px/1 var(--body);padding:10px 16px;border-radius:999px}
-nav a[aria-current="page"]{background:var(--ink);color:#fff}
-
-main .in{padding-block:8px 56px;display:flex;flex-direction:column;gap:18px}
+main .in{padding-block:20px 56px;display:flex;flex-direction:column;gap:18px}
 section{display:flex;flex-direction:column;gap:16px}
-section[hidden]{display:none!important}
-.h2 h2{margin:0;font:700 clamp(26px,6vw,34px)/1.1 var(--display);letter-spacing:-.01em}
-.h2 p{margin:4px 0 0;color:var(--soft);max-width:56ch}
+.h2 h2{margin:0;font:600 24px/1.15 var(--sans);letter-spacing:-.02em}
+.h2 p{margin:4px 0 0;color:var(--soft);max-width:60ch;font-size:14px}
 
-/* Escenario 3D */
-.stage{position:relative;height:min(64vh,620px);min-height:400px;border-radius:var(--r-lg);overflow:hidden;
-  background:radial-gradient(120% 90% at 20% 0%,#fff6ee 0%,rgba(255,246,238,0) 60%),radial-gradient(100% 80% at 100% 100%,#e4ecfb 0%,rgba(228,236,251,0) 60%),linear-gradient(160deg,#f7f1fa,#ece8f6);
-  box-shadow:var(--shadow);touch-action:none}
-@media (max-width:600px){.stage{height:420px;min-height:0}}
+/* Escenario */
+.stage{position:relative;height:min(64vh,640px);min-height:400px;border-radius:var(--r-lg);overflow:hidden;background:linear-gradient(180deg,#f8f9fb 0%,#e6e9ee 100%);border:1px solid var(--line);touch-action:none}
+@media (max-width:600px){.stage{height:430px;min-height:0}}
 .stage canvas{display:block;width:100%;height:100%}
-.pin{position:absolute;left:0;top:0;pointer-events:none;background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px 6px 6px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);white-space:nowrap;font:700 14px/1 var(--display)}
-.pin i{width:10px;height:10px;border-radius:50%;background:var(--c);margin-left:4px}
-.pin small{font:500 12px/1 var(--body);color:var(--soft)}
-.hint{position:absolute;left:12px;bottom:12px;font:600 12px/1 var(--body);color:var(--soft);background:rgba(255,255,255,.85);backdrop-filter:blur(6px);border-radius:999px;padding:8px 12px;pointer-events:none}
+.pin{position:absolute;left:0;top:0;pointer-events:none;background:var(--ink);color:#fff;border-radius:10px;padding:7px 10px;display:flex;flex-direction:column;gap:2px;white-space:nowrap;box-shadow:var(--shadow)}
+.pin b{font:600 14px/1 var(--sans)}
+.pin small{font:500 10px/1 var(--mono);text-transform:uppercase;letter-spacing:.06em;opacity:.7}
+.pin::after{content:"";position:absolute;left:50%;bottom:-5px;transform:translateX(-50%);border:5px solid transparent;border-bottom:0;border-top-color:var(--ink)}
+.hint{position:absolute;left:12px;bottom:12px;font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--soft);background:rgba(255,255,255,.9);border:1px solid var(--line);border-radius:8px;padding:8px 10px;pointer-events:none}
 .fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--soft)}
 
-/* Selección de personas */
-.roster{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px}
-.chipP{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:transparent;cursor:pointer;font:600 12px/1 var(--body);color:var(--ink);padding:0;width:64px}
-.chipP .ph{width:56px;height:56px;border-radius:50%;background:var(--t);display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 0 0 3px transparent;transition:box-shadow .2s}
-.chipP[aria-pressed="true"] .ph{box-shadow:inset 0 0 0 3px var(--c)}
-.ph img{width:100%;height:100%;object-fit:cover}
-.ph .ini{font:700 18px/1 var(--display);color:var(--c)}
+.roster{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.chipP{flex:none;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font:500 13px/1 var(--sans);color:var(--ink);padding:4px 12px 4px 4px;border-radius:999px}
+.chipP .ph{width:32px;height:32px;border-radius:50%;background:linear-gradient(180deg,#f3f4f6,#e4e8ee);overflow:hidden;display:grid;place-items:center}
+.chipP[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph .ini{font:600 12px/1 var(--sans);color:var(--soft)}
 
-.focus{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:14px;display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;align-items:center}
-.focus .ph{width:72px;height:72px;border-radius:20px}
-.focus h3{margin:0;font:700 22px/1.1 var(--display)}
-.focus .role{font-size:13px;color:var(--soft)}
-.focus p{margin:6px 0 0;font-size:14px}
-.focus .acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
-.btn{font:700 14px/1 var(--body);padding:12px 16px;border-radius:999px;border:0;cursor:pointer;background:var(--ink);color:#fff}
-.btn.ghost{background:var(--sunk);color:var(--ink)}
+.focus{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:grid;grid-template-columns:96px minmax(0,1fr);gap:16px;align-items:start}
+.focus .ph{width:96px;height:96px;border-radius:14px;background:linear-gradient(180deg,#f3f4f6,#e2e6ec);overflow:hidden}
+.focus h3{margin:0;font:600 22px/1.1 var(--sans);letter-spacing:-.015em}
+.meta{display:flex;align-items:center;gap:8px;font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--soft);margin-top:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.quote{margin:10px 0 0;font:500 16px/1.4 var(--sans);letter-spacing:-.01em}
+.quote::before{content:"“"}.quote::after{content:"”"}
+.focus p.c{margin:6px 0 0;color:var(--soft);font-size:14px}
+.acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:500 14px/1 var(--sans);padding:11px 16px;border-radius:10px;border:1px solid var(--ink);cursor:pointer;background:var(--ink);color:#fff}
+.btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
 
-/* Tarjetas del equipo */
-.legend{display:flex;flex-wrap:wrap;gap:8px}
-.fchip{font:600 13px/1 var(--body);padding:9px 14px;border-radius:999px;border:0;background:var(--surface);color:var(--ink);cursor:pointer;box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:8px}
-.fchip i{width:10px;height:10px;border-radius:50%;background:var(--c)}
-.fchip[aria-pressed="true"]{background:var(--ink);color:#fff}
-.search{width:100%;font:inherit;padding:13px 16px;border-radius:999px;border:0;background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
-@media (max-width:520px){.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
-.card{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;border:0;padding:0;text-align:left;font:inherit;color:inherit;cursor:pointer;min-width:0}
-@media (prefers-reduced-motion:no-preference){.card{transition:transform .2s ease,box-shadow .2s ease}.card:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(43,40,56,.05),0 18px 34px -12px rgba(43,40,56,.22)}}
-.card .pic{aspect-ratio:1/1;max-width:100%;background:var(--t);display:grid;place-items:center;position:relative}
-.card .pic img{width:100%;height:100%;object-fit:cover}
-.card .pic .ini{font:700 44px/1 var(--display);color:var(--c)}
-.card .area{position:absolute;left:10px;top:10px;font:700 11px/1 var(--body);background:rgba(255,255,255,.88);color:var(--c);padding:6px 9px;border-radius:999px}
-.card .txt{padding:12px 14px 14px;display:flex;flex-direction:column;gap:2px}
-.card .nm{font:700 20px/1.1 var(--display)}
-.card .rl{font-size:13px;color:var(--soft)}
+/* Equipo */
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.search{flex:1 1 260px;min-width:0;font:inherit;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.fchip{font:500 13px/1 var(--sans);padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.fchip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+@media (max-width:560px){.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;padding:0;text-align:left;font:inherit;color:inherit;cursor:pointer;min-width:0}
+@media (prefers-reduced-motion:no-preference){.card{transition:box-shadow .2s ease,transform .2s ease}.card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}}
+.card .pic{aspect-ratio:4/3.4;max-width:100%;background:linear-gradient(180deg,#f4f5f7 0%,#e3e7ed 100%);position:relative;overflow:hidden}
+.card .pic::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--c)}
+.card .pic .ph{position:absolute;inset:0}
+.card .pic .ini{position:absolute;inset:0;display:grid;place-items:center;font-size:34px}
+.card .txt{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
+.card .nm{font:600 18px/1.15 var(--sans);letter-spacing:-.015em}
+.card .rl{display:flex;align-items:center;gap:6px;font:500 11px/1.2 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--soft)}
+.card .fr{font-size:13px;color:var(--soft);line-height:1.4;margin-top:4px}
+@media (max-width:560px){.card .fr{display:none}}
 
 /* Ficha */
-dialog{border:0;padding:0;background:transparent;width:min(560px,calc(100vw - 24px));max-width:none;color:var(--ink)}
-dialog::backdrop{background:rgba(43,40,56,.35);backdrop-filter:blur(3px)}
-.sheet{background:var(--surface);border-radius:var(--r-lg);overflow:hidden;max-height:calc(100dvh - 40px);display:flex;flex-direction:column;box-shadow:0 30px 60px -20px rgba(43,40,56,.4)}
-.sheet .head{background:var(--t);padding:18px;display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:14px;align-items:center}
-.sheet .head .ph{width:88px;height:88px;border-radius:22px;background:rgba(255,255,255,.6)}
-.sheet h3{margin:0;font:700 30px/1 var(--display)}
-.sheet .head .role{font-size:13px;color:var(--ink);opacity:.75;margin-top:4px}
-.x{width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.75);color:var(--ink);font:700 16px/1 var(--body);cursor:pointer;align-self:start}
-.sheet .content{padding:18px;overflow:auto;display:flex;flex-direction:column;gap:16px}
+dialog{border:0;padding:0;background:transparent;width:min(600px,calc(100vw - 24px));max-width:none;color:var(--ink)}
+dialog::backdrop{background:rgba(21,27,38,.45)}
+.sheet{background:var(--surface);border-radius:var(--r-lg);overflow:hidden;max-height:calc(100dvh - 40px);display:flex;flex-direction:column;box-shadow:0 30px 60px -20px rgba(21,27,38,.5)}
+.sheet .head{padding:18px;display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:16px;align-items:center;border-bottom:1px solid var(--line)}
+.sheet .head .ph{width:96px;height:96px;border-radius:14px;background:linear-gradient(180deg,#f3f4f6,#e2e6ec);overflow:hidden}
+.sheet h3{margin:0;font:600 26px/1.05 var(--sans);letter-spacing:-.02em}
+.x{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:500 15px/1 var(--sans);cursor:pointer;align-self:start}
+.sheet .content{padding:18px;overflow:auto;display:flex;flex-direction:column;gap:18px}
 .sheet .content p{margin:0}
-.lbl{font:700 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:8px}
+.lbl{font:500 11px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--soft);margin-bottom:8px}
+.pull{border-left:3px solid var(--c);padding:4px 0 4px 14px;font:500 18px/1.35 var(--sans);letter-spacing:-.01em}
+.kv{display:grid;grid-template-columns:110px minmax(0,1fr);gap:6px 12px;font-size:14px}
+.kv dt{color:var(--soft)}.kv dd{margin:0}
 .tags{display:flex;flex-wrap:wrap;gap:6px}
-.tag{font:600 12px/1.2 var(--body);padding:6px 10px;border-radius:999px;background:var(--sunk);color:var(--ink);overflow-wrap:anywhere}
-.tag.on{background:var(--t);color:var(--ink)}
-.ask{display:flex;gap:8px;align-items:center;background:var(--sunk);border-radius:16px;padding:8px 8px 8px 14px}
-.ask code{flex:1;min-width:0;font:600 13px/1.4 var(--body);overflow-wrap:anywhere}
+.tag{font:500 12px/1.2 var(--mono);padding:5px 8px;border-radius:6px;background:var(--sunk);border:1px solid var(--line);color:var(--ink);overflow-wrap:anywhere}
+.tag.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.ask{display:flex;gap:8px;align-items:center;background:var(--sunk);border:1px solid var(--line);border-radius:12px;padding:8px 8px 8px 14px}
+.ask code{flex:1;min-width:0;font:500 13px/1.4 var(--mono);overflow-wrap:anywhere}
 
 /* Servicios */
-.svc{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.svc{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px}
 @media (max-width:640px){.svc{grid-template-columns:minmax(0,1fr)}}
-.s{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;position:relative;overflow:hidden}
-.s::before{content:"";position:absolute;inset:0 0 auto;height:64px;background:linear-gradient(180deg,var(--t),rgba(255,255,255,0))}
-.s > *{position:relative}
-.s .g{font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
-.s h3{margin:0;font:700 19px/1.15 var(--display)}
+.s{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.s .g{display:flex;align-items:center;gap:6px;font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--soft)}
+.s h3{margin:0;font:600 18px/1.2 var(--sans);letter-spacing:-.015em}
 .s .res{margin:0;color:var(--soft);font-size:14px}
-.prices{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:auto}
-.price{background:var(--sunk);border-radius:14px;padding:10px 12px;min-width:0}
-.price small{display:block;font:700 10px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:5px}
-.price b{font:700 17px/1.2 var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.prices{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;margin-top:auto;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.price{padding:10px 12px;min-width:0}
+.price + .price{border-left:1px solid var(--line)}
+.price small{display:block;font:500 10px/1 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--soft);margin-bottom:5px}
+.price b{font:600 16px/1.25 var(--sans);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .crew{display:flex;align-items:center;gap:8px}
 .faces{display:flex}
-.faces .ph{width:30px;height:30px;border-radius:50%;background:var(--t);border:2px solid var(--surface);margin-left:-8px;overflow:hidden;display:grid;place-items:center}
+.faces .ph{width:28px;height:28px;border-radius:50%;background:linear-gradient(180deg,#f3f4f6,#e2e6ec);border:2px solid var(--surface);margin-left:-8px;overflow:hidden}
 .faces .ph:first-child{margin-left:0}
-.faces .ph .ini{font:700 11px/1 var(--display);color:var(--c)}
 .crew span{font-size:12px;color:var(--soft)}
-.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
-.term{background:var(--surface);border-radius:var(--r-md);padding:14px 16px;box-shadow:var(--shadow);font-size:14px}
-.term b{display:block;font:700 15px/1.3 var(--display);margin-bottom:2px}
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.term{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;font-size:14px;color:var(--soft)}
+.term b{display:block;font:600 14px/1.3 var(--sans);color:var(--ink);margin-bottom:2px}
 
-/* Plan */
-.panel{background:var(--surface);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px}
-.rail{position:relative;height:12px;border-radius:999px;background:var(--sunk)}
-.rail .fill{position:absolute;inset:0 auto 0 0;border-radius:999px;background:linear-gradient(90deg,var(--dir),var(--mkt))}
-.rail .now{position:absolute;top:50%;width:24px;height:24px;border-radius:50%;background:var(--surface);box-shadow:0 0 0 5px var(--dir-t),var(--shadow);transform:translate(-50%,-50%)}
+/* Plan, clientes, flujo */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px;display:flex;flex-direction:column;gap:16px}
+.rail{position:relative;height:8px;border-radius:999px;background:var(--sunk);border:1px solid var(--line)}
+.rail .fill{position:absolute;inset:0 auto 0 0;border-radius:999px;background:var(--ink)}
+.rail .now{position:absolute;top:50%;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--ink);transform:translate(-50%,-50%)}
 .phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 @media (max-width:640px){.phases{grid-template-columns:minmax(0,1fr)}}
-.phx{border-radius:var(--r-md);padding:14px;background:var(--sunk);display:flex;flex-direction:column;gap:4px}
-.phx.on{background:var(--dir-t)}
-.phx .d{font-size:12px;color:var(--soft);font-weight:600}
-.phx h3{margin:0;font:700 19px/1.2 var(--display)}
-.phx p{margin:0;font-size:14px}
-.todo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
-.todo li{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--sunk)}
-.tk{flex:none;width:24px;height:24px;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 2px var(--line);display:grid;place-items:center}
-.tk.ok{background:var(--cli);box-shadow:none}
-.tk.ok::after{content:"";width:10px;height:5px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
-.st{margin-left:auto;flex:none;font:700 12px/1 var(--body);padding:6px 10px;border-radius:999px}
-.st.done{background:var(--cli-t);color:var(--cli)}
-.st.next{background:var(--neg-t);color:var(--neg)}
-.st.pause{background:var(--line);color:var(--soft)}
-
-/* Clientes */
+.phx{border:1px solid var(--line);border-radius:var(--r-md);padding:14px;display:flex;flex-direction:column;gap:4px}
+.phx.on{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.phx .d{font:500 11px/1.3 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--soft)}
+.phx h3{margin:0;font:600 17px/1.2 var(--sans)}
+.phx p{margin:0;font-size:14px;color:var(--soft)}
+.todo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.todo li{display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.todo li:last-child{border-bottom:0}
+.tk{flex:none;width:20px;height:20px;border-radius:6px;border:1.5px solid #c4cad3;display:grid;place-items:center}
+.tk.ok{background:var(--cli);border-color:var(--cli)}
+.tk.ok::after{content:"";width:9px;height:4px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.st{margin-left:auto;flex:none;font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;padding:5px 8px;border-radius:6px;border:1px solid var(--line);color:var(--soft)}
+.st.next{border-color:var(--neg);color:var(--neg)}
 .clients{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
-.client{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:6px}
-.client h3{margin:0;font:700 20px/1.2 var(--display)}
+.client{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:6px}
+.client h3{margin:0;font:600 18px/1.2 var(--sans)}
 .client p{margin:0;font-size:14px;color:var(--soft)}
-.slot{border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:4px;color:var(--soft);background:repeating-linear-gradient(135deg,var(--sunk) 0 10px,transparent 10px 20px);border:2px dashed var(--line)}
-.slot b{color:var(--ink);font:700 18px/1.2 var(--display)}
-
-/* Flujo */
-.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.flow li{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:14px 16px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start}
-.flow .num{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font:700 19px/1 var(--display);background:var(--sunk)}
-.flow .gate{background:var(--dir-t)}
-.flow .gate .num{background:var(--dir);color:#fff}
-.flow h3{margin:2px 0;font:700 17px/1.2 var(--display)}
+.slot{border:1px dashed #c4cad3;border-radius:var(--r-lg);padding:16px;display:flex;flex-direction:column;gap:4px;color:var(--soft);font-size:14px}
+.slot b{color:var(--ink);font:600 16px/1.2 var(--sans)}
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg)}
+.flow li{padding:14px 16px;display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;border-bottom:1px solid var(--line)}
+.flow li:last-child{border-bottom:0}
+.flow .num{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font:500 14px/1 var(--mono);border:1px solid var(--line)}
+.flow .gate .num{background:var(--ink);border-color:var(--ink);color:#fff}
+.flow h3{margin:4px 0 2px;font:600 16px/1.2 var(--sans)}
 .flow p{margin:0;color:var(--soft);font-size:14px}
 .flow .faces{margin-top:8px}
-
-.foot{font-size:12px;color:var(--soft)}
+.foot{font:500 11px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--soft)}
 .empty{color:var(--soft)}
 </style>
 
 <header class="top gut"><div class="in">
-  <div>
-    <div class="brand">Agencia de marketing y soluciones inteligentes</div>
-    <h1>La oficina</h1>
-  </div>
-  <div class="stats">
-    <span class="stat"><b>15</b>en el equipo</span>
-    <span class="stat"><b id="k-svc">25</b>servicios</span>
-    <span class="stat"><b>0/3</b>abonos</span>
-    <span class="stat"><b id="k-days">—</b>días a la meta</span>
+  <div class="row">
+    <div><div class="brand">Agencia de marketing y soluciones inteligentes</div><h1>La oficina</h1></div>
+    <div class="stats">
+      <div class="stat"><b>15</b><span>Equipo</span></div>
+      <div class="stat"><b id="k-svc">25</b><span>Servicios</span></div>
+      <div class="stat"><b>0/3</b><span>Abonos</span></div>
+      <div class="stat"><b id="k-days">—</b><span>Días a la meta</span></div>
+    </div>
   </div>
 </div></header>
-
 <nav class="gut" aria-label="Secciones"><div class="in">
   <a href="#oficina">Oficina</a><a href="#equipo">Equipo</a><a href="#servicios">Servicios</a><a href="#plan">Plan</a><a href="#clientes">Clientes</a><a href="#flujo">Cómo trabajamos</a>
 </div></nav>
 
 <main class="gut"><div class="in">
-
   <section id="s-oficina">
     <div class="stage" id="stage">
-      <div class="pin" id="pin" hidden><i></i><span id="pin-n"></span><small id="pin-r"></small></div>
+      <div class="pin" id="pin" hidden><b id="pin-n"></b><small id="pin-r"></small></div>
       <div class="hint" id="hint">Tocá a alguien · arrastrá para girar</div>
       <div class="fallback" id="fallback" hidden>No pudimos mostrar la oficina en este dispositivo. El equipo completo está en la pestaña Equipo.</div>
     </div>
@@ -206,16 +196,16 @@ dialog::backdrop{background:rgba(43,40,56,.35);backdrop-filter:blur(3px)}
   </section>
 
   <section id="s-equipo" hidden>
-    <div class="h2"><h2>El equipo</h2><p>Tocá a cualquiera para ver qué sabe hacer y cómo pedirle trabajo.</p></div>
-    <input id="q" class="search" type="search" placeholder="Buscá por nombre, tarea o skill: Lucía, whatsapp, anuncios…" aria-label="Buscar en el equipo">
-    <div class="legend" id="areas" role="group" aria-label="Filtrar por área"></div>
+    <div class="h2"><h2>El equipo</h2><p>Quince especialistas, cada uno con su forma de trabajar. Tocá a cualquiera para ver su ficha.</p></div>
+    <div class="tools"><input id="q" class="search" type="search" placeholder="Buscá por nombre, tarea o skill" aria-label="Buscar en el equipo"></div>
+    <div class="tools" id="areas" role="group" aria-label="Filtrar por área"></div>
     <div id="cards" class="cards"></div>
     <p id="none" class="empty" hidden>Nadie del equipo coincide con esa búsqueda.</p>
   </section>
 
   <section id="s-servicios" hidden>
     <div class="h2"><h2>Servicios</h2><p>Precios en dólares, cobrados en pesos al tipo de cambio del día.</p></div>
-    <div class="legend" id="sgroups" role="group" aria-label="Filtrar servicios"></div>
+    <div class="tools" id="sgroups" role="group" aria-label="Filtrar servicios"></div>
     <div id="svc" class="svc"></div>
     <div class="terms">
       <div class="term"><b>Forma de pago</b>Setup: 50% al aprobar y 50% al entregar. Abono por adelantado.</div>
@@ -237,11 +227,11 @@ dialog::backdrop{background:rgba(43,40,56,.35);backdrop-filter:blur(3px)}
     <div class="panel">
       <div class="lbl" style="margin:0">Esta semana</div>
       <ul class="todo">
-        <li><span class="tk ok"></span>Equipo de 15 con sus skills<span class="st done">Hecho</span></li>
-        <li><span class="tk ok"></span>Catálogo de 25 servicios con precios<span class="st done">Hecho</span></li>
-        <li><span class="tk ok"></span>Sin nicho fijo: cualquier rubro<span class="st done">Hecho</span></li>
+        <li><span class="tk ok"></span>Equipo de 15 con sus skills y personalidad<span class="st">Hecho</span></li>
+        <li><span class="tk ok"></span>Catálogo de 25 servicios con precios<span class="st">Hecho</span></li>
+        <li><span class="tk ok"></span>Sin nicho fijo: cualquier rubro<span class="st">Hecho</span></li>
         <li><span class="tk"></span>Lista de 30 negocios para contactar<span class="st next">Sigue</span></li>
-        <li><span class="tk"></span>Caso propio en Paolucci<span class="st pause">En pausa</span></li>
+        <li><span class="tk"></span>Caso propio en Paolucci<span class="st">En pausa</span></li>
       </ul>
     </div>
   </section>
@@ -249,7 +239,7 @@ dialog::backdrop{background:rgba(43,40,56,.35);backdrop-filter:blur(3px)}
   <section id="s-clientes" hidden>
     <div class="h2"><h2>Clientes</h2><p>Una carpeta por cliente en el repositorio.</p></div>
     <div class="clients">
-      <article class="client"><div class="lbl" style="margin:0">Caso propio</div><h3>Paolucci Racing</h3><p>Escapes para moto, ATV y karting.</p><div><span class="st pause" style="margin:0;display:inline-block">En pausa</span></div></article>
+      <article class="client"><div class="lbl" style="margin:0">Caso propio</div><h3>Paolucci Racing</h3><p>Escapes para moto, ATV y karting.</p><div><span class="st" style="margin:0;display:inline-block">En pausa</span></div></article>
       <div class="slot"><b>Cliente 1</b>Lugar libre. Lucía arranca con la lista de 30 negocios.</div>
       <div class="slot"><b>Cliente 2</b>Lugar libre.</div>
       <div class="slot"><b>Cliente 3</b>Lugar libre.</div>
@@ -257,17 +247,19 @@ dialog::backdrop{background:rgba(43,40,56,.35);backdrop-filter:blur(3px)}
   </section>
 
   <section id="s-flujo" hidden>
-    <div class="h2"><h2>Cómo trabajamos</h2><p>En violeta, los pasos donde decide Santiago. Nada sale hacia un cliente sin su aprobación.</p></div>
+    <div class="h2"><h2>Cómo trabajamos</h2><p>Los pasos marcados en negro los decide Santiago. Nada sale hacia un cliente sin su aprobación.</p></div>
     <ol class="flow" id="flow"></ol>
   </section>
 
-  <p class="foot">Foto del repositorio al 27 de octubre de 2026. Se actualiza cuando Claude vuelve a publicar la página.</p>
+  <p class="foot">Foto del repositorio al 27 de octubre de 2026 · se actualiza cuando Claude vuelve a publicar la página</p>
 </div></main>
 
 <dialog id="dlg" aria-labelledby="dlg-name">
   <div class="sheet" id="sheet">
-    <div class="head"><div class="ph" id="dlg-ph"></div><div><h3 id="dlg-name"></h3><div class="role" id="dlg-role"></div></div><button class="x" type="button" id="dlg-x" aria-label="Cerrar">✕</button></div>
+    <div class="head"><div class="ph" id="dlg-ph"></div><div><h3 id="dlg-name"></h3><div class="meta" id="dlg-meta"></div></div><button class="x" type="button" id="dlg-x" aria-label="Cerrar">✕</button></div>
     <div class="content">
+      <p class="pull" id="dlg-frase"></p>
+      <div><div class="lbl">Personalidad</div><dl class="kv"><dt>Carácter</dt><dd id="dlg-car"></dd><dt>Cómo habla</dt><dd id="dlg-habla"></dd></dl></div>
       <div><div class="lbl">Qué hace</div><p id="dlg-desc"></p></div>
       <div><div class="lbl">Skills fijas</div><div class="tags" id="dlg-core"></div></div>
       <div id="dlg-extra-w"><div class="lbl">Según la tarea</div><div class="tags" id="dlg-extra"></div></div>
@@ -280,15 +272,13 @@ dialog::backdrop{background:rgba(43,40,56,.35);backdrop-filter:blur(3px)}
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/RoundedBoxGeometry.js"></script>
 <script>
-const AGENTS = [{"id": "consultor", "nombre": "Tomás", "desc": "Consultor de soluciones y procesos. Usalo para preparar el relevamiento, convertir notas de una reunión en un mapa del proceso del cliente, detectar dónde pierde tiempo o plata, elegir la solución (cotizador, bot, automatización, marketing) y escribir el brief que aprueba Santiago.", "core": ["process-mapper", "customer-research", "brainstorming"], "extra": ["competitors", "market-research", "revops", "writing-plans"]}, {"id": "director", "nombre": "Martín", "desc": "Director general y orquestador de la agencia. Usalo para saber en qué está cada cliente, decidir qué sigue, armar equipos para un proyecto, repartir tareas entre los especialistas y preparar el resumen del día o de la semana. Cuando no sepas a quién pedirle algo, pedíselo al director.", "core": ["writing-plans", "dispatching-parallel-agents", "marketing-plan"], "extra": []}, {"id": "comercial", "nombre": "Lucía", "desc": "Ejecutiva comercial de la agencia. Usalo para investigar prospectos, armar listas de contactos, escribir mensajes de primer contacto (WhatsApp, mail, Instagram, LinkedIn), preparar la reunión de diagnóstico, pedir una demo, redactar propuestas y manejar objeciones.", "core": ["prospecting", "cold-email", "sales-enablement", "offers"], "extra": ["competitor-profiling", "contract-and-proposal-writer", "copywriting", "customer-research", "marketing-psychology", "pricing"]}, {"id": "redactor", "nombre": "Julieta", "desc": "Redactora publicitaria (copywriter). Usalo para textos de landings y webs, mensajes de WhatsApp, emails y secuencias, textos de anuncios, guiones, descripciones de productos y para corregir o \"humanizar\" textos.", "core": ["copywriting", "copy-editing", "content-humanizer"], "extra": ["emails", "lead-magnets", "marketing-psychology", "offers", "sms"]}, {"id": "estratega", "nombre": "Valentina", "desc": "Estratega de negocio y marketing. Usalo para diagnosticar un negocio, definir a quién venderle y con qué mensaje, investigar mercado y competencia, armar planes de marketing y lanzamientos, y para la estrategia de la propia agencia.", "core": ["product-marketing", "marketing-plan", "competitor-profiling", "customer-research"], "extra": ["brainstorming", "competitors", "content-strategy", "launch", "market-research", "marketing-ideas", "marketing-psychology", "offers", "pricing"]}, {"id": "disenador", "nombre": "Camila", "desc": "Diseñadora gráfica y UX/UI. Usalo para identidad visual, guías de marca, diseño de pantallas y landings, piezas para redes, creatividades para anuncios, flyers, presentaciones y mejorar la experiencia de uso de una herramienta.", "core": ["frontend-design", "ux-researcher-designer", "canvas-design"], "extra": ["ad-creative", "image", "theme-factory"]}, {"id": "automatizador", "nombre": "Nicolás", "desc": "Ingeniero de automatización e IA. Usalo para construir flujos de n8n, bots de WhatsApp con IA, agentes de IA, integraciones entre sistemas (Mercado Libre, Tiendanube, Google Sheets, CRMs, facturación) y para armar demos de automatización para ventas.", "core": ["using-n8n-mcp-skills", "n8n-workflow-patterns", "n8n-agents", "n8n-error-handling"], "extra": ["mcp-builder", "n8n-binary-and-data", "n8n-code-javascript", "n8n-code-python", "n8n-code-tool", "n8n-expression-syntax", "n8n-mcp-tools-expert", "n8n-multi-instance", "n8n-node-configuration", "n8n-self-hosting", "n8n-subworkflows", "n8n-validation-expert", "systematic-debugging", "verification-before-completion", "writing-plans"]}, {"id": "calidad", "nombre": "Rocío", "desc": "Control de calidad. Usalo para revisar cualquier entrega (cotizador, bot, flujo, web, campaña, propuesta, contenido o reporte) antes de que la vea Santiago. Puntúa con plantillas/checklist-calidad.md y devuelve lo que no llega a 8/10.", "core": ["verification-before-completion", "webapp-testing", "copy-editing"], "extra": ["systematic-debugging"]}, {"id": "finanzas", "nombre": "Diego", "desc": "Administración y finanzas de la agencia. Usalo para definir y revisar precios, calcular rentabilidad por cliente y por servicio, presupuestar trabajos fuera del abono, proyectar ingresos, controlar cobros y preparar contratos o acuerdos de servicio.", "core": ["pricing-strategist", "financial-analyst", "contract-and-proposal-writer"], "extra": ["pricing"]}, {"id": "desarrollador-web", "nombre": "Facundo", "desc": "Desarrollador web. Usalo para construir cotizadores online, landings, formularios, sitios, catálogos y herramientas web para clientes, y demos rápidas con datos públicos de un prospecto.", "core": ["frontend-design", "webapp-testing", "verification-before-completion"], "extra": ["analytics", "conversion-tracking", "schema", "systematic-debugging", "test-driven-development", "web-artifacts-builder", "writing-plans"]}, {"id": "seo", "nombre": "Agustina", "desc": "Especialista en SEO y visibilidad. Usalo para optimizar el perfil de empresa en Google Maps, SEO local, auditorías de sitios, datos estructurados, arquitectura de páginas y para que el negocio aparezca en respuestas de ChatGPT, Gemini y otros buscadores con IA.", "core": ["local-seo-manager", "seo-audit", "ai-seo"], "extra": ["link-building", "programmatic-seo", "schema", "site-architecture"]}, {"id": "trafficker", "nombre": "Matías", "desc": "Especialista en publicidad paga. Usalo para planificar, armar, auditar y optimizar campañas en Meta (Facebook e Instagram), Google Ads y Mercado Ads, definir presupuestos, públicos y creatividades, e instalar el seguimiento de conversiones.", "core": ["ads", "ad-creative", "conversion-tracking"], "extra": ["ab-testing", "analytics", "attribution", "cro"]}, {"id": "exito-cliente", "nombre": "Florencia", "desc": "Éxito del cliente y soporte. Usalo para la puesta en marcha con un cliente nuevo, aplicar cambios pedidos dentro del abono (precios, textos, horarios), monitorear que las herramientas funcionen, detectar riesgo de baja, encontrar oportunidades de venta adicional y armar el reporte mensual.", "core": ["customer-success-manager", "churn-prevention", "onboarding"], "extra": ["referrals"]}, {"id": "contenido", "nombre": "Sofía", "desc": "Social media y contenido. Usalo para estrategia y calendario de redes, ideas y guiones de reels y TikTok, carruseles, captions, gestión de comunidad y para convertir un caso de éxito en contenido. Sirve para la agencia y para clientes con servicio de marketing.", "core": ["social", "content-strategy", "video"], "extra": ["community-marketing", "content-humanizer", "copywriting", "image", "marketing-ideas"]}, {"id": "analista-datos", "nombre": "Joaquín", "desc": "Analista de datos y crecimiento. Usalo para definir qué medir, instalar y auditar analítica (GA4, Tag Manager, píxeles), armar tableros, analizar resultados de campañas y herramientas, diseñar experimentos y mejorar la conversión de páginas y formularios.", "core": ["analytics", "cro", "ab-testing"], "extra": ["attribution", "conversion-tracking", "revops"]}]
+const AGENTS = [{"id": "consultor", "nombre": "Tomás", "desc": "Consultor de soluciones y procesos. Usalo para preparar el relevamiento, convertir notas de una reunión en un mapa del proceso del cliente, detectar dónde pierde tiempo o plata, elegir la solución (cotizador, bot, automatización, marketing) y escribir el brief que aprueba Santiago.", "core": ["process-mapper", "customer-research", "brainstorming"], "extra": ["competitors", "market-research", "revops", "writing-plans"], "caracter": "Metódico y paciente. Escucha más de lo que habla y dibuja cada proceso antes de proponer nada.", "habla": "Pregunta paso a paso y repite lo que entendió para confirmar.", "frase": "Contame cómo lo hacés hoy, paso a paso."}, {"id": "director", "nombre": "Martín", "desc": "Director general y orquestador de la agencia. Usalo para saber en qué está cada cliente, decidir qué sigue, armar equipos para un proyecto, repartir tareas entre los especialistas y preparar el resumen del día o de la semana. Cuando no sepas a quién pedirle algo, pedíselo al director.", "core": ["writing-plans", "dispatching-parallel-agents", "marketing-plan"], "extra": [], "caracter": "Calmo, ordenado y de pocas palabras. Mira el panorama completo antes de decidir y no se apura por lo urgente si no es lo importante.", "habla": "Corto y claro. Siempre cierra con quién hace qué y para cuándo.", "frase": "¿Qué es lo más importante esta semana?"}, {"id": "comercial", "nombre": "Lucía", "desc": "Ejecutiva comercial de la agencia. Usalo para investigar prospectos, armar listas de contactos, escribir mensajes de primer contacto (WhatsApp, mail, Instagram, LinkedIn), preparar la reunión de diagnóstico, pedir una demo, redactar propuestas y manejar objeciones.", "core": ["prospecting", "cold-email", "sales-enablement", "offers"], "extra": ["competitor-profiling", "contract-and-proposal-writer", "copywriting", "customer-research", "marketing-psychology", "pricing"], "caracter": "Extrovertida, rápida y optimista. Insiste sin molestar y se toma un 'no' como un 'todavía no'.", "habla": "Cercana y directa, como un buen mensaje de WhatsApp: corto, personal y con una propuesta concreta.", "frase": "Un mensaje bien pensado abre cualquier puerta."}, {"id": "redactor", "nombre": "Julieta", "desc": "Redactora publicitaria (copywriter). Usalo para textos de landings y webs, mensajes de WhatsApp, emails y secuencias, textos de anuncios, guiones, descripciones de productos y para corregir o \"humanizar\" textos.", "core": ["copywriting", "copy-editing", "content-humanizer"], "extra": ["emails", "lead-magnets", "marketing-psychology", "offers", "sms"], "caracter": "Ingeniosa y gran lectora. Detecta un texto hecho con IA a un kilómetro y lo reescribe hasta que suene a persona.", "habla": "Frases cortas, palabras de todos los días, cero relleno.", "frase": "Si suena a robot, lo reescribo."}, {"id": "estratega", "nombre": "Valentina", "desc": "Estratega de negocio y marketing. Usalo para diagnosticar un negocio, definir a quién venderle y con qué mensaje, investigar mercado y competencia, armar planes de marketing y lanzamientos, y para la estrategia de la propia agencia.", "core": ["product-marketing", "marketing-plan", "competitor-profiling", "customer-research"], "extra": ["brainstorming", "competitors", "content-strategy", "launch", "market-research", "marketing-ideas", "marketing-psychology", "offers", "pricing"], "caracter": "Analítica y curiosa. Hace las preguntas incómodas antes de gastar un peso y desconfía de las ideas que no se pueden medir.", "habla": "Ordena todo en prioridades numeradas y explica el porqué de cada una.", "frase": "Antes de hacer, entendamos a quién le vendemos."}, {"id": "disenador", "nombre": "Camila", "desc": "Diseñadora gráfica y UX/UI. Usalo para identidad visual, guías de marca, diseño de pantallas y landings, piezas para redes, creatividades para anuncios, flyers, presentaciones y mejorar la experiencia de uso de una herramienta.", "core": ["frontend-design", "ux-researcher-designer", "canvas-design"], "extra": ["ad-creative", "image", "theme-factory"], "caracter": "Creativa y exigente con el detalle. Minimalista: saca antes de agregar.", "habla": "Justifica cada decisión visual en una frase y siempre propone dos opciones.", "frase": "Menos, pero mejor."}, {"id": "automatizador", "nombre": "Nicolás", "desc": "Ingeniero de automatización e IA. Usalo para construir flujos de n8n, bots de WhatsApp con IA, agentes de IA, integraciones entre sistemas (Mercado Libre, Tiendanube, Google Sheets, CRMs, facturación) y para armar demos de automatización para ventas.", "core": ["using-n8n-mcp-skills", "n8n-workflow-patterns", "n8n-agents", "n8n-error-handling"], "extra": ["mcp-builder", "n8n-binary-and-data", "n8n-code-javascript", "n8n-code-python", "n8n-code-tool", "n8n-expression-syntax", "n8n-mcp-tools-expert", "n8n-multi-instance", "n8n-node-configuration", "n8n-self-hosting", "n8n-subworkflows", "n8n-validation-expert", "systematic-debugging", "verification-before-completion", "writing-plans"], "caracter": "Práctico y un poco nerd. No soporta ver a alguien copiando datos a mano. Prefiere lo simple que no se rompe a lo sofisticado.", "habla": "Concreto: qué dispara el flujo, qué hace y qué pasa si falla. Explica lo técnico con ejemplos del negocio.", "frase": "Si lo hacés dos veces, lo automatizo."}, {"id": "calidad", "nombre": "Rocío", "desc": "Control de calidad. Usalo para revisar cualquier entrega (cotizador, bot, flujo, web, campaña, propuesta, contenido o reporte) antes de que la vea Santiago. Puntúa con plantillas/checklist-calidad.md y devuelve lo que no llega a 8/10.", "core": ["verification-before-completion", "webapp-testing", "copy-editing"], "extra": ["systematic-debugging"], "caracter": "Exigente, directa y justa. No le tiembla el pulso para devolver algo, pero siempre dice cómo arreglarlo.", "habla": "Puntúa, cita la evidencia y describe cómo reproducir cada problema.", "frase": "Probado, no 'parece que anda'."}, {"id": "finanzas", "nombre": "Diego", "desc": "Administración y finanzas de la agencia. Usalo para definir y revisar precios, calcular rentabilidad por cliente y por servicio, presupuestar trabajos fuera del abono, proyectar ingresos, controlar cobros y preparar contratos o acuerdos de servicio.", "core": ["pricing-strategist", "financial-analyst", "contract-and-proposal-writer"], "extra": ["pricing"], "caracter": "Prolijo y prudente. Hace las cuentas dos veces y no se deja llevar por la emoción de una venta.", "habla": "Números claros, en una tabla, con el margen a la vista.", "frase": "Si no deja margen, no es negocio."}, {"id": "desarrollador-web", "nombre": "Facundo", "desc": "Desarrollador web. Usalo para construir cotizadores online, landings, formularios, sitios, catálogos y herramientas web para clientes, y demos rápidas con datos públicos de un prospecto.", "core": ["frontend-design", "webapp-testing", "verification-before-completion"], "extra": ["analytics", "conversion-tracking", "schema", "systematic-debugging", "test-driven-development", "web-artifacts-builder", "writing-plans"], "caracter": "Detallista y obsesivo con la velocidad y el celular. Prueba todo en un teléfono antes de darlo por terminado.", "habla": "Muestra en vez de explicar: capturas, links de prueba y una lista de lo que verificó.", "frase": "Si en el celu no anda, no anda."}, {"id": "seo", "nombre": "Agustina", "desc": "Especialista en SEO y visibilidad. Usalo para optimizar el perfil de empresa en Google Maps, SEO local, auditorías de sitios, datos estructurados, arquitectura de páginas y para que el negocio aparezca en respuestas de ChatGPT, Gemini y otros buscadores con IA.", "core": ["local-seo-manager", "seo-audit", "ai-seo"], "extra": ["link-building", "programmatic-seo", "schema", "site-architecture"], "caracter": "Paciente y estratégica. Juega a largo plazo y sabe que lo bien hecho rinde durante años.", "habla": "Explica con ejemplos de búsquedas reales: qué escribe la gente y qué le aparece.", "frase": "Que te encuentren es mejor que salir a buscar."}, {"id": "trafficker", "nombre": "Matías", "desc": "Especialista en publicidad paga. Usalo para planificar, armar, auditar y optimizar campañas en Meta (Facebook e Instagram), Google Ads y Mercado Ads, definir presupuestos, públicos y creatividades, e instalar el seguimiento de conversiones.", "core": ["ads", "ad-creative", "conversion-tracking"], "extra": ["ab-testing", "analytics", "attribution", "cro"], "caracter": "Competitivo y frío con los números. No se enamora de ningún anuncio: si no rinde, lo apaga.", "habla": "Habla en costo por resultado y siempre separa lo que sabe de lo que supone.", "frase": "Si no vuelve, se apaga."}, {"id": "exito-cliente", "nombre": "Florencia", "desc": "Éxito del cliente y soporte. Usalo para la puesta en marcha con un cliente nuevo, aplicar cambios pedidos dentro del abono (precios, textos, horarios), monitorear que las herramientas funcionen, detectar riesgo de baja, encontrar oportunidades de venta adicional y armar el reporte mensual.", "core": ["customer-success-manager", "churn-prevention", "onboarding"], "extra": ["referrals"], "caracter": "Empática y atenta. Se adelanta a los problemas y se acuerda de los detalles de cada cliente.", "habla": "Cálida pero concreta: qué pasó, qué hicimos y qué sigue.", "frase": "Al cliente lo cuidamos antes de que lo pida."}, {"id": "contenido", "nombre": "Sofía", "desc": "Social media y contenido. Usalo para estrategia y calendario de redes, ideas y guiones de reels y TikTok, carruseles, captions, gestión de comunidad y para convertir un caso de éxito en contenido. Sirve para la agencia y para clientes con servicio de marketing.", "core": ["social", "content-strategy", "video"], "extra": ["community-marketing", "content-humanizer", "copywriting", "image", "marketing-ideas"], "caracter": "Energética y al día con las tendencias, pero elige solo las que le sirven a la marca.", "habla": "Piensa en ganchos: arranca cada idea por los primeros dos segundos del video.", "frase": "Los primeros dos segundos lo son todo."}, {"id": "analista-datos", "nombre": "Joaquín", "desc": "Analista de datos y crecimiento. Usalo para definir qué medir, instalar y auditar analítica (GA4, Tag Manager, píxeles), armar tableros, analizar resultados de campañas y herramientas, diseñar experimentos y mejorar la conversión de páginas y formularios.", "core": ["analytics", "cro", "ab-testing"], "extra": ["attribution", "conversion-tracking", "revops"], "caracter": "Escéptico y preciso. Antes de creer un número pregunta de dónde sale.", "habla": "Siempre da fuente, período y comparación. Separa los hechos de las hipótesis.", "frase": "¿De dónde sale ese número?"}]
 ;
 const SERVICES = [{"g": "Soluciones inteligentes", "name": "Cotizador automático", "res": "Presupuestos que tardan horas o días", "setup": "400 a 900", "abono": "40 a 80", "inc": "Cotizador web desde el celular, precios en una planilla editable, resumen o PDF y aviso del contacto por WhatsApp o mail", "team": ["Tomás", "Facundo", "Camila"]}, {"g": "Soluciones inteligentes", "name": "Bot de WhatsApp con IA", "res": "Consultas repetidas y respuestas lentas", "setup": "300 a 700", "abono": "60 a 150 + mensajes de Meta", "inc": "Respuestas con información real del negocio, pase a una persona, horarios, toma de pedidos o turnos", "team": ["Tomás", "Nicolás", "Julieta"]}, {"g": "Soluciones inteligentes", "name": "Asistente de IA en Instagram y web", "res": "Mensajes de Instagram y la web sin responder", "setup": "300 a 700", "abono": "60 a 150", "inc": "Lo mismo que el bot, en mensajes directos de Instagram y en el chat de la web", "team": ["Nicolás", "Julieta"]}, {"g": "Soluciones inteligentes", "name": "Automatización de procesos", "res": "Copiar datos a mano entre sistemas", "setup": "300 a 1.000", "abono": "40 a 100", "inc": "Flujos que pasan datos solos entre sistemas (Mercado Libre, Tiendanube, planillas, facturación)", "team": ["Tomás", "Nicolás"]}, {"g": "Soluciones inteligentes", "name": "Cobranzas y administración automáticas", "res": "Facturas, recordatorios de pago y cobros que se olvidan", "setup": "250 a 600", "abono": "40 a 80", "inc": "Recordatorios de pago, avisos de vencimiento, conciliación con la planilla, alertas al dueño", "team": ["Nicolás", "Diego"]}, {"g": "Soluciones inteligentes", "name": "CRM y seguimiento de ventas", "res": "Consultas que se pierden y vendedores sin seguimiento", "setup": "300 a 800", "abono": "40 a 100", "inc": "Todas las consultas en un solo lugar, etapas de venta, recordatorios de seguimiento, reporte semanal", "team": ["Tomás", "Nicolás", "Joaquín"]}, {"g": "Soluciones inteligentes", "name": "Tablero del negocio", "res": "Ventas, gastos y stock dispersos en planillas", "setup": "250 a 700", "abono": "30 a 80", "inc": "Ventas, gastos, stock y publicidad en una pantalla que se actualiza sola", "team": ["Joaquín", "Facundo"]}, {"g": "Soluciones inteligentes", "name": "Agente de IA interno", "res": "El equipo pregunta siempre lo mismo (precios, procesos, stock)", "setup": "400 a 1.000", "abono": "50 a 120", "inc": "Asistente que responde al equipo con manuales, listas de precios y procesos del negocio", "team": ["Nicolás", "Tomás"]}, {"g": "Marketing y ventas", "name": "Contenido y redes", "res": "No tienen tiempo de publicar ni medir", "setup": "Sin setup", "abono": "300 a 600", "inc": "Estrategia, calendario mensual, piezas, captions y publicación", "team": ["Sofía", "Camila", "Julieta"]}, {"g": "Marketing y ventas", "name": "Producción de reels y video", "res": "Redes sin video o con videos que nadie mira", "setup": "Sin setup", "abono": "200 a 500 (8 a 12 piezas)", "inc": "Guiones, indicaciones de grabación, edición y textos", "team": ["Sofía", "Julieta"]}, {"g": "Marketing y ventas", "name": "Publicidad paga (Meta, Google)", "res": "Gastan en anuncios sin saber qué vuelve", "setup": "150 a 300", "abono": "250 a 500 por plataforma + inversión (mínimo sugerido 300, la paga el cliente)", "inc": "Medición instalada, campañas, creatividades, pruebas y optimización semanal", "team": ["Matías", "Camila", "Julieta", "Joaquín"]}, {"g": "Marketing y ventas", "name": "Mercado Libre: publicaciones y Mercado Ads", "res": "Publicaciones que no venden o publicidad que no rinde", "setup": "150 a 300", "abono": "150 a 400 + inversión", "inc": "Títulos, fichas, fotos y precios de publicaciones; campañas de Mercado Ads; rentabilidad real por venta", "team": ["Matías", "Julieta", "Diego"]}, {"g": "Marketing y ventas", "name": "SEO local y Google Maps", "res": "No aparecen cuando los buscan cerca", "setup": "150 a 300", "abono": "120 a 300", "inc": "Perfil de empresa completo, categorías, fotos, datos iguales en todos lados, publicaciones", "team": ["Agustina"]}, {"g": "Marketing y ventas", "name": "Reseñas y reputación", "res": "Pocas reseñas o reseñas malas sin responder", "setup": "100 a 200", "abono": "60 a 150", "inc": "Pedido automático de reseñas a clientes reales y respuestas a todas las reseñas", "team": ["Agustina", "Nicolás", "Julieta"]}, {"g": "Marketing y ventas", "name": "Email y WhatsApp marketing", "res": "Clientes que compraron una vez y no vuelven", "setup": "150 a 300", "abono": "100 a 250", "inc": "Base de clientes ordenada, secuencias de bienvenida, recompra y reactivación, envíos mensuales", "team": ["Julieta", "Nicolás"]}, {"g": "Marketing y ventas", "name": "Programa de referidos y fidelización", "res": "Dependen de clientes nuevos todo el tiempo", "setup": "200 a 500", "abono": "40 a 100", "inc": "Reglas del programa, beneficios, mensajes y seguimiento", "team": ["Valentina", "Julieta", "Nicolás"]}, {"g": "Marketing y ventas", "name": "Prospección para empresas B2B", "res": "Venden a empresas y no consiguen reuniones", "setup": "150 a 300", "abono": "200 a 500", "inc": "Lista de empresas objetivo, mensajes de primer contacto y seguimiento", "team": ["Lucía", "Julieta"]}, {"g": "Marketing y ventas", "name": "Web o landing que vende", "res": "Sin web, o una web que no trae consultas", "setup": "Landing 300 a 600 · sitio 600 a 1.500", "abono": "30 a 60", "inc": "Diseño, textos, medición y datos estructurados; publicación", "team": ["Facundo", "Camila", "Julieta", "Agustina"]}, {"g": "Marketing y ventas", "name": "Tienda online (Tiendanube o Shopify)", "res": "Venden solo por WhatsApp o en el local", "setup": "400 a 1.200", "abono": "50 a 150", "inc": "Armado en Tiendanube o Shopify, catálogo, medios de pago y envío, medición", "team": ["Facundo", "Camila", "Julieta"]}, {"g": "Marketing y ventas", "name": "Embudo de captación", "res": "Visitas que no dejan sus datos", "setup": "300 a 700", "abono": "40 a 100", "inc": "Landing, regalo descargable o descuento, secuencia de mensajes", "team": ["Valentina", "Facundo", "Julieta"]}, {"g": "Marketing y ventas", "name": "Identidad de marca", "res": "Logo y estética improvisados", "setup": "250 a 800, pago único", "abono": "—", "inc": "Logo, colores, tipografías, guía de uso y plantillas para redes", "team": ["Camila"]}, {"g": "Marketing y ventas", "name": "Fotos y piezas de producto con IA", "res": "Catálogo con fotos pobres o sin fotos", "setup": "100 a 300 por pack", "abono": "—", "inc": "Fotos de producto mejoradas, fondos, mockups y piezas para catálogo", "team": ["Camila"]}, {"g": "Consultoría y formación", "name": "Diagnóstico express", "res": "No saben por dónde empezar", "setup": "150 a 300, pago único (se descuenta si contrata en 30 días). Puerta de entrada", "abono": "", "inc": "Revisión de la presencia digital, la atención y los procesos; informe con 3 a 5 mejoras priorizadas y su costo", "team": ["Valentina", "Tomás"]}, {"g": "Consultoría y formación", "name": "Estrategia y plan de marketing", "res": "No saben dónde poner la plata y el tiempo", "setup": "300 a 600, pago único (diagnóstico + plan a 90 días; se descuenta si contrata un abono en 30 días)", "abono": "", "inc": "Diagnóstico completo, público, mensaje, canales y plan a 90 días con indicadores", "team": ["Valentina", "Joaquín", "Diego"]}, {"g": "Consultoría y formación", "name": "Taller de IA para equipos", "res": "El equipo no sabe usar IA en su trabajo", "setup": "150 a 400 por taller de 2 a 4 horas", "abono": "", "inc": "Taller práctico de 2 a 4 horas con casos del propio negocio y una guía para después", "team": ["Tomás", "Nicolás"]}]
 ;
-const AREA = {
-  dir:{label:"Dirección"}, neg:{label:"Negocio"}, sol:{label:"Soluciones"}, mkt:{label:"Marketing"}, cli:{label:"Calidad y clientes"}
-};
+const AREA = { dir:"Dirección", neg:"Negocio", sol:"Soluciones", mkt:"Marketing", cli:"Calidad y clientes" };
 const ORDER = [
-  ["director","dir","Director"],["estratega","neg","Estratega"],["comercial","neg","Comercial"],["consultor","neg","Consultor"],["finanzas","neg","Administración"],
+  ["director","dir","Director"],["estratega","neg","Estratega"],["comercial","neg","Comercial"],["consultor","neg","Consultor"],["finanzas","neg","Administración y finanzas"],
   ["automatizador","sol","Automatizaciones e IA"],["desarrollador-web","sol","Desarrollador web"],
   ["disenador","mkt","Diseñadora"],["redactor","mkt","Redactora"],["contenido","mkt","Contenido y redes"],["trafficker","mkt","Publicidad paga"],["seo","mkt","SEO"],["analista-datos","mkt","Analista de datos"],
   ["calidad","cli","Control de calidad"],["exito-cliente","cli","Éxito del cliente"]
@@ -300,11 +290,10 @@ const ASK = {
   "contenido":"armá el calendario de noviembre para [cliente]","trafficker":"planificá una campaña en Meta para [cliente]","seo":"auditá el perfil de Google Maps de [cliente]",
   "analista-datos":"definí qué medir para [cliente]","calidad":"revisá la entrega de [cliente]","exito-cliente":"armá el reporte de octubre de [cliente]"
 };
-const FEM = new Set(["Valentina","Lucía","Camila","Julieta","Sofía","Agustina","Rocío","Florencia"]);
 const byId = Object.fromEntries(AGENTS.map(a => [a.id, a]));
 const team = ORDER.filter(([id]) => byId[id]).map(([id, area, role], i) => ({...byId[id], area, role, n:i+1}));
 const byName = Object.fromEntries(team.map(t => [t.nombre, t]));
-const tv = a => `--t:var(--${a}-t);--c:var(--${a})`;
+const cv = a => `--c:var(--${a})`;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const fold = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
 const initials = n => n.normalize("NFD").replace(/[̀-ͯ]/g,"").slice(0,2).toUpperCase();
@@ -315,14 +304,13 @@ function refreshFaces(){ document.querySelectorAll("[data-face]").forEach(el => 
 /* Equipo */
 const cards = document.getElementById("cards");
 cards.innerHTML = team.map(t => `
-  <button type="button" class="card" data-id="${t.id}" data-area="${t.area}" style="${tv(t.area)}" data-text="${esc(fold(t.nombre+" "+t.role+" "+t.id+" "+t.desc+" "+t.core.join(" ")+" "+t.extra.join(" ")))}">
-    <span class="pic"><span class="area">${esc(AREA[t.area].label)}</span><span data-face="${t.id}" style="display:contents">${face(t)}</span></span>
-    <span class="txt"><span class="nm">${esc(t.nombre)}</span><span class="rl">${esc(t.role)}</span></span>
+  <button type="button" class="card" data-id="${t.id}" data-area="${t.area}" style="${cv(t.area)}" data-text="${esc(fold([t.nombre,t.role,t.id,t.desc,t.caracter,t.frase,...t.core,...t.extra].join(" ")))}">
+    <span class="pic"><span class="ph" data-face="${t.id}">${face(t)}</span></span>
+    <span class="txt"><span class="nm">${esc(t.nombre)}</span><span class="rl"><span class="dot"></span>${esc(t.role)}</span><span class="fr">“${esc(t.frase)}”</span></span>
   </button>`).join("");
 let area = "all";
 const areas = document.getElementById("areas");
-areas.innerHTML = [["all","Todos"], ...Object.entries(AREA).map(([k,v]) => [k, v.label])]
-  .map(([k,l]) => `<button type="button" class="fchip" data-a="${k}" aria-pressed="${k==="all"}" style="${k==="all"?"":tv(k)}">${k==="all"?"":"<i></i>"}${esc(l)}</button>`).join("");
+areas.innerHTML = [["all","Todos"], ...Object.entries(AREA)].map(([k,l]) => `<button type="button" class="fchip" data-a="${k}" aria-pressed="${k==="all"}" style="${k==="all"?"":cv(k)}">${k==="all"?"":'<span class="dot"></span>'}${esc(l)}</button>`).join("");
 const q = document.getElementById("q");
 function filterCards(){
   const v = fold(q.value.trim()); let n = 0;
@@ -338,10 +326,13 @@ const dlg = document.getElementById("dlg");
 let askText = "";
 function openAgent(id){
   const t = team.find(x => x.id === id); if (!t) return;
-  document.getElementById("sheet").setAttribute("style", tv(t.area));
+  document.getElementById("sheet").setAttribute("style", cv(t.area));
   const ph = document.getElementById("dlg-ph"); ph.dataset.face = t.id; ph.innerHTML = face(t);
   document.getElementById("dlg-name").textContent = t.nombre;
-  document.getElementById("dlg-role").textContent = `${t.role} · ${AREA[t.area].label}`;
+  document.getElementById("dlg-meta").innerHTML = `<span class="dot"></span>${esc(t.role)} · ${esc(AREA[t.area])}`;
+  document.getElementById("dlg-frase").textContent = `“${t.frase}”`;
+  document.getElementById("dlg-car").textContent = t.caracter;
+  document.getElementById("dlg-habla").textContent = t.habla;
   document.getElementById("dlg-desc").textContent = t.desc;
   document.getElementById("dlg-core").innerHTML = t.core.map(s => `<span class="tag on">${esc(s)}</span>`).join("");
   document.getElementById("dlg-extra").innerHTML = t.extra.map(s => `<span class="tag">${esc(s)}</span>`).join("");
@@ -360,20 +351,19 @@ function copy(text, b, sel){
 }
 document.getElementById("dlg-copy").addEventListener("click", e => copy(askText, e.currentTarget, document.getElementById("dlg-ask")));
 
-/* Oficina: lista de personas y tarjeta de foco */
+/* Oficina: lista y foco */
 const roster = document.getElementById("roster");
-roster.innerHTML = team.map(t => `<button type="button" class="chipP" data-id="${t.id}" aria-pressed="false" style="${tv(t.area)}"><span class="ph" data-face="${t.id}">${face(t)}</span>${esc(t.nombre)}</button>`).join("");
+roster.innerHTML = team.map(t => `<button type="button" class="chipP" data-id="${t.id}" aria-pressed="false"><span class="ph" data-face="${t.id}">${face(t)}</span>${esc(t.nombre)}</button>`).join("");
 roster.addEventListener("click", e => { const b = e.target.closest(".chipP"); if (b) select(b.dataset.id, true); });
-let selected = null;
 function select(id, fromList, move = true){
   const t = team.find(x => x.id === id); if (!t) return;
-  selected = id;
   roster.querySelectorAll(".chipP").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === id));
   if (fromList) roster.querySelector(`[data-id="${id}"]`).scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
   const f = document.getElementById("focus");
-  f.setAttribute("style", tv(t.area));
-  f.innerHTML = `<span class="ph" data-face="${t.id}" style="background:var(--t);display:grid;place-items:center;overflow:hidden">${face(t)}</span>
-    <div><h3>${esc(t.nombre)}</h3><div class="role">${esc(t.role)} · ${esc(AREA[t.area].label)}</div><p>${esc(t.desc.split(". Usalo para")[0].replace(/\.$/,""))}.</p></div>
+  f.setAttribute("style", cv(t.area));
+  f.innerHTML = `<span class="ph" data-face="${t.id}">${face(t)}</span>
+    <div><h3>${esc(t.nombre)}</h3><div class="meta"><span class="dot"></span>${esc(t.role)} · ${esc(AREA[t.area])}</div>
+    <p class="quote">${esc(t.frase)}</p><p class="c">${esc(t.caracter)}</p></div>
     <div class="acts"><button class="btn" type="button" id="f-open">Ver ficha completa</button><button class="btn ghost" type="button" id="f-copy">Copiar pedido</button></div>`;
   document.getElementById("f-open").onclick = () => openAgent(id);
   document.getElementById("f-copy").onclick = e => copy(`${t.nombre}, ${ASK[t.id] ?? ""}`, e.currentTarget, f.querySelector("h3"));
@@ -383,18 +373,18 @@ function select(id, fromList, move = true){
 /* Servicios */
 const GA = {"Soluciones inteligentes":"sol","Marketing y ventas":"mkt","Consultoría y formación":"neg"};
 const crewOf = names => names.map(n => byName[n]).filter(Boolean);
-const faces = list => `<span class="faces">${list.map(t => `<span class="ph" data-face="${t.id}" style="${tv(t.area)}" title="${esc(t.nombre)}">${face(t)}</span>`).join("")}</span>`;
+const faces = list => `<span class="faces">${list.map(t => `<span class="ph" data-face="${t.id}" title="${esc(t.nombre)}">${face(t)}</span>`).join("")}</span>`;
 const svc = document.getElementById("svc");
 svc.innerHTML = SERVICES.map(s => { const c = crewOf(s.team); const a = GA[s.g] || "sol";
-  return `<article class="s" data-g="${esc(s.g)}" style="${tv(a)}">
-    <div class="g">${esc(s.g)}</div><h3>${esc(s.name)}</h3><p class="res">${esc(s.res)}</p>
+  return `<article class="s" data-g="${esc(s.g)}" style="${cv(a)}">
+    <div class="g"><span class="dot"></span>${esc(s.g)}</div><h3>${esc(s.name)}</h3><p class="res">${esc(s.res)}</p>
     <div class="prices"><div class="price"><small>${s.abono ? "Setup" : "Precio"}</small><b>${esc(s.setup.replace(/ a /g," – "))}</b></div>
     ${s.abono ? `<div class="price"><small>Abono / mes</small><b>${esc(s.abono.replace(/ a /g," – "))}</b></div>` : ""}</div>
     ${c.length ? `<div class="crew">${faces(c)}<span>${esc(c.map(t=>t.nombre).join(", "))}</span></div>` : ""}
   </article>`; }).join("");
 document.getElementById("k-svc").textContent = SERVICES.length;
 const sg = document.getElementById("sgroups");
-sg.innerHTML = [["all","Todos"], ...[...new Set(SERVICES.map(s => s.g))].map(g => [g,g])].map(([k,l]) => `<button type="button" class="fchip" data-g="${esc(k)}" aria-pressed="${k==="all"}" style="${k==="all"?"":tv(GA[k]||"sol")}">${k==="all"?"":"<i></i>"}${esc(l)}</button>`).join("");
+sg.innerHTML = [["all","Todos"], ...[...new Set(SERVICES.map(s => s.g))].map(g => [g,g])].map(([k,l]) => `<button type="button" class="fchip" data-g="${esc(k)}" aria-pressed="${k==="all"}" style="${k==="all"?"":cv(GA[k]||"sol")}">${k==="all"?"":'<span class="dot"></span>'}${esc(l)}</button>`).join("");
 sg.addEventListener("click", e => { const b = e.target.closest("[data-g]"); if (!b) return; const g = b.dataset.g;
   sg.querySelectorAll("[data-g]").forEach(x => x.setAttribute("aria-pressed", x===b));
   svc.querySelectorAll(".s").forEach(s => s.hidden = !(g==="all" || s.dataset.g===g)); });
@@ -411,7 +401,7 @@ const FLOW = [
   [false,"Contarlo","Sofía convierte el caso en contenido, con permiso del cliente.",["Sofía"]]
 ];
 document.getElementById("flow").innerHTML = FLOW.map(([gate,t,p,names],i) => `
-  <li class="${gate?"gate":""}"><span class="num">${i+1}</span><div><h3>${esc(t)}</h3><p>${esc(p)}</p>${names.length ? faces(crewOf(names)) : ""}</div></li>`).join("");
+  <li class="${gate?"gate":""}"><span class="num">${String(i+1).padStart(2,"0")}</span><div><h3>${esc(t)}</h3><p>${esc(p)}</p>${names.length ? faces(crewOf(names)) : ""}</div></li>`).join("");
 
 /* Plan */
 const start = new Date("2026-10-27T00:00:00-03:00"), end = new Date("2027-01-24T23:59:00-03:00"), now = new Date();
@@ -423,156 +413,293 @@ document.querySelectorAll(".phx").forEach(p => { const a = new Date(p.dataset.fr
 if (!document.querySelector(".phx.on")) document.querySelector(".phx").classList.add("on");
 
 /* ---------- Oficina 3D ---------- */
+const SKIN = ["#f3d3bd","#e9bc9a","#d7a07a","#b97c58","#8d5a3d"];
+const LOOK = {
+  "director":         { skin:2, hair:["short","#5b5550"], temples:"#a9a39c", beard:["short","#8a837c"], top:["blazer","#1f2a44","#ffffff"], pants:"#232836" },
+  "estratega":        { skin:1, hair:["long","#2a1f1b"], glasses:"square", top:["blazer","#a9805a","#f4efe8"], pants:"#2b2f38" },
+  "comercial":        { skin:3, hair:["ponytail","#6b4128"], headset:true, earrings:true, top:["shirt","#d9604a"], pants:"#2b2f38" },
+  "consultor":        { skin:2, hair:["short","#4a3426"], beard:["full","#4a3426"], top:["sweater","#5f6b3a","#e9eef5"], pants:"#3a3f4a" },
+  "finanzas":         { skin:1, hair:["bald","#8a837a"], glasses:"square", top:["vest","#5d636d","#cfe0f2"], pants:"#2b2f38" },
+  "automatizador":    { skin:4, hair:["messy","#1e1a19"], headphones:true, top:["hoodie","#3a404a"], pants:"#2a3140" },
+  "desarrollador-web":{ skin:1, hair:["quiff","#b98a4e"], beard:["goatee","#a07440"], top:["tee","#1b1d22"], pants:"#3b4250" },
+  "disenador":        { skin:0, hair:["bob","#93452a"], glasses:"round", top:["sweater","#d3a03a","#f5efe2"], pants:"#2b2f38" },
+  "redactor":         { skin:3, hair:["curly","#2e1c14"], earrings:true, top:["sweater","#7d2e3c","#f2ece6"], pants:"#2b2f38" },
+  "contenido":        { skin:0, hair:["bun","#d6ad6a"], top:["blazer","#7aa3cf","#ffffff"], pants:"#e9e4dc" },
+  "trafficker":       { skin:2, hair:["slick","#2c2420"], beard:["stubble","#2c2420"], top:["shirt","#f2f4f7"], pants:"#232836" },
+  "seo":              { skin:4, hair:["braid","#1a1412"], top:["shirt","#4c9f86"], pants:"#2b2f38" },
+  "analista-datos":   { skin:1, hair:["short","#3a3330"], glasses:"square", beard:["short","#3a3330"], top:["sweater","#6d7480","#ffffff"], pants:"#2b2f38" },
+  "calidad":          { skin:1, hair:["fringe","#141414"], top:["blazer","#3d4350","#ffffff"], pants:"#232836" },
+  "exito-cliente":    { skin:2, hair:["wavy","#94673f"], headset:true, top:["sweater","#9c8cc9","#ffffff"], pants:"#2b2f38" }
+};
+const SCREEN = { "director":"board","estratega":"doc","comercial":"chat","consultor":"board","finanzas":"sheet","automatizador":"flow","desarrollador-web":"code",
+  "disenador":"design","redactor":"doc","contenido":"social","trafficker":"chart","seo":"map","analista-datos":"dash","calidad":"check","exito-cliente":"chat" };
+
 const Office = (function(){
   const ok = !!(window.THREE && THREE.OrbitControls && THREE.RoundedBoxGeometry);
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let started = false, active = null, R, scene, cam, ctl, clock, raf, people = {}, ring, tween = null;
+  let started = false, active = null, R, scene, cam, ctl, clock, people = {}, ring, tween = null;
   const stage = () => document.getElementById("stage");
   const col = h => new THREE.Color(h).convertSRGBToLinear();
-  const mat = (h, o) => new THREE.MeshStandardMaterial(Object.assign({ color: col(h), roughness: .85, metalness: 0 }, o || {}));
-  const RB = (w,h,d,r) => new THREE.RoundedBoxGeometry(w,h,d,4,r);
-  const AC = {
-    dir:{t:"#dfd9f7",c:"#8b7fe0"}, neg:{t:"#ffe0d2",c:"#f0957a"}, sol:{t:"#d4e7fb",c:"#6aa5e6"}, mkt:{t:"#f7d9ec",c:"#d983bd"}, cli:{t:"#d2f0de",c:"#5fbf8f"}
-  };
-  const SKIN = ["#f6d2b8","#e8b894","#d39b75","#a8714f","#f3c7a6","#c88a63"];
-  const HAIR = ["#3a2a22","#5a3a28","#2a2526","#8a5a36","#c9935b","#4b3427","#e3c08a"];
-  function add(o, p){ (p||scene).add(o); return o; }
-  function mesh(g, m, x, y, z, p){ const o = new THREE.Mesh(g, m); o.position.set(x,y,z); o.castShadow = true; o.receiveShadow = true; return add(o, p); }
+  const M = (h, o) => new THREE.MeshStandardMaterial(Object.assign({ color: col(h), roughness: .8, metalness: 0 }, o || {}));
+  const RB = (w,h,d,r) => new THREE.RoundedBoxGeometry(w,h,d,3,r);
+  const SPH = (r, a, b, c, d) => new THREE.SphereGeometry(r, 28, 20, a, b, c, d);
+  const CYL = (a, b, h, s) => new THREE.CylinderGeometry(a, b, h, s || 20);
+  function put(geo, mat, x, y, z, parent){ const o = new THREE.Mesh(geo, mat); o.position.set(x,y,z); o.castShadow = true; o.receiveShadow = true; (parent || scene).add(o); return o; }
 
-  function character(t, i){
+  /* ---- Personaje (mira hacia -z) ---- */
+  function character(t){
+    const L = LOOK[t.id] || { skin:1, hair:["short","#333"], top:["tee","#666"], pants:"#333" };
     const g = new THREE.Group();
-    const a = AC[t.area], skin = SKIN[i % SKIN.length], hair = HAIR[(i*5+2) % HAIR.length];
-    const body = mesh(new THREE.SphereGeometry(.34, 32, 24), mat(a.c), 0, .98, 0, g); body.scale.set(1, 1.15, .85);
-    const collar = mesh(new THREE.CylinderGeometry(.12,.14,.08,20), mat(skin), 0, 1.33, 0, g);
-    const head = mesh(new THREE.SphereGeometry(.27, 32, 24), mat(skin, {roughness:.7}), 0, 1.6, 0, g);
-    const hm = mat(hair, {roughness:.95});
-    const cap = mesh(new THREE.SphereGeometry(.285, 32, 16, 0, Math.PI*2, 0, Math.PI*.52), hm, 0, 1.63, .03, g); cap.rotation.x = .5;
-    if (FEM.has(t.nombre)) { const back = mesh(RB(.5,.5,.18,.09), hm, 0, 1.42, .17, g); }
-    else { const fr = mesh(new THREE.SphereGeometry(.12, 16, 12), hm, .1, 1.82, -.12, g); }
-    const eyeM = mat("#2b2838", {roughness:.4});
-    mesh(new THREE.SphereGeometry(.032, 12, 10), eyeM, -.09, 1.57, -.255, g);
-    mesh(new THREE.SphereGeometry(.032, 12, 10), eyeM, .09, 1.57, -.255, g);
-    const blush = mat("#f2a3a0", {transparent:true, opacity:.55});
-    mesh(new THREE.SphereGeometry(.045, 12, 10), blush, -.15, 1.5, -.22, g).scale.set(1,.6,.4);
-    mesh(new THREE.SphereGeometry(.045, 12, 10), blush, .15, 1.5, -.22, g).scale.set(1,.6,.4);
-    const arm = new THREE.SphereGeometry(.1, 16, 12);
-    const aL = mesh(arm, mat(a.c), -.3, 1.0, -.2, g); aL.scale.set(1,1,2.2);
-    const aR = mesh(arm, mat(a.c), .3, 1.0, -.2, g); aR.scale.set(1,1,2.2);
+    const skin = M(SKIN[L.skin], { roughness:.65 });
+    const [hs, hc] = L.hair; const hair = M(hc, { roughness: hs === "slick" ? .35 : .9 });
+    const [tt, tc, ti] = L.top; const top = M(tc), inner = M(ti || tc);
+    const pants = M(L.pants);
+    const dark = M("#1d2230", { roughness:.4 });
+
+    /* piernas sentadas y torso */
+    put(RB(.22,.16,.52,.07), pants, -.13, .62, -.2, g);
+    put(RB(.22,.16,.52,.07), pants, .13, .62, -.2, g);
+    put(RB(.58,.58,.34,.13), tt === "vest" ? inner : top, 0, 1.0, 0, g);
+    if (tt === "vest") put(RB(.6,.44,.36,.12), top, 0, .96, 0, g);
+    if (tt === "blazer") {
+      put(RB(.15,.4,.02,.01), inner, 0, 1.06, -.172, g);
+      const lap = RB(.08,.3,.02,.01);
+      const l1 = put(lap, M(new THREE.Color(tc).offsetHSL(0,0,-.06).getStyle()), -.09, 1.12, -.176, g); l1.rotation.z = -.35;
+      const l2 = put(lap, l1.material, .09, 1.12, -.176, g); l2.rotation.z = .35;
+    }
+    if (tt === "shirt" || tt === "vest") { const c1 = put(RB(.1,.06,.03,.01), tt==="vest"?inner:top, -.06, 1.29, -.12, g); c1.rotation.z = .5; const c2 = put(RB(.1,.06,.03,.01), c1.material, .06, 1.29, -.12, g); c2.rotation.z = -.5; }
+    if (tt === "sweater") put(new THREE.TorusGeometry(.1,.025,8,20), inner, 0, 1.29, -.02, g).rotation.x = Math.PI/2;
+    if (tt === "hoodie") { const h = put(new THREE.TorusGeometry(.17,.06,10,24,Math.PI*1.2), top, 0, 1.28, .07, g); h.rotation.x = Math.PI/2.4; h.rotation.z = -Math.PI*.1; put(CYL(.008,.008,.16,6), M("#e9e9e9"), -.05, 1.15, -.17, g); put(CYL(.008,.008,.16,6), M("#e9e9e9"), .05, 1.15, -.17, g); }
+
+    /* brazos hacia el teclado */
+    const sleeve = tt === "vest" || tt === "tee" ? (tt === "tee" ? top : inner) : top;
+    [-1,1].forEach(s => {
+      const u = put(CYL(.072,.068,.36), sleeve, s*.33, 1.0, -.07, g); u.rotation.x = .45;
+      const f = put(CYL(.064,.06,.34), tt === "tee" ? skin : sleeve, s*.28, .86, -.3, g); f.rotation.x = Math.PI/2;
+      put(SPH(.062), skin, s*.26, .86, -.49, g);
+    });
+
+    /* cabeza */
+    put(CYL(.075,.08,.14), skin, 0, 1.36, 0, g);
+    const head = new THREE.Group(); head.position.set(0, 1.58, 0); g.add(head);
+    const skull = put(SPH(.215), skin, 0, 0, 0, head); skull.scale.set(1, 1.1, 1);
+    put(SPH(.045), skin, -.212, -.01, 0, head); put(SPH(.045), skin, .212, -.01, 0, head);
+    put(SPH(.032), skin, 0, -.02, -.215, head).scale.set(1, 1.2, 1);
+    const eye = M("#1a1d26", { roughness:.3 });
+    put(SPH(.024), eye, -.075, .035, -.192, head); put(SPH(.024), eye, .075, .035, -.192, head);
+    const brow = RB(.075,.016,.02,.006);
+    put(brow, hair, -.075, .09, -.198, head).rotation.z = .08; put(brow, hair, .075, .09, -.198, head).rotation.z = -.08;
+    const mouth = put(new THREE.TorusGeometry(.04,.008,6,16,Math.PI), M("#8c4a43"), 0, -.085, -.2, head); mouth.rotation.z = Math.PI;
+
+    /* pelo */
+    const cap = (y, tilt) => { const c = put(SPH(.232, 0, Math.PI*2, 0, Math.PI*.5), hair, 0, y ?? .03, .01, head); c.rotation.x = tilt ?? .38; c.scale.set(1, 1.1, 1.02); return c; };
+    if (hs === "bald") { put(SPH(.224, -Math.PI*.18, Math.PI*1.36, Math.PI*.38, Math.PI*.24), hair, 0, 0, 0, head).scale.set(1.01,1.1,1.01); }
+    else cap();
+    if (hs === "messy") [[-.1,.2,-.02],[.06,.23,.04],[.14,.16,.0],[-.03,.22,.12],[.0,.24,-.08]].forEach(([x,y,z]) => put(SPH(.075), hair, x, y, z, head));
+    if (hs === "quiff") put(SPH(.1), hair, 0, .2, -.12, head).scale.set(1.5,.8,1.1);
+    if (hs === "slick") put(SPH(.09), hair, .05, .2, -.1, head).scale.set(1.8,.6,1);
+    if (["long","fringe","wavy","braid"].includes(hs)) {
+      put(RB(.46,.56,.14,.06), hair, 0, -.17, .13, head);
+      put(RB(.08,.42,.13,.04), hair, -.2, -.1, -.03, head); put(RB(.08,.42,.13,.04), hair, .2, -.1, -.03, head);
+    }
+    if (hs === "fringe") put(RB(.36,.07,.07,.03), hair, 0, .13, -.18, head);
+    if (hs === "wavy") [-.16,-.05,.06,.17].forEach(x => put(SPH(.07), hair, x, -.44, .14, head));
+    if (hs === "braid") [[.17,-.25,-.06],[.19,-.36,-.08],[.2,-.47,-.09]].forEach(([x,y,z],k) => put(SPH(.06-k*.006), hair, x, y, z, head));
+    if (hs === "bob") put(RB(.5,.3,.38,.1), hair, 0, -.06, .06, head);
+    if (hs === "ponytail") [[0,.03,.25,.075],[0,-.08,.29,.068],[0,-.19,.3,.058]].forEach(([x,y,z,r]) => put(SPH(r), hair, x, y, z, head));
+    if (hs === "bun") put(SPH(.1), hair, 0, .24, .1, head);
+    if (hs === "curly") { for (let k=0;k<16;k++){ const a = k/16*Math.PI*2, yy = .1 + (k%3)*.05; put(SPH(.08), hair, Math.cos(a)*.2, yy - (Math.sin(a) > .3 ? .12 : 0), Math.sin(a)*.2 + .03, head); } put(SPH(.09), hair, 0, .25, 0, head); }
+    if (L.temples) { put(SPH(.06), M(L.temples), -.19, .03, .06, head); put(SPH(.06), M(L.temples), .19, .03, .06, head); }
+
+    /* barba */
+    if (L.beard) {
+      const [bs, bc] = L.beard;
+      if (bs === "goatee") { put(SPH(.05), M(bc), 0, -.14, -.19, head).scale.set(1,1.3,.7); put(RB(.12,.024,.03,.01), M(bc), 0, -.058, -.21, head); }
+      else { const op = bs === "stubble" ? { transparent:true, opacity:.45 } : {}; const b = put(SPH(.226, Math.PI, Math.PI, Math.PI*(bs==="full"?.52:.58), Math.PI*(bs==="full"?.4:.32)), M(bc, op), 0, 0, 0, head); b.scale.set(1.02,1.1,1.04); if (bs === "full") mouth.position.z = -.226; }
+    }
+    /* accesorios */
+    if (L.glasses) {
+      const fr = M("#1a1d26", { roughness:.35 });
+      const ringG = L.glasses === "round" ? new THREE.TorusGeometry(.048,.008,8,24) : new THREE.TorusGeometry(.052,.008,6,4);
+      const g1 = put(ringG, fr, -.075, .035, -.212, head), g2 = put(ringG, fr, .075, .035, -.212, head);
+      if (L.glasses !== "round") { g1.rotation.z = Math.PI/4; g2.rotation.z = Math.PI/4; }
+      put(CYL(.006,.006,.05,6), fr, 0, .045, -.214, head).rotation.z = Math.PI/2;
+    }
+    if (L.headset || L.headphones) {
+      const big = !!L.headphones, hm = M(big ? "#2a2f3a" : "#30343e", { roughness:.4 });
+      put(new THREE.TorusGeometry(.245, big ? .025 : .016, 8, 28, Math.PI), hm, 0, .02, .01, head);
+      [-1,1].forEach(s => put(CYL(big?.085:.06, big?.085:.06, big?.06:.04), hm, s*.235, -.01, 0, head).rotation.z = Math.PI/2);
+      if (!big) { const mic = put(CYL(.008,.008,.2,6), hm, -.17, -.09, -.13, head); mic.rotation.set(Math.PI/2.4, 0, -.6); put(SPH(.02), hm, -.09, -.11, -.22, head); }
+    }
+    if (L.earrings) { const gold = M("#d4a843", { metalness:.6, roughness:.3 }); put(SPH(.018), gold, -.214, -.07, -.01, head); put(SPH(.018), gold, .214, -.07, -.01, head); }
+
     g.userData = { id: t.id, head };
     g.traverse(o => o.userData.id = t.id);
     return g;
   }
 
-  function desk(x, z, a, t, i){
-    const g = add(new THREE.Group()); g.position.set(x, 0, z); g.rotation.y = -Math.PI/2;
-    const wood = mat("#ecdcc8", {roughness:.7}), white = mat("#ffffff"), dark = mat("#3a3650", {roughness:.5});
-    mesh(RB(1.4,.08,.8,.035), wood, 0, .76, 0, g);
-    [[-.62,-.32],[.62,-.32],[-.62,.32],[.62,.32]].forEach(([p,q]) => mesh(new THREE.CylinderGeometry(.03,.03,.72,12), white, p, .36, q, g));
-    mesh(RB(.66,.42,.05,.03), dark, 0, 1.12, -.24, g);
-    const scr = new THREE.Mesh(new THREE.PlaneGeometry(.58,.34), new THREE.MeshBasicMaterial({ color: col(AC[a].t) })); scr.position.set(0,1.12,-.213); g.add(scr);
-    mesh(new THREE.CylinderGeometry(.03,.05,.2,12), dark, 0, .88, -.24, g);
-    mesh(RB(.44,.03,.15,.012), white, 0, .81, .06, g);
-    mesh(new THREE.CylinderGeometry(.05,.045,.11,16), mat(AC[a].c), .5, .85, .08, g);
-    if (i % 3 === 0) { mesh(new THREE.CylinderGeometry(.07,.06,.12,16), mat("#f4ece4"), -.52, .86, -.18, g); mesh(new THREE.SphereGeometry(.12,12,10), mat("#86c49b"), -.52, 1.0, -.18, g); }
-    const chair = mat(AC[a].t);
-    mesh(RB(.56,.1,.52,.05), chair, 0, .5, .66, g);
-    mesh(RB(.56,.56,.1,.05), chair, 0, .82, .94, g);
-    mesh(new THREE.CylinderGeometry(.04,.04,.42,10), white, 0, .24, .66, g);
-    mesh(new THREE.CylinderGeometry(.22,.22,.03,20), white, 0, .03, .66, g);
-    const p = character(t, i); p.position.set(0, 0, .64); g.add(p);
-    p.userData.phase = i * .8; people[t.id] = p;
-    return g;
+  /* ---- Pantallas ---- */
+  function screenTex(kind){
+    const c = document.createElement("canvas"); c.width = 320; c.height = 200; const x = c.getContext("2d");
+    const bg = (h) => { x.fillStyle = h; x.fillRect(0,0,320,200); };
+    const lines = (n, y0, col, w) => { x.fillStyle = col; for (let i=0;i<n;i++) x.fillRect(20, y0+i*16, (w||260) * (0.55 + ((i*37)%40)/100), 7); };
+    if (kind === "code" || kind === "flow") bg("#1d2230"); else bg("#ffffff");
+    if (kind === "doc") { x.fillStyle = "#151b26"; x.fillRect(20,18,150,12); lines(9, 44, "#c9ced6"); }
+    if (kind === "code") { const cs = ["#7aa2f7","#9ece6a","#e0af68","#bb9af7","#7dcfff","#f7768e"]; for (let i=0;i<10;i++){ x.fillStyle = cs[i%6]; x.fillRect(20 + (i%3)*14, 16+i*17, 60 + (i*53)%170, 8); } }
+    if (kind === "flow") { const nodes = [[30,40],[130,40],[230,40],[130,120],[230,140]]; x.strokeStyle = "#5a6478"; x.lineWidth = 3; [[0,1],[1,2],[1,3],[3,4]].forEach(([a,b]) => { x.beginPath(); x.moveTo(nodes[a][0]+30,nodes[a][1]+14); x.lineTo(nodes[b][0]+30,nodes[b][1]+14); x.stroke(); }); ["#ff6d5a","#7aa2f7","#9ece6a","#e0af68","#bb9af7"].forEach((h,i) => { x.fillStyle = h; x.fillRect(nodes[i][0], nodes[i][1], 60, 28); }); }
+    if (kind === "chart") { x.strokeStyle = "#e3e7ec"; for (let i=0;i<5;i++){ x.beginPath(); x.moveTo(20,40+i*32); x.lineTo(300,40+i*32); x.stroke(); } [70,95,80,120,110,150,140].forEach((h,i) => { x.fillStyle = i===6 ? "#2c9468" : "#9fb4d8"; x.fillRect(30+i*38, 180-h, 24, h); }); }
+    if (kind === "dash") { x.fillStyle = "#f5f6f8"; [[16,16],[112,16],[208,16]].forEach(([a,b]) => x.fillRect(a,b,96,50)); x.fillStyle = "#151b26"; x.font = "600 22px sans-serif"; ["128","4,2%","$31k"].forEach((s,i) => x.fillText(s, 26+i*96, 50)); x.beginPath(); x.moveTo(80,140); x.arc(80,140,46,0,Math.PI*1.3); x.fillStyle = "#2d7fd3"; x.fill(); x.beginPath(); x.moveTo(80,140); x.arc(80,140,46,Math.PI*1.3,Math.PI*2); x.fillStyle = "#cfd8e6"; x.fill(); x.strokeStyle = "#2c9468"; x.lineWidth = 4; x.beginPath(); [[150,170],[190,140],[230,150],[270,110],[300,95]].forEach(([a,b],i) => i ? x.lineTo(a,b) : x.moveTo(a,b)); x.stroke(); }
+    if (kind === "design") { bg("#f5f6f8"); [["#d3a03a",20,20,120,80],["#1f2a44",150,20,150,80],["#b4478a",20,110,80,70],["#e9e4dc",110,110,190,70]].forEach(([h,a,b,w,hh]) => { x.fillStyle = h; x.fillRect(a,b,w,hh); }); }
+    if (kind === "chat") { bg("#eef3ef"); [[20,20,180,"#ffffff"],[120,64,180,"#cdeccf"],[20,108,150,"#ffffff"],[140,152,160,"#cdeccf"]].forEach(([a,b,w,h]) => { x.fillStyle = h; x.beginPath(); x.roundRect ? x.roundRect(a,b,w,34,10) : x.rect(a,b,w,34); x.fill(); }); }
+    if (kind === "sheet") { x.strokeStyle = "#dfe3e8"; for (let i=0;i<=8;i++){ x.beginPath(); x.moveTo(0,i*25); x.lineTo(320,i*25); x.stroke(); } for (let j=0;j<=4;j++){ x.beginPath(); x.moveTo(j*80,0); x.lineTo(j*80,200); x.stroke(); } x.fillStyle = "#2c9468"; x.fillRect(0,0,320,25); x.fillStyle = "#5f6b7a"; for (let i=1;i<8;i++) for (let j=1;j<4;j++) x.fillRect(j*80+10, i*25+9, 40+(i*j*7)%20, 7); }
+    if (kind === "board") { ["#f5f6f8","#f5f6f8","#f5f6f8"].forEach((h,i) => { x.fillStyle = h; x.fillRect(12+i*102, 14, 92, 172); }); [["#ffd66b",0,0],["#9fd3b3",0,1],["#a9c6f0",1,0],["#f3b4c9",1,1],["#ffd66b",2,0]].forEach(([h,cI,r]) => { x.fillStyle = h; x.fillRect(20+cI*102, 26+r*52, 76, 40); }); }
+    if (kind === "social") { const hs = ["#f3b4c9","#a9c6f0","#ffd66b","#9fd3b3","#d9c2f0","#f7c59f"]; for (let i=0;i<6;i++){ x.fillStyle = hs[i]; x.fillRect(16+(i%3)*100, 16+Math.floor(i/3)*90, 90, 80); } }
+    if (kind === "map") { bg("#e7efe6"); x.strokeStyle = "#ffffff"; x.lineWidth = 10; [[0,60,320,90],[80,0,120,200],[200,0,240,200],[0,160,320,140]].forEach(([a,b,cc,d]) => { x.beginPath(); x.moveTo(a,b); x.lineTo(cc,d); x.stroke(); }); x.fillStyle = "#e5483b"; x.beginPath(); x.arc(160,90,16,0,Math.PI*2); x.fill(); x.beginPath(); x.moveTo(146,96); x.lineTo(174,96); x.lineTo(160,124); x.fill(); }
+    if (kind === "check") { for (let i=0;i<6;i++){ x.strokeStyle = "#c4cad3"; x.lineWidth = 2; x.strokeRect(20, 18+i*29, 18, 18); if (i < 4) { x.fillStyle = "#2c9468"; x.fillRect(20, 18+i*29, 18, 18); } x.fillStyle = "#c9ced6"; x.fillRect(50, 24+i*29, 120 + (i*41)%120, 7); } }
+    const tx = new THREE.CanvasTexture(c); tx.encoding = THREE.sRGBEncoding; tx.anisotropy = 4;
+    return new THREE.MeshBasicMaterial({ map: tx });
+  }
+
+  /* ---- Puesto de trabajo ---- */
+  const MAT = {};
+  function mats(){
+    MAT.top = M("#f6f6f4", { roughness:.6 }); MAT.leg = M("#2a2f38", { roughness:.5 }); MAT.mon = M("#1b1f27", { roughness:.35 });
+    MAT.chair = M("#2f3540", { roughness:.7 }); MAT.metal = M("#9aa3ae", { metalness:.5, roughness:.35 }); MAT.white = M("#ffffff");
+    MAT.paper = M("#fbfbfa"); MAT.leaf = M("#5d9c6c"); MAT.leaf2 = M("#7cb486"); MAT.pot = M("#eceae6");
+  }
+  function monitor(g, x, z, w, kind, rotY){
+    const m = new THREE.Group(); m.position.set(x, 0, z); m.rotation.y = rotY || 0; g.add(m);
+    put(RB(w,.4,.035,.015), MAT.mon, 0, 1.13, 0, m);
+    const s = new THREE.Mesh(new THREE.PlaneGeometry(w-.05,.35), screenTex(kind)); s.position.set(0,1.13,.019); m.add(s);
+    put(CYL(.025,.025,.2,10), MAT.mon, 0, .9, .02, m);
+    put(RB(.2,.015,.14,.006), MAT.mon, 0, .81, .02, m);
+  }
+  function mate(g, x, z){ put(SPH(.055), M("#6b4a2b", { roughness:.9 }), x, .86, z, g).scale.set(1,1.15,1); put(CYL(.035,.035,.03,14), M("#c9b37e", { metalness:.4, roughness:.4 }), x, .925, z, g); const b = put(CYL(.006,.006,.14,6), MAT.metal, x+.02, .97, z, g); b.rotation.z = -.25; }
+  function props(id, g){
+    const P = (geo, m, x, y, z) => put(geo, m, x, y, z, g);
+    switch (id) {
+      case "director": P(RB(.3,.02,.22,.01), M("#1f2a44"), .48, .815, .1); P(CYL(.012,.012,.2,8), M("#c9a64b",{metalness:.5,roughness:.3}), .45, .83, .05).rotation.z = Math.PI/2; break;
+      case "estratega": ["#1f2a44","#a9805a","#d9d4cc"].forEach((h,k) => P(RB(.26,.05,.19,.01), M(h), .5, .83+k*.052, -.05)); break;
+      case "comercial": P(RB(.08,.012,.16,.01), MAT.mon, .45, .81, .1); P(RB(.24,.012,.18,.01), MAT.paper, -.45, .81, .1); break;
+      case "consultor": ["#ffd66b","#9fd3b3","#f3b4c9","#a9c6f0"].forEach((h,k) => P(RB(.08,.08,.006,.002), M(h), -.42+k*.09+(k>1?.48:0), 1.22+(k%2)*.08, -.25)); break;
+      case "finanzas": P(RB(.13,.025,.18,.01), M("#3a3f4a"), .46, .82, .08); P(RB(.24,.06,.3,.01), MAT.paper, -.45, .84, .02); break;
+      case "automatizador": monitor(g, .62, -.12, .5, "code", -.5); mate(g, -.52, .12); break;
+      case "desarrollador-web": P(RB(.08,.16,.012,.01), MAT.mon, .5, .9, -.05).rotation.x = -.3; break;
+      case "disenador": P(RB(.34,.012,.22,.02), M("#2a2f38"), .42, .81, .12); ["#d3a03a","#1f2a44","#b4478a"].forEach((h,k) => P(RB(.05,.008,.12,.004), M(h), -.42+k*.07, .81, .12)); break;
+      case "redactor": P(RB(.2,.02,.27,.01), M("#7d2e3c"), .45, .815, .08); P(CYL(.006,.006,.16,6), MAT.leg, .45, .83, .08).rotation.x = Math.PI/2; mate(g, -.5, .12); break;
+      case "contenido": { const r = P(new THREE.TorusGeometry(.13,.018,8,28), M("#ffffff",{emissive:col("#fff4e0"),emissiveIntensity:.6}), .5, 1.18, -.05); P(CYL(.008,.008,.38,6), MAT.leg, .5, .98, -.05); P(RB(.07,.13,.01,.01), MAT.mon, .5, 1.18, -.06); break; }
+      case "trafficker": monitor(g, .62, -.12, .5, "dash", -.5); P(CYL(.04,.035,.1,14), M("#ffffff"), -.5, .85, .12); break;
+      case "seo": P(SPH(.09), M("#6aa5d9"), .5, 1.0, -.05); P(CYL(.01,.01,.12,6), MAT.metal, .5, .88, -.05); P(CYL(.06,.06,.015,14), MAT.leg, .5, .81, -.05); break;
+      case "analista-datos": monitor(g, .62, -.12, .5, "chart", -.5); break;
+      case "calidad": P(RB(.2,.012,.28,.01), M("#a07c55"), .45, .81, .08); P(RB(.17,.004,.22,.004), MAT.paper, .45, .818, .1); P(RB(.06,.02,.02,.005), MAT.metal, .45, .825, -.04); break;
+      case "exito-cliente": P(CYL(.05,.04,.14,14), M("#eceae6"), .5, .87, -.05); [[0,0],[.04,.03],[-.04,.02],[.02,-.04]].forEach(([a,b]) => P(SPH(.04), M(["#f3b4c9","#ffd66b","#ffffff","#f3b4c9"][Math.abs(Math.round(a*100))%4]), .5+a, 1.0, -.05+b)); break;
+    }
+  }
+  function desk(x, z, t, i){
+    const g = new THREE.Group(); g.position.set(x, 0, z); g.rotation.y = -Math.PI/2; scene.add(g);
+    const wide = t.id === "director" ? 1.8 : 1.45;
+    put(RB(wide,.05,.8,.02), MAT.top, 0, .78, 0, g);
+    [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b]) => put(RB(.04,.76,.04,.01), MAT.leg, a*(wide/2-.05), .38, b*.35, g));
+    monitor(g, 0, -.24, t.id === "desarrollador-web" ? .86 : .62, SCREEN[t.id] || "doc");
+    put(RB(.42,.02,.14,.01), MAT.white, 0, .815, .06, g);
+    put(RB(.07,.025,.11,.03), MAT.white, .3, .815, .08, g);
+    props(t.id, g);
+    /* silla */
+    put(RB(.54,.09,.5,.04), MAT.chair, 0, .5, .64, g);
+    const back = put(RB(.5,.62,.08,.04), MAT.chair, 0, .86, .92, g); back.rotation.x = -.08;
+    put(CYL(.035,.035,.42,10), MAT.metal, 0, .25, .64, g);
+    for (let k=0;k<5;k++){ const a = k/5*Math.PI*2; const leg = put(RB(.28,.03,.05,.01), MAT.leg, Math.cos(a)*.14, .05, .64+Math.sin(a)*.14, g); leg.rotation.y = -a; }
+    const p = character(t); p.position.set(0, 0, .62); g.add(p);
+    p.userData.phase = i * .9; people[t.id] = p;
   }
 
   function plant(x, z, s){
-    mesh(new THREE.CylinderGeometry(.24*s,.19*s,.42*s,24), mat("#f4ece4"), x, .21*s, z);
-    const leaf = mat("#7fbf95"), leaf2 = mat("#9bd1ab");
-    for (let k=0;k<6;k++){ const a = k*1.05; mesh(new THREE.SphereGeometry(.2*s,16,12), k%2?leaf:leaf2, x+Math.cos(a)*.14*s, (.62+ (k%3)*.14)*s, z+Math.sin(a)*.14*s); }
+    put(CYL(.22*s,.17*s,.45*s,24), MAT.pot, x, .225*s, z);
+    for (let k=0;k<7;k++){ const a = k*.9, h = (.6 + (k%3)*.18)*s; const leaf = put(SPH(.16*s), k%2 ? MAT.leaf : MAT.leaf2, x+Math.cos(a)*.13*s, h, z+Math.sin(a)*.13*s); leaf.scale.set(1,1.3,.8); }
   }
-
+  function floorTex(){
+    const c = document.createElement("canvas"); c.width = 1024; c.height = 1024; const x = c.getContext("2d");
+    x.fillStyle = "#d8c3a5"; x.fillRect(0,0,1024,1024);
+    for (let r=0;r<32;r++){ const off = (r*173)%256; for (let k=-1;k<5;k++){ const shade = 200 + ((r*7+k*13)%22); x.fillStyle = `rgb(${shade+18},${shade},${shade-30})`; x.fillRect(k*256+off, r*32, 254, 30); } }
+    const tx = new THREE.CanvasTexture(c); tx.encoding = THREE.sRGBEncoding; tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.repeat.set(2,1.4); tx.anisotropy = 8; return tx;
+  }
   function board(){
     const c = document.createElement("canvas"); c.width = 1024; c.height = 560; const x = c.getContext("2d");
     x.fillStyle = "#ffffff"; x.fillRect(0,0,1024,560);
-    x.fillStyle = "#2b2838"; x.font = "700 210px 'Bricolage Grotesque', system-ui, sans-serif"; x.textBaseline = "top"; x.fillText("0/3", 70, 70);
-    x.fillStyle = "#77738a"; x.font = "600 52px Manrope, system-ui, sans-serif"; x.fillText("abonos activos", 78, 300);
-    x.fillStyle = "#8b7fe0"; x.fillText(document.getElementById("k-days").textContent + " días a la meta", 78, 380);
+    x.fillStyle = "#5f6b7a"; x.font = "500 34px 'Geist Mono', monospace"; x.fillText("ABONOS ACTIVOS", 70, 100);
+    x.fillStyle = "#151b26"; x.font = "600 220px Geist, system-ui, sans-serif"; x.fillText("0/3", 62, 320);
+    x.fillStyle = "#5f6b7a"; x.font = "500 34px 'Geist Mono', monospace"; x.fillText(document.getElementById("k-days").textContent + " DÍAS A LA META", 70, 420);
+    x.fillStyle = "#e3e7ec"; x.fillRect(70, 460, 880, 14); x.fillStyle = "#151b26"; x.fillRect(70, 460, 880*pct/100 + 6, 14);
     const tx = new THREE.CanvasTexture(c); tx.encoding = THREE.sRGBEncoding; tx.anisotropy = 4;
-    mesh(RB(3.3,1.9,.08,.06), mat("#ffffff"), .6, 1.95, -4.9);
-    const m = new THREE.Mesh(new THREE.PlaneGeometry(3.1,1.7), new THREE.MeshBasicMaterial({ map: tx })); m.position.set(.6,1.95,-4.855); scene.add(m);
+    put(RB(3.3,1.9,.06,.02), M("#1b1f27"), .6, 1.95, -4.92);
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(3.18,1.78), new THREE.MeshBasicMaterial({ map: tx })); m.position.set(.6,1.95,-4.885); scene.add(m);
   }
 
   function build(){
+    mats();
     scene = new THREE.Scene();
-    scene.add(new THREE.HemisphereLight(col("#ffffff"), col("#d8cfe6"), .75));
-    const sun = new THREE.DirectionalLight(col("#fff1e2"), 1.25); sun.position.set(-6, 14, 8);
+    scene.add(new THREE.HemisphereLight(col("#ffffff"), col("#cfd5de"), .7));
+    const sun = new THREE.DirectionalLight(col("#fff4e6"), 1.35); sun.position.set(-7, 15, 9);
     sun.castShadow = true; const S = innerWidth < 600 ? 1024 : 2048; sun.shadow.mapSize.set(S,S);
-    Object.assign(sun.shadow.camera, { left:-11, right:11, top:9, bottom:-9, near:1, far:40 }); sun.shadow.bias = -.0006; sun.shadow.radius = 6;
+    Object.assign(sun.shadow.camera, { left:-11, right:11, top:9, bottom:-9, near:1, far:45 }); sun.shadow.bias = -.0005; sun.shadow.radius = 5;
     scene.add(sun);
-    const fill = new THREE.DirectionalLight(col("#e3ecff"), .35); fill.position.set(8,6,-4); scene.add(fill);
+    const fill = new THREE.DirectionalLight(col("#e6eeff"), .35); fill.position.set(9, 6, -5); scene.add(fill);
 
     const W = 15.4, D = 10.6;
-    const floor = mesh(RB(W,.5,D,.22), mat("#faf8fc"), 0, -.25, 0); floor.castShadow = false;
-    mesh(RB(W+.3,.22,D+.3,.11), mat("#e4dcef"), 0, -.6, 0).castShadow = false;
-    const wall = mat("#ffffff");
-    mesh(RB(W,3,.2,.08), wall, 0, 1.5, -D/2+.1);
-    mesh(RB(.2,3,D,.08), wall, -W/2+.1, 1.5, 0);
-    const sky = new THREE.MeshBasicMaterial({ color: col("#dbe8fb") });
-    [-3.2, -.4, 2.4].forEach(z => { mesh(RB(.08,1.3,1.8,.04), mat("#ffffff"), -W/2+.22, 1.75, z); const w = new THREE.Mesh(new THREE.PlaneGeometry(1.6,1.1), sky); w.rotation.y = Math.PI/2; w.position.set(-W/2+.27,1.75,z); scene.add(w); });
-    [["#ffe0d2",-4.2,1.2],["#d2f0de",4.6,.9],["#f7d9ec",5.9,1.2]].forEach(([h,x,w]) => { mesh(RB(w,.8,.05,.03), mat(h), x, 2.0, -D/2+.24); });
+    const fl = put(RB(W,.3,D,.06), new THREE.MeshStandardMaterial({ map: floorTex(), roughness:.75 }), 0, -.15, 0); fl.castShadow = false;
+    put(RB(W+.1,.35,D+.1,.04), M("#2a2f38"), 0, -.36, 0).castShadow = false;
+    const wall = M("#f4f5f7", { roughness:.95 });
+    put(RB(W,3,.18,.02), M("#24304a", { roughness:.9 }), 0, 1.5, -D/2+.09);
+    put(RB(.18,3,D,.02), wall, -W/2+.09, 1.5, 0);
+    put(RB(W,.08,.2,.01), M("#d8c3a5"), 0, .04, -D/2+.2);
+    const sky = new THREE.MeshBasicMaterial({ color: col("#dfe9f6") });
+    [-3.2, -.4, 2.4].forEach(z => { put(RB(.05,1.5,2.0,.01), M("#3a404c"), -W/2+.2, 1.75, z); const w = new THREE.Mesh(new THREE.PlaneGeometry(1.86,1.36), sky); w.rotation.y = Math.PI/2; w.position.set(-W/2+.235,1.75,z); scene.add(w); put(RB(.03,1.36,.03,.005), MAT.leg, -W/2+.24, 1.75, z); });
+    [[4.3,"#c9a64b"],[5.9,"#e9e4dc"]].forEach(([x,h]) => { put(RB(1.1,.8,.04,.01), M("#1b1f27"), x, 2.0, -D/2+.21); put(RB(1.0,.7,.02,.005), M(h), x, 2.0, -D/2+.23); });
+    const logo = document.createElement("canvas"); logo.width = 512; logo.height = 96; const lx = logo.getContext("2d"); lx.fillStyle = "#ffffff"; lx.font = "600 56px Geist, system-ui, sans-serif"; lx.fillText("AGENCIA", 4, 68);
+    const lt = new THREE.CanvasTexture(logo); lt.encoding = THREE.sRGBEncoding;
+    const lm = new THREE.Mesh(new THREE.PlaneGeometry(2.2,.41), new THREE.MeshBasicMaterial({ map: lt, transparent:true })); lm.position.set(-3.6, 2.45, -D/2+.19); scene.add(lm);
 
     /* Sala del director */
-    const glass = new THREE.MeshPhysicalMaterial({ color: col("#e8eefc"), transparent:true, opacity:.28, roughness:.1, metalness:0, depthWrite:false });
-    const gw1 = new THREE.Mesh(RB(.06,2.3,3.0,.02), glass); gw1.position.set(-3.7,1.15,-3.5); scene.add(gw1);
-    const gw2 = new THREE.Mesh(RB(3.7,2.3,.06,.02), glass); gw2.position.set(-5.55,1.15,-2.0); scene.add(gw2);
+    const glass = new THREE.MeshPhysicalMaterial({ color: col("#dbe4ef"), transparent:true, opacity:.22, roughness:.05, metalness:0, depthWrite:false });
+    const gw1 = new THREE.Mesh(RB(.05,2.4,3.0,.01), glass); gw1.position.set(-3.8,1.2,-3.6); scene.add(gw1);
+    const gw2 = new THREE.Mesh(RB(3.6,2.4,.05,.01), glass); gw2.position.set(-5.6,1.2,-2.1); scene.add(gw2);
+    const frame = M("#9aa3ae", { metalness:.4, roughness:.4 }); put(RB(.03,2.4,.03,.005), frame, -3.8, 1.2, -2.1); put(RB(.03,.03,3.0,.005), frame, -3.8, 2.4, -3.6); put(RB(3.6,.03,.03,.005), frame, -5.6, 2.4, -2.1);
 
-    /* Alfombras por área */
-    const rug = (x,z,w,d,a) => { const r = mesh(RB(w,.04,d,.02), mat(AC[a].t), x, .02, z); r.castShadow = false; };
-
-    const layout = [
-      ["dir", -5.6, -3.6, 1],
-      ["neg", -1.4, -3.4, 2],
-      ["sol", 4.4, -3.4, 1],
-      ["mkt", -2.2, 1.6, 3],
-      ["cli", 4.6, 1.6, 1]
-    ];
+    const rugC = { dir:"#e2e0ee", neg:"#ece4dc", sol:"#dfe6ef", mkt:"#ebe1e8", cli:"#dfebe4" };
+    const layout = [ ["dir", -5.6, -3.7, 1], ["neg", -1.6, -3.5, 2], ["sol", 4.3, -3.5, 1], ["mkt", -2.4, 1.5, 3], ["cli", 4.5, 1.5, 1] ];
     let i = 0;
     layout.forEach(([a, cx, cz, cols]) => {
       const list = team.filter(t => t.area === a);
-      const rows = Math.ceil(list.length / cols), sx = 2.25, sz = 1.75;
-      rug(cx + (cols-1)*sx/2 - (a==="dir"?0:0), cz + (rows-1)*sz/2, cols*sx + .3, rows*sz + .5, a);
-      list.forEach((t, k) => {
-        const c = k % cols, r = Math.floor(k / cols);
-        desk(cx + c*sx, cz + r*sz, a, t, i++);
-      });
+      const rows = Math.ceil(list.length / cols), sx = 2.3, sz = 1.8;
+      if (a !== "dir") { const r = put(RB(cols*sx + .2, .02, rows*sz + .4, .01), M(rugC[a], { roughness:1 }), cx + (cols-1)*sx/2, .012, cz + (rows-1)*sz/2); r.castShadow = false; }
+      list.forEach((t, k) => desk(cx + (k % cols)*sx, cz + Math.floor(k / cols)*sz, t, i++));
     });
 
-    /* Rincón de reuniones */
-    const tbl = mesh(new THREE.CylinderGeometry(.95,.95,.08,48), mat("#ecdcc8",{roughness:.7}), -5.3, .76, 3.1);
-    mesh(new THREE.CylinderGeometry(.08,.3,.72,20), mat("#ffffff"), -5.3, .36, 3.1);
-    for (let k=0;k<5;k++){ const an = k/5*Math.PI*2+.3; mesh(RB(.46,.42,.46,.12), mat(["#ffe0d2","#dfd9f7","#d2f0de","#f7d9ec","#d4e7fb"][k]), -5.3+Math.cos(an)*1.35, .32, 3.1+Math.sin(an)*1.35); }
-    const sofa = mat("#dfd9f7");
-    mesh(RB(2.4,.45,.9,.2), sofa, .9, .32, 4.4); mesh(RB(2.4,.6,.28,.14), sofa, .9, .7, 4.75);
-    mesh(RB(.3,.55,.9,.14), sofa, -.25, .5, 4.4); mesh(RB(.3,.55,.9,.14), sofa, 2.05, .5, 4.4);
+    /* Reuniones y descanso */
+    put(CYL(.95,.95,.06,48), M("#a77a52", { roughness:.55 }), -5.3, .76, 3.2);
+    put(CYL(.07,.25,.72,20), MAT.leg, -5.3, .37, 3.2);
+    for (let k=0;k<5;k++){ const a = k/5*Math.PI*2+.3, cx = -5.3+Math.cos(a)*1.3, cz = 3.2+Math.sin(a)*1.3; put(RB(.46,.08,.46,.04), MAT.chair, cx, .46, cz); const bk = put(RB(.46,.4,.06,.03), MAT.chair, cx+Math.cos(a)*.22, .68, cz+Math.sin(a)*.22); bk.rotation.y = -a + Math.PI/2; put(CYL(.03,.03,.42,8), MAT.metal, cx, .22, cz); }
+    const sofa = M("#5a6577", { roughness:.95 });
+    put(RB(2.4,.42,.9,.12), sofa, .7, .3, 4.45); put(RB(2.4,.62,.26,.1), sofa, .7, .66, 4.8);
+    put(RB(.28,.56,.9,.1), sofa, -.5, .46, 4.45); put(RB(.28,.56,.9,.1), sofa, 1.9, .46, 4.45);
+    put(RB(1.0,.04,.55,.02), M("#a77a52"), .7, .42, 3.5); [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b]) => put(CYL(.02,.02,.4,6), MAT.leg, .7+a*.45, .2, 3.5+b*.22));
+    put(RB(.45,2.3,1.8,.02), MAT.leg, -7.45, 1.15, .9);
+    for (let s=0;s<4;s++) { put(RB(.4,.03,1.7,.005), M("#3a404c"), -7.43, .35+s*.55, .9); ["#d26b33","#2d7fd3","#e9e4dc","#2c9468","#5a4fcf","#c9a64b","#f4f5f7"].forEach((h,k) => { if ((k+s)%3 === 2) return; put(RB(.28,.38+((k+s)%3)*.04,.09,.01), M(h), -7.36, .57+s*.55, .2+k*.2); }); }
 
-    /* Biblioteca */
-    mesh(RB(.5,2.2,1.6,.05), mat("#ffffff"), -7.2+.45, 1.1, .95);
-    ["#f0957a","#6aa5e6","#d983bd","#5fbf8f","#8b7fe0","#f5c96b"].forEach((h,k) => mesh(RB(.3,.38,.12,.02), mat(h), -6.72, .6+Math.floor(k/3)*.75, .55+(k%3)*.22+Math.floor(k/3)*.1));
-
-    plant(6.9,-4.5,1.3); plant(-6.85,4.6,1.2); plant(6.9,4.6,1.0); plant(2.5,-4.6,.9);
+    plant(6.95,-4.6,1.35); plant(-6.9,4.7,1.2); plant(6.95,4.7,1.0); plant(2.3,-4.65,.9); plant(-3.6,-4.65,.8);
     board();
 
-    ring = new THREE.Mesh(new THREE.RingGeometry(.55,.7,48), new THREE.MeshBasicMaterial({ color: col("#8b7fe0"), transparent:true, opacity:.9 }));
+    ring = new THREE.Mesh(new THREE.RingGeometry(.6,.68,56), new THREE.MeshBasicMaterial({ color: col("#151b26"), transparent:true, opacity:.85 }));
     ring.rotation.x = -Math.PI/2; ring.visible = false; scene.add(ring);
 
-    const el = stage(), w = el.clientWidth, h = el.clientHeight, asp = w/h;
-    const V = 15;
+    const el = stage(), w = el.clientWidth, h = el.clientHeight, asp = w/h, V = 15;
     cam = new THREE.OrthographicCamera(-V*asp/2, V*asp/2, V/2, -V/2, .1, 200);
     cam.position.set(16, 15, 16); cam.zoom = asp < .95 ? .95 : Math.min(1.25, Math.max(.6, asp * .95)); cam.updateProjectionMatrix();
     ctl = new THREE.OrbitControls(cam, R.domElement);
     ctl.target.set(0,.5,0); ctl.enablePan = false; ctl.enableDamping = true; ctl.dampingFactor = .08;
-    ctl.minZoom = .45; ctl.maxZoom = 3.2; ctl.minPolarAngle = .5; ctl.maxPolarAngle = 1.15;
+    ctl.minZoom = .5; ctl.maxZoom = 3.6; ctl.minPolarAngle = .5; ctl.maxPolarAngle = 1.15;
     ctl.minAzimuthAngle = -.1; ctl.maxAzimuthAngle = 1.65;
-    ctl.autoRotate = !reduce; ctl.autoRotateSpeed = .35;
+    ctl.autoRotate = !reduce; ctl.autoRotateSpeed = .3;
     ctl.addEventListener("start", () => { ctl.autoRotate = false; document.getElementById("hint").hidden = true; tween = null; });
   }
 
@@ -582,42 +709,34 @@ const Office = (function(){
     R.setSize(w, h, false);
     Object.assign(cam, { left:-V*asp/2, right:V*asp/2, top:V/2, bottom:-V/2 }); cam.updateProjectionMatrix();
   }
-
   function loop(){
-    raf = requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
     const t = clock.getElapsedTime();
-    if (!reduce) Object.values(people).forEach(p => { p.position.y = Math.abs(Math.sin(t*1.4 + p.userData.phase)) * .025; p.userData.head.rotation.y = Math.sin(t*.6 + p.userData.phase) * .3; });
+    if (!reduce) Object.values(people).forEach(p => { const ph = p.userData.phase; p.userData.head.rotation.y = Math.sin(t*.5 + ph) * .28; p.userData.head.rotation.x = Math.sin(t*.8 + ph*1.3) * .05; p.position.y = Math.sin(t*1.2 + ph) * .008; });
     if (tween) {
       const k = Math.min(1, (t - tween.t0) / .9), e = 1 - Math.pow(1-k, 3);
       ctl.target.lerpVectors(tween.from, tween.to, e); cam.zoom = tween.z0 + (tween.z1 - tween.z0) * e; cam.updateProjectionMatrix();
       if (k >= 1) tween = null;
     }
-    if (ring.visible) { const s = 1 + Math.sin(t*3)*.06; ring.scale.set(s,s,s); }
     ctl.update();
     R.render(scene, cam);
     const pin = document.getElementById("pin");
     if (active && people[active]) {
-      const v = new THREE.Vector3(); people[active].userData.head.getWorldPosition(v); v.y += .55; v.project(cam);
-      const el = stage();
-      pin.hidden = false;
-      pin.style.transform = `translate(-50%,-100%) translate(${(v.x*.5+.5)*el.clientWidth}px,${(-v.y*.5+.5)*el.clientHeight}px)`;
+      const v = new THREE.Vector3(); people[active].userData.head.getWorldPosition(v); v.y += .5; v.project(cam);
+      const el = stage(); pin.hidden = false;
+      pin.style.transform = `translate(-50%,calc(-100% - 6px)) translate(${(v.x*.5+.5)*el.clientWidth}px,${(-v.y*.5+.5)*el.clientHeight}px)`;
     } else pin.hidden = true;
   }
-
   function focus(id){
     if (!started || !people[id]) return;
     active = id;
-    const t = team.find(x => x.id === id), p = people[id], v = new THREE.Vector3();
-    p.getWorldPosition(v);
-    ring.position.set(v.x, .06, v.z); ring.material.color = col(AC[t.area].c); ring.visible = true;
-    const pin = document.getElementById("pin");
-    pin.style.setProperty("--c", AC[t.area].c);
+    const t = team.find(x => x.id === id), v = new THREE.Vector3(); people[id].getWorldPosition(v);
+    ring.position.set(v.x, .04, v.z); ring.visible = true;
     document.getElementById("pin-n").textContent = t.nombre;
     document.getElementById("pin-r").textContent = t.role;
     ctl.autoRotate = false; document.getElementById("hint").hidden = true;
-    tween = { t0: clock.getElapsedTime(), from: ctl.target.clone(), to: new THREE.Vector3(v.x, .8, v.z), z0: cam.zoom, z1: Math.max(cam.zoom, 1.9) };
+    tween = { t0: clock.getElapsedTime(), from: ctl.target.clone(), to: new THREE.Vector3(v.x, .9, v.z), z0: cam.zoom, z1: Math.max(cam.zoom, 2.1) };
   }
-
   function pick(ev){
     const r = R.domElement.getBoundingClientRect();
     const m = new THREE.Vector2(((ev.clientX - r.left)/r.width)*2-1, -((ev.clientY - r.top)/r.height)*2+1);
@@ -625,23 +744,21 @@ const Office = (function(){
     const hit = ray.intersectObjects(Object.values(people), true)[0];
     if (hit) select(hit.object.userData.id, true);
   }
-
   function portraits(){
     const pr = new THREE.WebGLRenderer({ antialias:true, alpha:true, preserveDrawingBuffer:true });
-    pr.setSize(320, 320); pr.outputEncoding = THREE.sRGBEncoding; pr.toneMapping = THREE.ACESFilmicToneMapping; pr.toneMappingExposure = 1.05;
-    team.forEach((t, i) => {
+    pr.setSize(360, 360); pr.outputEncoding = THREE.sRGBEncoding; pr.toneMapping = THREE.ACESFilmicToneMapping; pr.toneMappingExposure = 1.0;
+    team.forEach(t => {
       const s = new THREE.Scene();
-      s.add(new THREE.HemisphereLight(col("#ffffff"), col("#d8cfe6"), .9));
-      const l = new THREE.DirectionalLight(col("#fff1e2"), 1.1); l.position.set(-2, 4, -5); s.add(l);
-      const c = character(t, i); c.rotation.y = -.4; s.add(c);
-      const pc = new THREE.PerspectiveCamera(26, 1, .1, 50); pc.position.set(-.55, 1.75, -3.4); pc.lookAt(0, 1.32, 0);
+      s.add(new THREE.HemisphereLight(col("#ffffff"), col("#cfd5de"), .8));
+      const key = new THREE.DirectionalLight(col("#fff4e6"), 1.2); key.position.set(-2.5, 3, -4); s.add(key);
+      const rim = new THREE.DirectionalLight(col("#dfe8ff"), .5); rim.position.set(3, 2, 3); s.add(rim);
+      const c = character(t); c.rotation.y = -.35; s.add(c);
+      const pc = new THREE.PerspectiveCamera(24, 1, .1, 50); pc.position.set(-.45, 1.62, -3.1); pc.lookAt(0, 1.38, 0);
       pr.render(s, pc);
       PORTRAIT[t.id] = pr.domElement.toDataURL("image/png");
     });
-    pr.dispose();
-    refreshFaces();
+    pr.dispose(); refreshFaces();
   }
-
   function start(){
     if (started) { resize(); return; }
     if (!ok) { document.getElementById("fallback").hidden = false; document.getElementById("hint").hidden = true; return; }
@@ -649,7 +766,7 @@ const Office = (function(){
       started = true;
       R = new THREE.WebGLRenderer({ antialias:true, alpha:true });
       R.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
-      R.outputEncoding = THREE.sRGBEncoding; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
+      R.outputEncoding = THREE.sRGBEncoding; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.0;
       R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap;
       stage().prepend(R.domElement);
       clock = new THREE.Clock();
@@ -663,7 +780,6 @@ const Office = (function(){
   return { start, focus, portraits: () => { if (ok) try { portraits(); } catch (e) {} } };
 })();
 
-/* Pestañas */
 const tabs = ["oficina","equipo","servicios","plan","clientes","flujo"];
 function show(){
   const h = location.hash.slice(1), cur = tabs.includes(h) ? h : "oficina";
