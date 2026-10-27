@@ -1,6 +1,12 @@
 # Procesar las tareas de la oficina
 
-Los encargos que Santiago hace desde la oficina (https://claude.ai/artifact/UtDRTa657TaUmYajK5NBxG) quedan en la base de datos de esa página, colección `tareas`. Cuando Santiago diga "hacé las tareas de la oficina" (o cuando corra la tarea programada), seguí estos pasos.
+Los encargos que Santiago hace desde la oficina (https://claude.ai/artifact/UtDRTa657TaUmYajK5NBxG) quedan en la base de datos de esa página, colección `tareas`. Hay tres formas de que se procesen:
+
+- **Al instante:** al tocar "Encargar", la página manda un comentario "Encargo de la oficina · tarea <id> · para <nombre> (<agente>): <pedido>" a las sesiones de Claude Code que están escuchando la oficina. La sesión que lo recibe hace esa tarea ya (pasos 2 y 3), responde en el hilo del comentario con el resumen y lo marca como resuelto.
+- **Rondas programadas:** a las 12:39 y 18:39 (Argentina) una tarea programada procesa lo que haya quedado pendiente.
+- **A pedido:** cuando Santiago diga "hacé las tareas de la oficina".
+
+Pasos:
 
 1. Leé las pendientes con la herramienta `ArtifactData`: `action: "query"`, `url` de la oficina, `collection: "tareas"`, `query.where: [["estado","==","pendiente"]]`. Si no hay ninguna, terminá sin hacer nada.
 2. Por cada tarea, de la más vieja a la más nueva:
