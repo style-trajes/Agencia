@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atajo, muestra de marca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --tinta:#12324A;
+    --senal:#F2B705;
+    --papel:#F6F8F7;
+    --grafito:#3C4852;
+    --niebla:#DCE3E7;
+    --blanco:#FFFFFF;
+    --display:"Bricolage Grotesque", "Arial Rounded MT Bold", system-ui, sans-serif;
+    --texto:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--papel);color:var(--tinta);font-family:var(--texto);font-size:17px;line-height:1.55}
+  .wrap{max-width:760px;margin:0 auto;padding:0 16px}
+  h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0}
+  h2{font-size:clamp(1.6rem,6vw,2.2rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem}
+  h3{font-size:1.15rem;font-weight:700;margin-bottom:.35rem}
+  p{margin:0 0 1rem}
+  .lead{color:var(--grafito);max-width:60ch}
+  section{padding:56px 0;border-top:1px solid var(--niebla)}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--senal);outline-offset:3px}
+
+  /* Portada */
+  .hero{background:var(--tinta);color:var(--papel);padding:48px 0 56px}
+  .hero .meta{font-size:.95rem;opacity:.75;margin-bottom:40px}
+  .hero-mark{width:132px;height:132px;display:block;margin-bottom:28px}
+  .hero h1{font-size:clamp(3.4rem,16vw,6rem);font-weight:800;letter-spacing:-.045em;line-height:.9}
+  .hero .tag{font-family:var(--display);font-weight:500;font-size:clamp(1.3rem,5vw,1.7rem);margin:14px 0 22px;color:var(--senal)}
+  .hero p{max-width:52ch;opacity:.9}
+  .draw{stroke-dasharray:44;stroke-dashoffset:44;animation:draw .9s cubic-bezier(.6,0,.2,1) .35s forwards}
+  .dot-end{opacity:0;animation:pop .3s ease-out 1.15s forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes pop{to{opacity:1}}
+  @media (prefers-reduced-motion:reduce){.draw{animation:none;stroke-dashoffset:0}.dot-end{animation:none;opacity:1}}
+
+  /* Nombres */
+  .names{list-style:none;padding:0;margin:24px 0 0}
+  .names li{padding:18px 0;border-bottom:1px solid var(--niebla);display:grid;grid-template-columns:1fr auto;gap:4px 16px;align-items:baseline}
+  .names .n{font-family:var(--display);font-size:1.9rem;font-weight:800;letter-spacing:-.03em}
+  .names .why{grid-column:1/-1;color:var(--grafito);margin:0}
+  .names .pick{font-size:.85rem;font-weight:700;background:var(--senal);color:var(--tinta);padding:3px 10px;border-radius:999px;white-space:nowrap}
+  .warn{margin-top:24px;padding:16px 18px;border-left:4px solid var(--senal);background:var(--blanco);font-size:.97rem}
+  .warn strong{display:block;margin-bottom:4px}
+
+  /* Logo */
+  .logos{display:grid;gap:12px;margin-top:24px}
+  .plate{border-radius:20px;padding:36px 24px;display:flex;align-items:center;justify-content:center}
+  .plate.light{background:var(--blanco);border:1px solid var(--niebla)}
+  .plate.dark{background:var(--tinta)}
+  .lockup{display:flex;align-items:center;gap:14px}
+  .lockup svg{width:56px;height:56px;flex:none}
+  .lockup .word{font-family:var(--display);font-weight:800;font-size:3rem;letter-spacing:-.05em;line-height:1}
+  .plate.dark .word{color:var(--papel)}
+  .sizes{display:flex;align-items:flex-end;gap:20px;margin-top:20px;flex-wrap:wrap}
+  .sizes figure{margin:0;text-align:center;font-size:.85rem;color:var(--grafito)}
+  .sizes svg{display:block;margin:0 auto 6px}
+  .note{font-size:.95rem;color:var(--grafito);margin-top:16px}
+
+  /* Paleta */
+  .swatches{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
+  .sw{border-radius:16px;overflow:hidden;border:1px solid var(--niebla);background:var(--blanco)}
+  .sw .chip{height:88px}
+  .sw .info{padding:12px 14px}
+  .sw .name{font-family:var(--display);font-weight:700;font-size:1.1rem}
+  .sw .hex{font-variant-numeric:tabular-nums;color:var(--grafito);font-size:.9rem}
+  .sw .use{font-size:.9rem;margin:6px 0 0;line-height:1.4}
+  .sw.wide{grid-column:1/-1}
+  .rule{margin-top:16px;font-size:.95rem}
+
+  /* Tipografía */
+  .type-sample{margin-top:24px;display:grid;gap:12px}
+  .type-card{background:var(--blanco);border:1px solid var(--niebla);border-radius:16px;padding:20px}
+  .type-card .big{font-family:var(--display);font-weight:800;font-size:2.6rem;letter-spacing:-.035em;line-height:1}
+  .type-card .body{font-family:var(--texto);font-size:1.15rem;line-height:1.5}
+  .type-card .role{font-size:.9rem;color:var(--grafito);margin-top:10px}
+
+  /* Voz */
+  .voice{display:grid;gap:24px;margin-top:24px}
+  .voice ul{list-style:none;padding:0;margin:0}
+  .voice li{padding:10px 0 10px 34px;position:relative;border-bottom:1px solid var(--niebla)}
+  .voice li::before{position:absolute;left:0;top:10px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.8rem}
+  .yes li::before{content:"sí";background:var(--tinta);color:var(--papel)}
+  .no li::before{content:"no";background:var(--niebla);color:var(--grafito)}
+  .no li{color:var(--grafito)}
+  .quotes{margin-top:28px;display:grid;gap:12px}
+  blockquote{margin:0;padding:20px;background:var(--tinta);color:var(--papel);border-radius:16px;font-family:var(--display);font-weight:500;font-size:1.3rem;line-height:1.3}
+
+  /* Aplicaciones */
+  .app{margin-top:36px}
+  .app:first-of-type{margin-top:24px}
+  .app h3 + p{color:var(--grafito);font-size:.95rem}
+
+  .wa{background:#E9EDEF;border-radius:20px;padding:20px;display:flex;align-items:center;gap:16px}
+  .wa .avatar{width:64px;height:64px;border-radius:50%;overflow:hidden;flex:none}
+  .wa .avatar svg{width:100%;height:100%;display:block}
+  .wa .who{font-weight:700;font-size:1.05rem;color:#111B21}
+  .wa .st{font-size:.9rem;color:#54656F}
+
+  .post{aspect-ratio:1/1;width:100%;max-width:420px;background:var(--tinta);color:var(--papel);border-radius:6px;padding:8%;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+  .post .route{position:absolute;right:7%;top:7%;width:30%}
+  .post .headline{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,8.6vw,2.7rem);letter-spacing:-.035em;line-height:1;position:relative;margin-top:auto;max-width:11ch}
+  .post .sub{font-size:clamp(.9rem,3.6vw,1.05rem);opacity:.85;margin:14px 0 0;position:relative}
+  .post .foot{display:flex;align-items:center;gap:8px;margin-top:22px;position:relative}
+  .post .foot svg{width:28px;height:28px}
+  .post .foot span{font-family:var(--display);font-weight:800;font-size:1.25rem;letter-spacing:-.04em}
+
+  .sig{background:var(--blanco);border:1px solid var(--niebla);border-radius:12px;padding:20px;display:flex;gap:16px;align-items:flex-start;max-width:520px}
+  .sig svg{width:48px;height:48px;flex:none}
+  .sig .nm{font-family:var(--display);font-weight:700;font-size:1.2rem}
+  .sig .rl{color:var(--grafito);font-size:.95rem;margin-bottom:8px}
+  .sig .ct{font-size:.95rem;line-height:1.6}
+  .sig .ph{color:var(--grafito)}
+
+  .doc{background:var(--blanco);border:1px solid var(--niebla);border-radius:4px;overflow:hidden;box-shadow:0 18px 40px -24px rgba(18,50,74,.35)}
+  .doc .band{background:var(--tinta);color:var(--papel);padding:22px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .doc .band .lockup svg{width:30px;height:30px}
+  .doc .band .word{font-size:1.6rem;color:var(--papel)}
+  .doc .band .date{font-size:.9rem;opacity:.8;text-align:right}
+  .doc .body{padding:28px 24px 32px}
+  .doc .kind{color:var(--grafito);font-size:.95rem;margin-bottom:6px}
+  .doc .ttl{font-family:var(--display);font-weight:800;font-size:clamp(1.6rem,7vw,2.2rem);letter-spacing:-.03em;line-height:1.05;margin-bottom:14px}
+  .doc .ttl .ph{color:var(--grafito);font-weight:500}
+  .doc .goal{border-top:3px solid var(--senal);padding-top:12px;max-width:46ch}
+  .doc .by{margin-top:18px;font-size:.92rem;color:var(--grafito)}
+
+  /* Decisiones */
+  .decide ol{padding-left:1.3em;margin:16px 0 0}
+  .decide li{margin-bottom:10px}
+  footer{padding:32px 0 48px;color:var(--grafito);font-size:.9rem;border-top:1px solid var(--niebla)}
+
+  @media (min-width:640px){
+    .logos{grid-template-columns:1fr 1fr}
+    .swatches{grid-template-columns:repeat(3,1fr)}
+    .sw.wide{grid-column:auto}
+    .voice{grid-template-columns:1fr 1fr}
+    .type-sample{grid-template-columns:1fr 1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- Isotipo reutilizable -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="iso-dark" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="16" fill="#12324A"/>
+      <path d="M18 46V18h28" fill="none" stroke="#F6F8F7" stroke-opacity=".45" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 6"/>
+      <path d="M18 46L46 18" stroke="#F2B705" stroke-width="6.5" stroke-linecap="round"/>
+      <circle cx="18" cy="46" r="5.5" fill="#F6F8F7"/>
+      <circle cx="46" cy="18" r="5.5" fill="#F2B705"/>
+    </symbol>
+    <symbol id="iso-light" viewBox="0 0 64 64">
+      <rect width="64" height="64" rx="16" fill="#F2B705"/>
+      <path d="M18 46V18h28" fill="none" stroke="#12324A" stroke-opacity=".4" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 6"/>
+      <path d="M18 46L46 18" stroke="#12324A" stroke-width="6.5" stroke-linecap="round"/>
+      <circle cx="18" cy="46" r="5.5" fill="#12324A"/>
+      <circle cx="46" cy="18" r="5.5" fill="#12324A"/>
+    </symbol>
+    <!-- Versión chica, sin la ruta punteada: para 40 px o menos -->
+    <symbol id="iso-mini" viewBox="0 0 64 64">
+      <rect width="64" height="64" fill="#12324A"/>
+      <path d="M19 45L45 19" stroke="#F2B705" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="19" cy="45" r="7" fill="#F6F8F7"/>
+      <circle cx="45" cy="19" r="7" fill="#F2B705"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="meta">Muestra de marca para la agencia. Borrador para Santiago, octubre de 2026.</p>
+    <svg class="hero-mark" viewBox="0 0 64 64" role="img" aria-label="Isotipo de Atajo: una línea recta une dos puntos y deja atrás el camino largo">
+      <rect width="64" height="64" rx="16" fill="#0E2A3F"/>
+      <path d="M18 46V18h28" fill="none" stroke="#F6F8F7" stroke-opacity=".45" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 6"/>
+      <path class="draw" d="M18 46L46 18" stroke="#F2B705" stroke-width="6.5" stroke-linecap="round"/>
+      <circle cx="18" cy="46" r="5.5" fill="#F6F8F7"/>
+      <circle class="dot-end" cx="46" cy="18" r="5.5" fill="#F2B705"/>
+    </svg>
+    <h1>atajo</h1>
+    <p class="tag">Tu negocio, sin vueltas.</p>
+    <p>La idea de toda la marca está en el logo: el camino punteado es como trabaja hoy una pyme (copiar, esperar, responder tarde). La línea amarilla es lo que le armamos nosotros: del punto A al punto B, directo.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section aria-labelledby="t-nombres">
+    <h2 id="t-nombres">Nombre</h2>
+    <p class="lead">Tres opciones cortas, que se dicen y se deletrean fácil por teléfono. Todas hablan de ahorrar tiempo, que es lo que vendemos.</p>
+    <ul class="names">
+      <li>
+        <span class="n">Atajo</span><span class="pick">Recomendado</span>
+        <p class="why">Una palabra que todos usan y entienden: el camino corto. Da para un logo propio y se escribe igual que se dice.</p>
+      </li>
+      <li>
+        <span class="n">Al Toque</span>
+        <p class="why">Bien porteño y cercano, dice "rápido" sin explicar nada. Contra: son dos palabras y suena más informal frente a un consultorio.</p>
+      </li>
+      <li>
+        <span class="n">Pronto</span>
+        <p class="why">Corto, neutro y serio. Contra: es una palabra muy usada, así que es probable que esté tomada en dominio o en INPI.</p>
+      </li>
+    </ul>
+    <div class="warn" role="note">
+      <strong>Sin verificar.</strong>
+      Antes de usar cualquiera de los tres hay que chequear que esté libre el dominio .com.ar (NIC Argentina), el usuario de Instagram y la marca en el INPI (clase 35 y 42). No lo revisé: el resto de esta muestra usa Atajo solo como ejemplo.
+    </div>
+  </section>
+
+  <section aria-labelledby="t-logo">
+    <h2 id="t-logo">Logo</h2>
+    <p class="lead">Isotipo en un cuadrado redondeado más el nombre en minúscula. Minúscula porque baja la voz: somos cercanos, no una consultora de traje.</p>
+    <div class="logos">
+      <div class="plate light">
+        <div class="lockup">
+          <svg role="img" aria-label="Isotipo de Atajo, versión para fondo claro"><use href="#iso-dark"/></svg>
+          <span class="word">atajo</span>
+        </div>
+      </div>
+      <div class="plate dark">
+        <div class="lockup">
+          <svg role="img" aria-label="Isotipo de Atajo, versión para fondo oscuro"><use href="#iso-light"/></svg>
+          <span class="word">atajo</span>
+        </div>
+      </div>
+    </div>
+    <div class="sizes" aria-label="El isotipo en distintos tamaños">
+      <figure><svg width="96" height="96"><use href="#iso-dark"/></svg>96 px</figure>
+      <figure><svg width="48" height="48"><use href="#iso-dark"/></svg>48 px</figure>
+      <figure><svg width="32" height="32" style="border-radius:50%"><use href="#iso-mini"/></svg>32 px</figure>
+      <figure><svg width="16" height="16" style="border-radius:3px"><use href="#iso-mini"/></svg>16 px</figure>
+    </div>
+    <p class="note">Debajo de 40 px se usa la versión chica: sin la ruta punteada y con trazos más gruesos, para que en la foto de WhatsApp o en la pestaña del navegador se siga leyendo la línea.</p>
+  </section>
+
+  <section aria-labelledby="t-color">
+    <h2 id="t-color">Color</h2>
+    <p class="lead">Azul tinta para dar confianza y amarillo de señal de tránsito, que es justamente el color de los carteles que te indican el camino.</p>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#12324A"></div><div class="info"><div class="name">Tinta</div><div class="hex">#12324A</div><p class="use">Color principal. Fondos de piezas, títulos y texto.</p></div></div>
+      <div class="sw"><div class="chip" style="background:#F2B705"></div><div class="info"><div class="name">Señal</div><div class="hex">#F2B705</div><p class="use">Acento. La línea del logo, botones y un dato por pieza.</p></div></div>
+      <div class="sw"><div class="chip" style="background:#F6F8F7"></div><div class="info"><div class="name">Papel</div><div class="hex">#F6F8F7</div><p class="use">Fondo claro de documentos y web.</p></div></div>
+      <div class="sw"><div class="chip" style="background:#3C4852"></div><div class="info"><div class="name">Grafito</div><div class="hex">#3C4852</div><p class="use">Texto secundario, notas y datos de contacto.</p></div></div>
+      <div class="sw wide"><div class="chip" style="background:#DCE3E7"></div><div class="info"><div class="name">Niebla</div><div class="hex">#DCE3E7</div><p class="use">Líneas, bordes y fondos de tablas.</p></div></div>
+    </div>
+    <p class="rule"><strong>Regla de contraste:</strong> el amarillo va sobre Tinta o como fondo con texto Tinta. Nunca texto amarillo sobre blanco: no se lee en el celular.</p>
+  </section>
+
+  <section aria-labelledby="t-tipo">
+    <h2 id="t-tipo">Tipografía</h2>
+    <p class="lead">Dos familias gratuitas de Google Fonts (licencia OFL, se pueden usar comercialmente).</p>
+    <div class="type-sample">
+      <div class="type-card">
+        <div class="big">Cotizás en 30 segundos</div>
+        <p class="role"><strong>Bricolage Grotesque</strong>, para títulos y el logo. Tiene carácter sin ser rara. Respaldo: Arial Rounded o la sans del sistema.</p>
+      </div>
+      <div class="type-card">
+        <div class="body">Tu bot responde las consultas de siempre y te pasa solo las que necesitan una persona.</div>
+        <p class="role"><strong>Atkinson Hyperlegible</strong>, para textos. Diseñada para leerse bien en tamaño chico y con poca vista. Respaldo: la sans del sistema.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-voz">
+    <h2 id="t-voz">Voz</h2>
+    <p class="lead">Profesional y cercana, como un proveedor de confianza que te habla claro.</p>
+    <div class="voice">
+      <div>
+        <h3>Sí</h3>
+        <ul class="yes">
+          <li>Hablar de vos y en presente: "respondés", "cotizás", "cobrás".</li>
+          <li>Prometer en tiempo y en números concretos, y solo lo que podemos medir.</li>
+          <li>Frases cortas, una idea por frase, con ejemplos del rubro del cliente.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>No</h3>
+        <ul class="no">
+          <li>Vender "inteligencia artificial", "transformación digital" o "soluciones disruptivas".</li>
+          <li>Palabras técnicas como API, webhook, workflow o LLM.</li>
+          <li>Exclamaciones en cadena, emojis de cohete ni promesas sin número.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quotes">
+      <blockquote>Si un paciente escribe a las 11 de la noche, le responden en 1 minuto. Vos lo ves a la mañana, con el turno ya pedido.</blockquote>
+      <blockquote>Pasás el presupuesto mientras el cliente todavía está en el teléfono.</blockquote>
+    </div>
+  </section>
+
+  <section aria-labelledby="t-apps">
+    <h2 id="t-apps">Aplicaciones</h2>
+    <p class="lead">Cómo se ve la marca en los lugares donde nos va a conocer un dueño de pyme.</p>
+
+    <div class="app">
+      <h3>Foto de perfil de WhatsApp</h3>
+      <p>Versión chica del isotipo, pensada para el recorte circular.</p>
+      <div class="wa">
+        <div class="avatar"><svg viewBox="0 0 64 64" role="img" aria-label="Foto de perfil con el isotipo"><use href="#iso-mini"/></svg></div>
+        <div>
+          <div class="who">Atajo</div>
+          <div class="st">Soluciones para pymes. Respondemos en el día.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app">
+      <h3>Posteo de Instagram (1080 × 1080)</h3>
+      <p>Una idea, el logo chico abajo y la línea amarilla como recurso fijo de la serie.</p>
+      <div class="post" role="img" aria-label="Posteo: Respondés en 1 minuto, a cualquier hora.">
+        <svg class="route" viewBox="0 0 64 64" aria-hidden="true">
+          <path d="M14 50V14h36" fill="none" stroke="#F6F8F7" stroke-opacity=".35" stroke-width="1.6" stroke-linecap="round" stroke-dasharray=".5 4"/>
+          <path d="M14 50L50 14" stroke="#F2B705" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="14" cy="50" r="3" fill="#F6F8F7"/>
+          <circle cx="50" cy="14" r="3" fill="#F2B705"/>
+        </svg>
+        <div class="headline">Respondés en 1&nbsp;minuto, a cualquier hora.</div>
+        <p class="sub">Un bot en tu WhatsApp contesta las consultas de siempre. Las difíciles te las pasa a vos.</p>
+        <div class="foot"><svg aria-hidden="true"><use href="#iso-light"/></svg><span>atajo</span></div>
+      </div>
+    </div>
+
+    <div class="app">
+      <h3>Firma de mail</h3>
+      <p>Funciona también como tarjeta digital. Los datos grises son de ejemplo.</p>
+      <div class="sig">
+        <svg role="img" aria-label="Isotipo de Atajo"><use href="#iso-dark"/></svg>
+        <div>
+          <div class="nm">Santiago</div>
+          <div class="rl">Atajo, soluciones para pymes</div>
+          <div class="ct">
+            <span class="ph">+54 9 11 0000-0000</span><br>
+            <span class="ph">santiago@atajo.com.ar</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="app">
+      <h3>Encabezado de propuesta</h3>
+      <p>Primera hoja del PDF que recibe el cliente.</p>
+      <div class="doc">
+        <div class="band">
+          <div class="lockup"><svg aria-hidden="true"><use href="#iso-light"/></svg><span class="word">atajo</span></div>
+          <div class="date">Octubre 2026</div>
+        </div>
+        <div class="body">
+          <div class="kind">Propuesta</div>
+          <div class="ttl">Turnos por WhatsApp para <span class="ph">[nombre del consultorio]</span></div>
+          <div class="goal">Objetivo: que cada consulta reciba respuesta en menos de 1 minuto, también fuera de horario.</div>
+          <div class="by">Preparada por Santiago para <span>[nombre del dueño]</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="decide" aria-labelledby="t-decidir">
+    <h2 id="t-decidir">Qué tiene que decidir Santiago</h2>
+    <ol>
+      <li>El nombre: Atajo, Al Toque o Pronto (o pedir otra tanda).</li>
+      <li>Que alguien verifique dominio .com.ar, Instagram e INPI del nombre elegido antes de usarlo en cualquier lado.</li>
+      <li>El rumbo visual: seguir con Tinta y Señal tal como está, o probar una variante más cálida con el mismo logo.</li>
+      <li>La frase de marca "Tu negocio, sin vueltas", o dejar el logo solo.</li>
+    </ol>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">Muestra interna. Logo y piezas dibujados a mano en SVG; tipografías de Google Fonts con licencia OFL. Nada de esto salió hacia clientes.</div>
+</footer>
+</body>
+</html>
