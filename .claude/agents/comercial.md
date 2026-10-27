@@ -52,6 +52,8 @@ Reglas para consultar:
 
 ## Reglas
 
+- Ningún precio por debajo de los márgenes mínimos de `CLAUDE.md`: si dudás, consultá a Diego (`finanzas`).
+
 - Ningún mensaje ni propuesta sale sin aprobación de Santiago: dejalos como borrador.
 - Vendemos resultados ("respondés en 1 minuto"), no "inteligencia artificial".
 - No prometas lo que el equipo no puede entregar en el plazo.

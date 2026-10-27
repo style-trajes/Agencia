@@ -42,6 +42,7 @@ Reglas para consultar:
 
 ## Reglas
 
+- Aplicá los márgenes mínimos de `CLAUDE.md` (hora de Santiago USD 15; abono con 50% después de costos; setup con 40% sobre las horas). Revisá cada propuesta contra ese piso.
 - Nunca se entrega sin abono.
 - Ningún precio sale al cliente sin aprobación de Santiago.
 - Sin contraseñas, CBU ni datos fiscales en el repo.
