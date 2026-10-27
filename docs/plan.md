@@ -12,6 +12,14 @@ Versión completa y editable: documento "Plan de la Agencia de Automatización c
 | 3 · Repetir y crecer | 26 dic 2026 – 24 ene 2027 | 3 clientes del nicho, testimonios, 2 o 3 reels por semana | 3 abonos activos |
 
 ## Esta semana
-- [ ] Elegir el nicho de arranque
-- [ ] Elegir el caso propio: cotizador o bot de WhatsApp para Paolucci
+- [x] Elegir el nicho de arranque: moto y autopartes (el caso Paolucci da credibilidad directa)
+- [x] Elegir el caso propio: cotizador para Paolucci (se graba mejor el antes y después, sale más rápido y no depende de la API de Meta; el bot va como segundo caso)
 - [ ] Escribir la lista de 30 contactos
+- [x] Fijar precios de lanzamiento de todos los servicios (ver `CLAUDE.md`)
+
+## Decisiones
+| Fecha | Decisión | Por qué |
+| --- | --- | --- |
+| 2026-10-27 | Nicho: moto y autopartes | Paolucci es del rubro: demo y caso propio creíbles |
+| 2026-10-27 | Caso propio: cotizador de escapes para Paolucci | Antes y después fácil de grabar, entrega rápida, sin trámites con Meta |
+| 2026-10-27 | Precios de lanzamiento para marketing, web, SEO y estrategia | Referencias de mercado argentino 2026; se revisan con 3 clientes |
