@@ -6,28 +6,53 @@ Este repositorio es la "oficina" de la agencia de Santiago. Acá viven el equipo
 
 Resolvemos problemas concretos de pymes argentinas: que vendan más y que pierdan menos tiempo. Vendemos resultados medibles ("cotizás en 30 segundos", "respondés en 1 minuto a cualquier hora", "más consultas por WhatsApp por el mismo presupuesto"), no "IA".
 
+El catálogo completo, con quién hace cada servicio, está en `docs/servicios.md`. Resumen de precios (USD):
+
 ### Soluciones inteligentes
 
-| Servicio | Qué resuelve | Setup (USD) | Abono mensual (USD) |
+| Servicio | Qué resuelve | Setup | Abono mensual |
 | --- | --- | --- | --- |
 | Cotizador automático | Presupuestos que tardan horas o días | 400 a 900 | 40 a 80 |
 | Bot de WhatsApp con IA | Consultas repetidas y respuestas lentas | 300 a 700 | 60 a 150 + mensajes de Meta |
+| Asistente de IA en Instagram y web | Mensajes de Instagram y la web sin responder | 300 a 700 | 60 a 150 |
 | Automatización de procesos | Copiar datos a mano entre sistemas | 300 a 1.000 | 40 a 100 |
+| Cobranzas y administración automáticas | Facturas, recordatorios de pago y cobros que se olvidan | 250 a 600 | 40 a 80 |
+| CRM y seguimiento de ventas | Consultas que se pierden y vendedores sin seguimiento | 300 a 800 | 40 a 100 |
+| Tablero del negocio | Ventas, gastos y stock dispersos en planillas | 250 a 700 | 30 a 80 |
+| Agente de IA interno | El equipo pregunta siempre lo mismo (precios, procesos, stock) | 400 a 1.000 | 50 a 120 |
 
-### Marketing
+### Marketing y ventas
 
-| Servicio | Qué resuelve | Setup (USD) | Abono mensual (USD) |
+| Servicio | Qué resuelve | Setup | Abono mensual |
 | --- | --- | --- | --- |
 | Contenido y redes | No tienen tiempo de publicar ni medir | Sin setup | 300 a 600 |
-| Publicidad paga (Meta, Google, Mercado Ads) | Gastan en anuncios sin saber qué vuelve | 150 a 300 (cuentas, píxel y medición, primeras campañas) | 250 a 500 por plataforma + inversión en anuncios (mínimo sugerido USD 300/mes, la paga el cliente directo a la plataforma) |
-| SEO local y Google Maps | No aparecen cuando los buscan cerca | 150 a 300 (auditoría y puesta a punto del perfil) | 120 a 300 |
-| Web o landing que vende | Sin web, o una web que no trae consultas | Landing 300 a 600 · sitio 600 a 1.500 | 30 a 60 (hosting, cambios menores y medición) |
-| Estrategia y plan de marketing | No saben dónde poner la plata y el tiempo | 300 a 600 pago único (diagnóstico + plan a 90 días; se descuenta si contrata un abono en 30 días) | — |
+| Producción de reels y video | Redes sin video o con videos que nadie mira | Sin setup | 200 a 500 (8 a 12 piezas) |
+| Publicidad paga (Meta, Google) | Gastan en anuncios sin saber qué vuelve | 150 a 300 | 250 a 500 por plataforma + inversión (mínimo sugerido 300, la paga el cliente) |
+| Mercado Libre: publicaciones y Mercado Ads | Publicaciones que no venden o publicidad que no rinde | 150 a 300 | 150 a 400 + inversión |
+| SEO local y Google Maps | No aparecen cuando los buscan cerca | 150 a 300 | 120 a 300 |
+| Reseñas y reputación | Pocas reseñas o reseñas malas sin responder | 100 a 200 | 60 a 150 |
+| Email y WhatsApp marketing | Clientes que compraron una vez y no vuelven | 150 a 300 | 100 a 250 |
+| Programa de referidos y fidelización | Dependen de clientes nuevos todo el tiempo | 200 a 500 | 40 a 100 |
+| Prospección para empresas B2B | Venden a empresas y no consiguen reuniones | 150 a 300 | 200 a 500 |
+| Web o landing que vende | Sin web, o una web que no trae consultas | Landing 300 a 600 · sitio 600 a 1.500 | 30 a 60 |
+| Tienda online (Tiendanube o Shopify) | Venden solo por WhatsApp o en el local | 400 a 1.200 | 50 a 150 |
+| Embudo de captación | Visitas que no dejan sus datos | 300 a 700 | 40 a 100 |
+| Identidad de marca | Logo y estética improvisados | 250 a 800, pago único | — |
+| Fotos y piezas de producto con IA | Catálogo con fotos pobres o sin fotos | 100 a 300 por pack | — |
+
+### Consultoría y formación
+
+| Servicio | Qué resuelve | Precio |
+| --- | --- | --- |
+| Diagnóstico express | No saben por dónde empezar | 150 a 300, pago único (se descuenta si contrata en 30 días). Puerta de entrada |
+| Estrategia y plan de marketing | No saben dónde poner la plata y el tiempo | 300 a 600, pago único (diagnóstico + plan a 90 días; se descuenta si contrata un abono en 30 días) |
+| Taller de IA para equipos | El equipo no sabe usar IA en su trabajo | 150 a 400 por taller de 2 a 4 horas |
 
 - Precios en dólares, cobrados en pesos al tipo de cambio del día.
 - Nunca se entrega sin abono. Cobro: 50% al aprobar, 50% al entregar; el abono se cobra por adelantado.
 - Precios de lanzamiento (oct 2026), armados con referencias del mercado argentino: por debajo de agencias grandes, a la altura de un freelancer senior. Revisarlos cuando haya 3 clientes. Casos fuera de rango: `finanzas` + Santiago.
 - Combos: si un cliente toma 2 o más abonos, 10% de descuento en el total mensual.
+- Si un cliente pide algo que no está en el catálogo y el equipo lo puede hacer bien, se presupuesta igual (`finanzas` + Santiago).
 - Sin nicho fijo: trabajamos con pymes de cualquier rubro que tengan un problema que podamos resolver.
 
 ## El equipo
@@ -86,7 +111,7 @@ El **director** (Martín) coordina: sabe en qué está cada cliente, arma el equ
 .claude/skills/   las skills de cada especialidad (créditos en CREDITOS.md)
 clientes/         una carpeta por cliente; _plantilla/ para copiar
 plantillas/       contexto, brief, propuesta, relevamiento, checklist de calidad, reporte mensual
-docs/             plan de la agencia, contexto de la agencia y decisiones
+docs/             plan, catálogo de servicios, contexto de la agencia y decisiones
 ```
 
 ## Stack
