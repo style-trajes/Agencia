@@ -246,7 +246,7 @@ dialog::backdrop{background:rgba(21,27,38,.45)}
         <label class="lbl" for="task-in" id="task-lbl" style="margin:0">¿Qué necesitás?</label>
         <textarea id="task-in" placeholder="Ej.: buscame 30 ferreterías de Rosario con su WhatsApp y escribí un primer mensaje para cada una"></textarea>
         <div><button class="btn" type="button" id="task-go">Encargar</button></div>
-        <p class="small">Abre una sesión de Claude Code en el repositorio de la agencia. Trabaja ahí, guarda el resultado en una rama nueva y te avisa. Nada sale hacia un cliente sin tu aprobación.</p>
+        <p class="small">Queda anotado en la lista de abajo junto con lo que charlaron. El agente lo hace en Claude Code, guarda el resultado en el repositorio y te deja un resumen acá. Nada sale hacia un cliente sin tu aprobación.</p>
         <div class="status" id="task-status" hidden></div>
       </div>
     </div>
@@ -854,9 +854,6 @@ function show(){
   if (cur === "oficina") requestAnimationFrame(() => Office.start());
 }
 /* ---------- Mesa de trabajo: chat y encargos ---------- */
-const REPO = "https://github.com/style-trajes/Agencia";
-const ENV = "env_016iPFUAeDvVkFciE14pL572";
-const CCR = "Claude Code Remote";
 let current = "director", chatCtl = null, busy = false;
 const AGENCY = `La agencia es de Santiago (Argentina). Vende a pymes de cualquier rubro: soluciones inteligentes (cotizadores automáticos, bots de WhatsApp con IA, asistentes en Instagram y web, automatizaciones, cobranzas automáticas, CRM, tableros, agentes de IA internos) y marketing (contenido y redes, reels, publicidad paga en Meta y Google, Mercado Libre, SEO local y Google Maps, reseñas, email y WhatsApp marketing, referidos, prospección B2B, webs y landings, tiendas online, identidad de marca), más diagnóstico express, estrategia y talleres de IA. Precios en dólares cobrados en pesos; setup 50% al aprobar y 50% al entregar; abono por adelantado. Meta: 3 clientes con abono antes del 24 de enero de 2027. Reglas: nada sale hacia un cliente sin aprobación de Santiago; no se inventan datos ni resultados.`;
 const TEAM_LINE = () => team.map(t => `${t.nombre} (${t.role})`).join(", ");
@@ -960,70 +957,47 @@ async function send(){
 document.getElementById("chat-send").onclick = () => busy ? chatCtl?.abort() : send();
 document.getElementById("chat-in").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !matchMedia("(pointer:coarse)").matches) { e.preventDefault(); send(); } });
 
-/* Encargos: crean una sesión de Claude Code en el repo */
-const MCP_ERR = {
-  server_not_connected:"Para encargar tareas desde acá, conectá “Claude Code Remote” en claude.ai › Configuración › Conectores.",
-  needs_reauth:"Reconectá “Claude Code Remote” en claude.ai › Configuración › Conectores.",
-  not_in_manifest:"No le diste permiso a la página para crear sesiones. Podés habilitarlo desde el menú Permisos del artefacto.",
-  approval_required:"Hace falta que apruebes el permiso. Tocá Encargar de nuevo y aceptá.",
-  blocked_by_policy:"Tu organización no permite crear sesiones desde una página.",
-  not_granted:"Esta vista no puede crear sesiones. Abrí la oficina desde Claude."
-};
-const slug = s => fold(s).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,32) || "tarea";
+/* Encargos: quedan anotados en la lista de la oficina y Claude Code los toma */
+let DB = null;
+const dbReady = (window.claude ? claude.use("db") : Promise.resolve(null)).then(d => (DB = d)).catch(() => null);
 document.getElementById("task-go").onclick = async (ev) => {
   const btn = ev.currentTarget, box = document.getElementById("task-in"), task = box.value.trim(), st = document.getElementById("task-status");
   if (!task) { box.focus(); return; }
   const t = team.find(x => x.id === current);
-  const mcp = window.claude ? await claude.use("mcp") : null;
   st.hidden = false;
-  if (!mcp) { st.textContent = "Los encargos funcionan cuando abrís la oficina desde Claude."; return; }
-  btn.disabled = true; st.textContent = `Abriendo la sesión de ${t.nombre}…`;
-  const branch = `tarea/${t.id}-${slug(task)}`;
-  const prompt = `Usá el agente "${t.id}" (${t.nombre}, ${t.role}) de .claude/agents para hacer este encargo de Santiago:
-
-${task}
-
-Seguí CLAUDE.md. Si una parte es de otra especialidad, consultá a tus compañeros según la sección "Con quién trabajás" de tu archivo. Guardá el resultado en la carpeta que corresponda del repositorio (por ejemplo clientes/<nombre>/ o docs/), hacé commit en la rama nueva "${branch}" y subila. No abras pull requests ni contactes a nadie. Al final, escribí un resumen corto en español de qué hiciste, dónde quedó y qué tiene que decidir Santiago.`;
+  const db = await dbReady;
+  if (!db) { st.textContent = "Los encargos funcionan cuando abrís la oficina desde Claude."; return; }
+  btn.disabled = true; st.textContent = "Anotando…";
+  const charla = loadChat(current).slice(-12).map(m => m.role === "user" ? `Santiago: ${m.content}` : m.role === "consult" ? `(${m.from} le consultó a ${m.to}: ${m.q} — ${m.to}: ${m.a})` : `${t.nombre}: ${m.content}`).join("\n").slice(0, 12000);
   try {
-    const res = await mcp.callTool(CCR, "create_session", { prompt, source_url: REPO, environment_id: ENV, title: `${t.nombre} · ${task.slice(0,60)}`, tags: ["oficina", "agente:"+t.id] });
-    const id = (JSON.stringify(res.payload ?? res).match(/session_[A-Za-z0-9]+/) || [])[0];
-    st.innerHTML = id ? `Listo, ${esc(t.nombre)} arrancó. <a href="https://claude.ai/code/${id}" target="_blank" rel="noopener">Ver cómo trabaja</a>` : `Listo, ${esc(t.nombre)} arrancó. La vas a ver en tus sesiones de Claude Code.`;
+    await db.collection("tareas").add({ agente: t.id, nombre: t.nombre, pedido: task.slice(0, 4000), charla, estado: "pendiente", creada: Date.now() });
+    st.textContent = `Anotado. ${t.nombre} lo toma en la próxima ronda de tareas y acá vas a ver cuando esté listo.`;
     box.value = "";
-    mcp.invalidate(CCR, "list_sessions").catch(() => {});
   } catch (e) {
-    st.textContent = MCP_ERR[e && e.code] || (e && (e.code === "server_unavailable" || e.code === "upstream_error")
-      ? "No sabemos si la sesión se creó. Fijate en la lista de tareas antes de volver a encargarla."
-      : e && e.code === "tool_error" ? "Claude Code no pudo abrir la sesión: " + (e.message || "") : "No se pudo encargar la tarea.");
+    st.textContent = e && e.code === "invalid_argument" ? "No tenés permiso para anotar tareas en esta oficina." : e && e.code === "quota_exceeded" ? "La lista de tareas está llena. Pedile a Claude que limpie las viejas." : "No se pudo anotar. Probá de nuevo.";
   } finally { btn.disabled = false; }
 };
 
-/* Lista de tareas encargadas */
-const BUCKET = { WORKING:["working","Trabajando"], BLOCKED:["blocked","Te necesita"], REVIEW_READY:["review_ready","Lista"], COMPLETED:["completed","Terminada"], FAILED:["failed","Falló"] };
-function since(iso){ const m = Math.round((Date.now() - new Date(iso)) / 60000); return m < 1 ? "recién" : m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m/60)} h` : `hace ${Math.round(m/1440)} d`; }
-(async () => {
-  const mcp = window.claude ? await claude.use("mcp") : null;
+/* Lista de tareas */
+const EST = { pendiente:["blocked","Pendiente"], en_curso:["working","Trabajando"], lista:["completed","Lista"], error:["failed","Con problemas"] };
+function since(ms){ const m = Math.round((Date.now() - ms) / 60000); return m < 1 ? "recién" : m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m/60)} h` : `hace ${Math.round(m/1440)} d`; }
+dbReady.then(db => {
   const list = document.getElementById("tasks-list"), note = document.getElementById("tasks-note");
-  if (!mcp) { note.textContent = "Disponible al abrir la oficina desde Claude"; return; }
-  mcp.watchTool(CCR, "list_sessions", { tags:["oficina"], limit:20 }, ev => {
-    if (ev.type === "error") {
-      const c = ev.error && ev.error.code;
-      if (["needs_reauth","server_not_connected","not_in_manifest","blocked_by_policy","approval_required","not_granted"].includes(c)) { list.innerHTML = `<p class="small">${esc(MCP_ERR[c] || "La lista no está disponible.")}</p>`; }
-      else note.textContent = "No se pudo actualizar";
-      return;
-    }
+  if (!db) { note.textContent = "Disponible al abrir la oficina desde Claude"; return; }
+  db.collection("tareas").orderBy("creada", "desc").limit(20).onSnapshot(snap => {
     note.textContent = "";
-    const p = ev.result.payload || {}, rows = (p.ccr && p.ccr.data) || p.data || p.sessions || [];
-    if (!rows.length) { list.innerHTML = `<p class="small">Cuando encargues una tarea, aparece acá con su estado.</p>`; return; }
-    list.innerHTML = rows.map(s => {
-      const who = team.find(t => (s.title || "").startsWith(t.nombre + " ·"));
-      const b = BUCKET[String(s.status_bucket || "").replace("SESSION_STATUS_BUCKET_","")] || ["", "—"];
-      return `<a class="trow" href="https://claude.ai/code/${esc(s.id)}" target="_blank" rel="noopener">
+    if (snap.empty) { list.innerHTML = `<p class="small">Cuando encargues una tarea, aparece acá con su estado.</p>`; return; }
+    list.innerHTML = snap.docs.map(d => {
+      const x = d.data() || {}, who = team.find(t => t.id === x.agente), b = EST[x.estado] || ["", String(x.estado || "—")];
+      const extra = x.resumen ? `<div class="small" style="margin-top:4px;white-space:normal">${esc(String(x.resumen).slice(0, 400))}</div>` : "";
+      const link = x.url ? ` · <a href="${esc(x.url)}" target="_blank" rel="noopener">ver resultado</a>` : "";
+      return `<div class="trow" style="align-items:start">
         <span class="ph" ${who ? `data-face="${who.id}"` : ""}>${who ? face(who) : ""}</span>
-        <span style="min-width:0"><div class="tt">${esc(s.title || "Tarea")}</div><div class="when">${esc(since(s.updated_at || s.created_at))}</div></span>
-        <span class="pill ${b[0]}">${b[1]}</span></a>`;
+        <span style="min-width:0"><div class="tt" style="white-space:normal">${esc((x.nombre || "") + " · " + String(x.pedido || "").slice(0, 120))}</div><div class="when">${esc(since(Number(x.creada) || Date.now()))}${link}</div>${extra}</span>
+        <span class="pill ${b[0]}">${b[1]}</span></div>`;
     }).join("");
-  }, { refetchInterval: 60000 });
-})();
+  }, err => { note.textContent = err && err.code === "invalid_argument" ? "Sin permiso para ver las tareas" : "No se pudo actualizar"; });
+});
 
 addEventListener("hashchange", show);
 Office.portraits();
