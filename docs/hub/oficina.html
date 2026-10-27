@@ -165,6 +165,38 @@ dialog::backdrop{background:rgba(21,27,38,.45)}
 .flow h3{margin:4px 0 2px;font:600 16px/1.2 var(--sans)}
 .flow p{margin:0;color:var(--soft);font-size:14px}
 .flow .faces{margin-top:8px}
+/* Mesa de trabajo: chat y encargos */
+.work{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column}
+.wtabs{display:flex;border-bottom:1px solid var(--line)}
+.wtabs button{flex:1;font:500 14px/1 var(--sans);padding:14px 10px;border:0;background:transparent;color:var(--soft);cursor:pointer;border-bottom:2px solid transparent}
+.wtabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--ink)}
+.wpane{padding:14px;display:flex;flex-direction:column;gap:10px}
+.msgs{display:flex;flex-direction:column;gap:10px;max-height:380px;overflow-y:auto;padding:2px}
+.msg{max-width:85%;padding:10px 12px;border-radius:14px;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.me{align-self:flex-end;background:var(--ink);color:#fff;border-bottom-right-radius:4px}
+.msg.ag{align-self:flex-start;background:var(--sunk);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.ag .who{display:block;font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.05em;color:var(--soft);margin-bottom:6px}
+.msg.note{align-self:center;background:transparent;color:var(--soft);font-size:13px;text-align:center}
+.compose{display:flex;gap:8px;align-items:flex-end}
+.compose textarea{flex:1;min-width:0;font:inherit;font-size:15px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);resize:none;min-height:44px;max-height:140px}
+.compose .btn{flex:none}
+.small{font-size:12px;color:var(--soft);margin:0}
+.linkbtn{background:none;border:0;padding:0;color:var(--soft);font:500 12px var(--sans);text-decoration:underline;cursor:pointer}
+.task textarea{width:100%;font:inherit;font-size:15px;padding:12px;border-radius:12px;border:1px solid var(--line);min-height:110px;resize:vertical;color:var(--ink);background:var(--surface)}
+.status{font-size:14px;padding:10px 12px;border-radius:10px;background:var(--sunk);border:1px solid var(--line)}
+.status a{color:var(--ink);font-weight:600}
+.tasks{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.tasks .hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px}
+.trow{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line);text-decoration:none;color:inherit}
+.trow .ph{width:32px;height:32px;border-radius:50%;background:linear-gradient(180deg,#f3f4f6,#e2e6ec);overflow:hidden}
+.trow .tt{font-size:14px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.trow .when{font:500 11px/1 var(--mono);color:var(--soft);margin-top:3px}
+.pill{font:500 11px/1 var(--mono);text-transform:uppercase;letter-spacing:.04em;padding:5px 8px;border-radius:6px;border:1px solid var(--line);color:var(--soft);white-space:nowrap}
+.pill.working{border-color:var(--sol);color:var(--sol)}
+.pill.blocked{border-color:var(--neg);color:var(--neg)}
+.pill.review_ready,.pill.completed{border-color:var(--cli);color:var(--cli)}
+.pill.failed{border-color:#c0392b;color:#c0392b}
+
 .foot{font:500 11px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.04em;color:var(--soft)}
 .empty{color:var(--soft)}
 </style>
@@ -193,6 +225,28 @@ dialog::backdrop{background:rgba(21,27,38,.45)}
     </div>
     <div class="roster" id="roster" role="group" aria-label="Elegir a alguien del equipo"></div>
     <div class="focus" id="focus"></div>
+    <div class="work" id="work">
+      <div class="wtabs" role="tablist">
+        <button type="button" role="tab" id="wt-chat" aria-selected="true">Charlar</button>
+        <button type="button" role="tab" id="wt-task" aria-selected="false">Encargar tarea</button>
+      </div>
+      <div class="wpane" id="wp-chat">
+        <div class="msgs" id="msgs" aria-live="polite"></div>
+        <div class="compose"><textarea id="chat-in" rows="1" placeholder="Escribile…" aria-label="Mensaje"></textarea><button class="btn" type="button" id="chat-send">Enviar</button></div>
+        <p class="small" id="chat-help">Para consultas rápidas, ideas y borradores. En el chat no toca archivos ni internet; para eso, encargale una tarea. <button class="linkbtn" type="button" id="chat-clear">Borrar charla</button></p>
+      </div>
+      <div class="wpane task" id="wp-task" hidden>
+        <label class="lbl" for="task-in" id="task-lbl" style="margin:0">¿Qué necesitás?</label>
+        <textarea id="task-in" placeholder="Ej.: buscame 30 ferreterías de Rosario con su WhatsApp y escribí un primer mensaje para cada una"></textarea>
+        <div><button class="btn" type="button" id="task-go">Encargar</button></div>
+        <p class="small">Abre una sesión de Claude Code en el repositorio de la agencia. Trabaja ahí, guarda el resultado en una rama nueva y te avisa. Nada sale hacia un cliente sin tu aprobación.</p>
+        <div class="status" id="task-status" hidden></div>
+      </div>
+    </div>
+    <div class="tasks" id="tasks">
+      <div class="hd"><div class="lbl" style="margin:0">Tareas encargadas</div><span class="small" id="tasks-note"></span></div>
+      <div id="tasks-list"><p class="small">Cuando encargues una tarea, aparece acá con su estado.</p></div>
+    </div>
   </section>
 
   <section id="s-equipo" hidden>
@@ -364,10 +418,10 @@ function select(id, fromList, move = true){
   f.innerHTML = `<span class="ph" data-face="${t.id}">${face(t)}</span>
     <div><h3>${esc(t.nombre)}</h3><div class="meta"><span class="dot"></span>${esc(t.role)} · ${esc(AREA[t.area])}</div>
     <p class="quote">${esc(t.frase)}</p><p class="c">${esc(t.caracter)}</p></div>
-    <div class="acts"><button class="btn" type="button" id="f-open">Ver ficha completa</button><button class="btn ghost" type="button" id="f-copy">Copiar pedido</button></div>`;
+    <div class="acts"><button class="btn ghost" type="button" id="f-open">Ver ficha completa</button></div>`;
   document.getElementById("f-open").onclick = () => openAgent(id);
-  document.getElementById("f-copy").onclick = e => copy(`${t.nombre}, ${ASK[t.id] ?? ""}`, e.currentTarget, f.querySelector("h3"));
   if (move) Office.focus(id);
+  if (typeof setAgent === "function") setAgent(id);
 }
 
 /* Servicios */
@@ -787,8 +841,159 @@ function show(){
   document.querySelectorAll("nav a").forEach(a => a.getAttribute("href")==="#"+cur ? a.setAttribute("aria-current","page") : a.removeAttribute("aria-current"));
   if (cur === "oficina") requestAnimationFrame(() => Office.start());
 }
+/* ---------- Mesa de trabajo: chat y encargos ---------- */
+const REPO = "https://github.com/style-trajes/Agencia";
+const ENV = "env_016iPFUAeDvVkFciE14pL572";
+const CCR = "Claude Code Remote";
+let current = "director", chatCtl = null, busy = false;
+const AGENCY = `La agencia es de Santiago (Argentina). Vende a pymes de cualquier rubro: soluciones inteligentes (cotizadores automáticos, bots de WhatsApp con IA, asistentes en Instagram y web, automatizaciones, cobranzas automáticas, CRM, tableros, agentes de IA internos) y marketing (contenido y redes, reels, publicidad paga en Meta y Google, Mercado Libre, SEO local y Google Maps, reseñas, email y WhatsApp marketing, referidos, prospección B2B, webs y landings, tiendas online, identidad de marca), más diagnóstico express, estrategia y talleres de IA. Precios en dólares cobrados en pesos; setup 50% al aprobar y 50% al entregar; abono por adelantado. Meta: 3 clientes con abono antes del 24 de enero de 2027. Reglas: nada sale hacia un cliente sin aprobación de Santiago; no se inventan datos ni resultados.`;
+const TEAM_LINE = () => team.map(t => `${t.nombre} (${t.role})`).join(", ");
+function rules(t){
+  return `Sos ${t.nombre}, ${t.role.toLowerCase()} de la agencia. Estás charlando con Santiago, el dueño, desde la oficina virtual.
+Qué hacés: ${t.desc}
+Tu carácter: ${t.caracter}
+Cómo hablás: ${t.habla}
+Tu frase: "${t.frase}"
+${AGENCY}
+Tus compañeros: ${TEAM_LINE()}.
+Respondé en español rioplatense (vos), en primera persona y con tu personalidad. Sé breve: hasta 120 palabras, salvo que te pida un borrador. No uses títulos ni tablas. En este chat no tenés acceso a archivos, al repositorio ni a internet: si para responder hace falta investigar, construir algo o guardar archivos, decilo y sugerí usar "Encargar tarea". Si la consulta es de otra área, recomendá a quién del equipo pedírsela.`;
+}
+const loadChat = id => { try { return JSON.parse(localStorage.getItem("chat:"+id) || "[]"); } catch { return []; } };
+const saveChat = (id, turns) => { try { localStorage.setItem("chat:"+id, JSON.stringify(turns.slice(-24))); } catch {} };
+function renderChat(extra){
+  const t = team.find(x => x.id === current), box = document.getElementById("msgs");
+  const turns = loadChat(current);
+  const rows = turns.map(m => m.role === "user" ? `<div class="msg me">${esc(m.content)}</div>` : `<div class="msg ag"><span class="who">${esc(t.nombre)}</span>${esc(m.content)}</div>`);
+  if (!turns.length) rows.push(`<div class="msg note">Escribile a ${esc(t.nombre)}. Por ejemplo: “${esc(SAMPLE_Q[current] || "¿qué me recomendás para esta semana?")}”</div>`);
+  box.innerHTML = rows.join("") + (extra || "");
+  box.scrollTop = box.scrollHeight;
+}
+const SAMPLE_Q = {
+  director:"¿qué hago primero esta semana?", estratega:"¿qué tipo de pyme nos conviene atacar primero?", comercial:"escribime un primer mensaje para una ferretería",
+  consultor:"¿qué le pregunto a una inmobiliaria en la primera reunión?", finanzas:"¿cuánto cobro un bot para una veterinaria?", automatizador:"¿qué se puede automatizar en un taller mecánico?",
+  "desarrollador-web":"¿qué tiene que tener una landing de una clínica dental?", disenador:"¿qué colores le van a una marca de café?", redactor:"mejorame este texto: Somos líderes en calidad",
+  contenido:"dame 3 ideas de reels para una pizzería", trafficker:"¿cuánto invierto en Meta para un gimnasio?", seo:"¿cómo hago para que una peluquería aparezca en Google Maps?",
+  "analista-datos":"¿qué números miro en un bot de WhatsApp?", calidad:"¿qué reviso antes de entregar un cotizador?", "exito-cliente":"¿cómo arranco con un cliente nuevo la primera semana?"
+};
+function setAgent(id){
+  if (chatCtl) chatCtl.abort();
+  current = id;
+  const t = team.find(x => x.id === id);
+  document.getElementById("chat-in").placeholder = `Escribile a ${t.nombre}…`;
+  document.getElementById("task-lbl").textContent = `¿Qué necesitás que haga ${t.nombre}?`;
+  document.getElementById("task-go").textContent = `Encargar a ${t.nombre}`;
+  document.getElementById("task-status").hidden = true;
+  renderChat();
+}
+function tab(which){
+  const chat = which === "chat";
+  document.getElementById("wt-chat").setAttribute("aria-selected", chat);
+  document.getElementById("wt-task").setAttribute("aria-selected", !chat);
+  document.getElementById("wp-chat").hidden = !chat;
+  document.getElementById("wp-task").hidden = chat;
+}
+document.getElementById("wt-chat").onclick = () => tab("chat");
+document.getElementById("wt-task").onclick = () => tab("task");
+document.getElementById("chat-clear").onclick = () => { saveChat(current, []); renderChat(); };
+const CHAT_ERR = {
+  not_granted:"No le diste permiso a la página para usar Claude. Podés habilitarlo desde el menú Permisos del artefacto.",
+  sampling_disabled:"Claude no está disponible para esta cuenta.", rate_limited:"Se alcanzó un límite de uso. Probá de nuevo en un rato.",
+  session_expired:"Tu sesión venció. Volvé a iniciar sesión en Claude.", refused:"No pudo responder eso. Probá preguntarlo de otra forma.",
+  prompt_too_large:"La charla quedó muy larga. Borrala y empezá de nuevo."
+};
+async function send(){
+  const input = document.getElementById("chat-in"), text = input.value.trim();
+  if (!text || busy) return;
+  const sample = window.claude ? await claude.use("sample") : null;
+  if (!sample) { renderChat(`<div class="msg note">El chat funciona cuando abrís la oficina desde Claude.</div>`); return; }
+  const t = team.find(x => x.id === current), id = current;
+  const turns = loadChat(id); turns.push({ role:"user", content:text }); saveChat(id, turns);
+  input.value = ""; busy = true; document.getElementById("chat-send").textContent = "Frenar";
+  renderChat(`<div class="msg ag" id="live"><span class="who">${esc(t.nombre)}</span>Pensando…</div>`);
+  chatCtl = new AbortController();
+  try {
+    const { text: answer } = await sample([{ role:"user", content: rules(t) }, ...turns.slice(-16)], {
+      cache:false, signal: chatCtl.signal,
+      onText: ({ text }) => { const el = document.getElementById("live"); if (el && current === id) { el.innerHTML = `<span class="who">${esc(t.nombre)}</span>${esc(text)}`; document.getElementById("msgs").scrollTop = 1e9; } }
+    });
+    turns.push({ role:"assistant", content: answer }); saveChat(id, turns);
+    if (current === id) renderChat();
+  } catch (e) {
+    if (e && e.text && e.code !== "refused") { turns.push({ role:"assistant", content: e.text }); saveChat(id, turns); }
+    if (current === id) renderChat(e && e.code === "cancelled" ? "" : `<div class="msg note">${esc(CHAT_ERR[e && e.code] || "No se pudo responder. Probá de nuevo.")}</div>`);
+  } finally { busy = false; chatCtl = null; document.getElementById("chat-send").textContent = "Enviar"; }
+}
+document.getElementById("chat-send").onclick = () => busy ? chatCtl?.abort() : send();
+document.getElementById("chat-in").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !matchMedia("(pointer:coarse)").matches) { e.preventDefault(); send(); } });
+
+/* Encargos: crean una sesión de Claude Code en el repo */
+const MCP_ERR = {
+  server_not_connected:"Para encargar tareas desde acá, conectá “Claude Code Remote” en claude.ai › Configuración › Conectores.",
+  needs_reauth:"Reconectá “Claude Code Remote” en claude.ai › Configuración › Conectores.",
+  not_in_manifest:"No le diste permiso a la página para crear sesiones. Podés habilitarlo desde el menú Permisos del artefacto.",
+  approval_required:"Hace falta que apruebes el permiso. Tocá Encargar de nuevo y aceptá.",
+  blocked_by_policy:"Tu organización no permite crear sesiones desde una página.",
+  not_granted:"Esta vista no puede crear sesiones. Abrí la oficina desde Claude."
+};
+const slug = s => fold(s).replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"").slice(0,32) || "tarea";
+document.getElementById("task-go").onclick = async (ev) => {
+  const btn = ev.currentTarget, box = document.getElementById("task-in"), task = box.value.trim(), st = document.getElementById("task-status");
+  if (!task) { box.focus(); return; }
+  const t = team.find(x => x.id === current);
+  const mcp = window.claude ? await claude.use("mcp") : null;
+  st.hidden = false;
+  if (!mcp) { st.textContent = "Los encargos funcionan cuando abrís la oficina desde Claude."; return; }
+  btn.disabled = true; st.textContent = `Abriendo la sesión de ${t.nombre}…`;
+  const branch = `tarea/${t.id}-${slug(task)}`;
+  const prompt = `Usá el agente "${t.id}" (${t.nombre}, ${t.role}) de .claude/agents para hacer este encargo de Santiago:
+
+${task}
+
+Seguí CLAUDE.md. Guardá el resultado en la carpeta que corresponda del repositorio (por ejemplo clientes/<nombre>/ o docs/), hacé commit en la rama nueva "${branch}" y subila. No abras pull requests ni contactes a nadie. Al final, escribí un resumen corto en español de qué hiciste, dónde quedó y qué tiene que decidir Santiago.`;
+  try {
+    const res = await mcp.callTool(CCR, "create_session", { prompt, source_url: REPO, environment_id: ENV, title: `${t.nombre} · ${task.slice(0,60)}`, tags: ["oficina", "agente:"+t.id] });
+    const id = (JSON.stringify(res.payload ?? res).match(/session_[A-Za-z0-9]+/) || [])[0];
+    st.innerHTML = id ? `Listo, ${esc(t.nombre)} arrancó. <a href="https://claude.ai/code/${id}" target="_blank" rel="noopener">Ver cómo trabaja</a>` : `Listo, ${esc(t.nombre)} arrancó. La vas a ver en tus sesiones de Claude Code.`;
+    box.value = "";
+    mcp.invalidate(CCR, "list_sessions").catch(() => {});
+  } catch (e) {
+    st.textContent = MCP_ERR[e && e.code] || (e && (e.code === "server_unavailable" || e.code === "upstream_error")
+      ? "No sabemos si la sesión se creó. Fijate en la lista de tareas antes de volver a encargarla."
+      : e && e.code === "tool_error" ? "Claude Code no pudo abrir la sesión: " + (e.message || "") : "No se pudo encargar la tarea.");
+  } finally { btn.disabled = false; }
+};
+
+/* Lista de tareas encargadas */
+const BUCKET = { WORKING:["working","Trabajando"], BLOCKED:["blocked","Te necesita"], REVIEW_READY:["review_ready","Lista"], COMPLETED:["completed","Terminada"], FAILED:["failed","Falló"] };
+function since(iso){ const m = Math.round((Date.now() - new Date(iso)) / 60000); return m < 1 ? "recién" : m < 60 ? `hace ${m} min` : m < 1440 ? `hace ${Math.round(m/60)} h` : `hace ${Math.round(m/1440)} d`; }
+(async () => {
+  const mcp = window.claude ? await claude.use("mcp") : null;
+  const list = document.getElementById("tasks-list"), note = document.getElementById("tasks-note");
+  if (!mcp) { note.textContent = "Disponible al abrir la oficina desde Claude"; return; }
+  mcp.watchTool(CCR, "list_sessions", { tags:["oficina"], limit:20 }, ev => {
+    if (ev.type === "error") {
+      const c = ev.error && ev.error.code;
+      if (["needs_reauth","server_not_connected","not_in_manifest","blocked_by_policy","approval_required","not_granted"].includes(c)) { list.innerHTML = `<p class="small">${esc(MCP_ERR[c] || "La lista no está disponible.")}</p>`; }
+      else note.textContent = "No se pudo actualizar";
+      return;
+    }
+    note.textContent = "";
+    const p = ev.result.payload || {}, rows = (p.ccr && p.ccr.data) || p.data || p.sessions || [];
+    if (!rows.length) { list.innerHTML = `<p class="small">Cuando encargues una tarea, aparece acá con su estado.</p>`; return; }
+    list.innerHTML = rows.map(s => {
+      const who = team.find(t => (s.title || "").startsWith(t.nombre + " ·"));
+      const b = BUCKET[String(s.status_bucket || "").replace("SESSION_STATUS_BUCKET_","")] || ["", "—"];
+      return `<a class="trow" href="https://claude.ai/code/${esc(s.id)}" target="_blank" rel="noopener">
+        <span class="ph" ${who ? `data-face="${who.id}"` : ""}>${who ? face(who) : ""}</span>
+        <span style="min-width:0"><div class="tt">${esc(s.title || "Tarea")}</div><div class="when">${esc(since(s.updated_at || s.created_at))}</div></span>
+        <span class="pill ${b[0]}">${b[1]}</span></a>`;
+    }).join("");
+  }, { refetchInterval: 60000 });
+})();
+
 addEventListener("hashchange", show);
 Office.portraits();
 show();
 select("director", false, false);
+setAgent("director");
 </script>
