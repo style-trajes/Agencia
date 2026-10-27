@@ -77,6 +77,12 @@ El **director** (Martín) coordina: sabe en qué está cada cliente, arma el equ
 | Clientes | Florencia | `exito-cliente` | Puesta en marcha, abono, cambios, retención y reporte mensual |
 | Administración | Diego | `finanzas` | Precios, rentabilidad, cobros y contratos |
 
+## Cómo se ayudan
+
+- Cada agente tiene en su archivo una sección "Con quién trabajás": a quién consultar y para qué. Por ejemplo, Lucía le pregunta a Diego el margen antes de prometer un precio, y Facundo le pide los textos a Julieta.
+- Se consultan con la herramienta Agent, con preguntas concretas: máximo 2 consultas por tarea y sin devolverle la consulta a quien preguntó.
+- En cada entrega cuentan a quién consultaron. Martín (director) junta el trabajo cuando un proyecto necesita a varios.
+
 ## Cómo trabajamos
 
 1. **Comercial** consigue el prospecto y, con ayuda de web o automatización, arma una demo con sus datos públicos.
