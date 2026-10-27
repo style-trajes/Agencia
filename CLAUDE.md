@@ -28,7 +28,7 @@ Resolvemos problemas concretos de pymes argentinas: que vendan más y que pierda
 - Nunca se entrega sin abono. Cobro: 50% al aprobar, 50% al entregar; el abono se cobra por adelantado.
 - Precios de lanzamiento (oct 2026), armados con referencias del mercado argentino: por debajo de agencias grandes, a la altura de un freelancer senior. Revisarlos cuando haya 3 clientes. Casos fuera de rango: `finanzas` + Santiago.
 - Combos: si un cliente toma 2 o más abonos, 10% de descuento en el total mensual.
-- Nicho de arranque: fabricantes, talleres y vendedores del rubro moto y autopartes (decidido 2026-10-27).
+- Sin nicho fijo: trabajamos con pymes de cualquier rubro que tengan un problema que podamos resolver.
 
 ## El equipo
 
