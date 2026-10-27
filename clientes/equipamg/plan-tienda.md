@@ -149,7 +149,7 @@ Hora a USD 15. Setup mínimo = horas × 15 ÷ 0,6.
 Santiago ya había armado con Claude una propuesta web completa para EQUIPA, importando todo el catálogo de Mercado Libre: https://claude.ai/artifact/9YJGrL3YQW15mgi5iBdxry (privada). Copia de los datos en `datos/`.
 
 - **Marca:** EQUIPA. Fabricantes en barrio Alberdi, Córdoba. MDF de 18 mm enchapado en melamina; entregan armado; envíos a todo el país o retiro.
-- **Catálogo:** 119 productos (importado el 16/10/2026): 72 flotantes, 25 de pie, 12 de guardado, 6 racks de TV, 1 recibidor, 1 línea chicos, 1 cocina (aprox., según la línea asignada). Entre 2 y 10 fotos por producto. Precios ML entre ARS 100.729 y 398.893.
+- **Catálogo:** 119 productos (importado el 16/10/2026): 73 flotantes, 25 de pie, 12 de guardado, 6 racks de TV, 1 recibidor, 1 línea chicos, 1 cocina (aprox., según la línea asignada). Entre 2 y 10 fotos por producto. Precios ML entre ARS 100.729 y 398.893.
 - **Ya resuelto en la propuesta:** diseño premium, logo, ficha de producto, filtro por ancho de pared, configurador 3D de colores, carrito de demostración y precio web = ML − 15% (a confirmar con el cliente). Incluye una herramienta para generar el CSV de importación a Shopify.
 - **Qué cambia en este plan:**
   - Las secciones 3 y 5 (carga y fotos) ya están hechas en gran parte: no hace falta acceso a ML desde la oficina.
