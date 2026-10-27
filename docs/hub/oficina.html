@@ -884,14 +884,6 @@ function show(){
 let current = "director", chatCtl = null, busy = false;
 const AGENCY = `La agencia es de Santiago (Argentina). Vende a pymes de cualquier rubro: soluciones inteligentes (cotizadores automáticos, bots de WhatsApp con IA, asistentes en Instagram y web, automatizaciones, cobranzas automáticas, CRM, tableros, agentes de IA internos) y marketing (contenido y redes, reels, publicidad paga en Meta y Google, Mercado Libre, SEO local y Google Maps, reseñas, email y WhatsApp marketing, referidos, prospección B2B, webs y landings, tiendas online, identidad de marca), más diagnóstico express, estrategia y talleres de IA. Precios en dólares cobrados en pesos; setup 50% al aprobar y 50% al entregar; abono por adelantado. Meta: 3 clientes con abono antes del 24 de enero de 2027. Reglas: nada sale hacia un cliente sin aprobación de Santiago; no se inventan datos ni resultados.`;
 const TEAM_LINE = () => team.map(t => `${t.nombre} (${t.role})`).join(", ");
-let TASKS = [];
-function memory(){
-  if (!TASKS.length) return "Registro de trabajo de la oficina: todavía no hay tareas encargadas.";
-  const lab = { pendiente:"pendiente", en_curso:"en curso", lista:"TERMINADA", error:"con problemas" };
-  return "Registro de trabajo de la oficina (es REAL y está actualizado; si una tarea es tuya, la hiciste vos y la conocés):\n" + TASKS.slice(0, 10).map((x, i) =>
-    `- ${x.nombre} · ${lab[x.estado] || x.estado} · ${since(Number(x.creada) || Date.now())} · pedido: "${String(x.pedido || "").slice(0, 160)}"${x.resumen ? ` · resultado: ${String(x.resumen).slice(0, 500)}` : ""}${x.url ? ` · archivo: ${x.url}` : ""}${x.detalle && i < 3 ? `\n  Detalle:\n${String(x.detalle).slice(0, 5000)}` : ""}`).join("\n").slice(0, 16000) +
-    "\nNunca digas que algo no existe o no se hizo si figura acá como terminado. Si una tarea trae Detalle, lo conocés y podés citarlo. Si falta algo, decile a Santiago que lo abra desde \"ver resultado\" en Tareas encargadas.";
-}
 function rules(t){
   return `Sos ${t.nombre}, ${t.role.toLowerCase()} de la agencia. Estás charlando con Santiago, el dueño, desde la oficina virtual.
 Qué hacés: ${t.desc}
@@ -900,7 +892,6 @@ Cómo hablás: ${t.habla}
 Tu frase: "${t.frase}"
 ${AGENCY}
 Tus compañeros: ${TEAM_LINE()}.
-${memory()}
 Respondé en español rioplatense (vos), en primera persona y con tu personalidad. Sé breve: hasta 120 palabras, salvo que te pida un borrador. No uses títulos ni tablas. En este chat no tenés acceso a archivos, al repositorio ni a internet: si para responder hace falta investigar, construir algo o guardar archivos, decilo y sugerí usar "Encargar tarea". Si una parte de la consulta es de la especialidad de un compañero, consultalo con la herramienta consultar_companero (máximo 2 veces) y contale a Santiago qué te dijo, nombrándolo. ${(t.rel||[]).length ? "Consultás seguido a: " + t.rel.map(r => { const c = team.find(x => x.id === r.id); return c ? `${c.nombre} (${r.para})` : ""; }).filter(Boolean).join("; ") + "." : "Coordinás al equipo: podés consultar a cualquiera."}`;
 }
 const MEM = {};
@@ -1019,8 +1010,7 @@ async function sendAll(sample, text){
     if (ALL_REPLY) ids = staff.map(x => x.id);
     else {
       try {
-        const pickd = await sample.json(`Sos Martín, director de una agencia de marketing y soluciones inteligentes para pymes. Santiago, el dueño, le habló a todo el equipo por altavoz. Elegí quiénes tienen algo concreto para aportar (entre 1 y 5, los más relevantes; no te incluyas). Si se habla de un trabajo ya hecho, incluí a quien lo hizo.
-${memory()}
+        const pickd = await sample.json(`Sos Martín, director de una agencia de marketing y soluciones inteligentes para pymes. Santiago, el dueño, le habló a todo el equipo por altavoz. Elegí quiénes tienen algo concreto para aportar (entre 1 y 5, los más relevantes; no te incluyas).
 Equipo (id: nombre, rol): ${staff.map(x => `${x.id}: ${x.nombre}, ${x.role}`).join("; ")}.
 ${transcript ? "Conversación reciente:\n" + transcript + "\n" : ""}Mensaje de Santiago: ${text}
 Respondé solo un array JSON de ids, por ejemplo ["comercial","finanzas"].`, { modelTier:"quick", cache:false, signal });
@@ -1111,7 +1101,6 @@ dbReady.then(db => {
   db.collection("tareas").orderBy("creada", "desc").limit(20).onSnapshot(snap => {
     note.textContent = "";
     if (snap.empty) { list.innerHTML = `<p class="small">Cuando encargues una tarea, aparece acá con su estado.</p>`; return; }
-    TASKS = snap.docs.map(d => d.data() || {});
     list.innerHTML = snap.docs.map(d => {
       const x = d.data() || {}, who = team.find(t => t.id === x.agente), b = EST[x.estado] || ["", String(x.estado || "—")];
       const extra = x.resumen ? `<div class="small" style="margin-top:4px;white-space:normal">${esc(String(x.resumen).slice(0, 400))}</div>` : "";
