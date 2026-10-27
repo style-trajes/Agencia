@@ -15,6 +15,5 @@ Pasos:
    - Llamá al agente del campo `agente` con la herramienta Agent (`subagent_type` = ese valor). Pasale el `pedido` y la `charla` como contexto, y pedile que consulte a sus compañeros según "Con quién trabajás".
    - Guardá el resultado en el repositorio (en `clientes/<nombre>/` o `docs/`), hacé commit en una rama `tarea/<agente>-<palabras-clave>` y subila. No abras pull requests.
    - Actualizá la tarea: `estado: "lista"`, `resumen` (3 a 5 líneas en español: qué se hizo, dónde quedó y qué tiene que decidir Santiago), `rama` y `url` (`https://github.com/style-trajes/Agencia/tree/<rama>`).
-   - Guardá también `detalle`: el contenido clave del resultado en texto plano (hasta 6.000 caracteres; por ejemplo, la lista con nombre, contacto y dato principal). Es lo que leen los agentes en el chat de la oficina para saber qué se hizo: sin `detalle`, solo conocen el resumen.
    - Si algo falla, `estado: "error"` y en `resumen` qué pasó.
 3. Si no hay nada pendiente o terminaste, no escribas nada más.
