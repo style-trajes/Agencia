@@ -51,6 +51,7 @@ El catálogo completo, con quién hace cada servicio, está en `docs/servicios.m
 - Precios en dólares, cobrados en pesos al tipo de cambio del día.
 - Nunca se entrega sin abono. Cobro: 50% al aprobar, 50% al entregar; el abono se cobra por adelantado.
 - Precios de lanzamiento (oct 2026), armados con referencias del mercado argentino: por debajo de agencias grandes, a la altura de un freelancer senior. Revisarlos cuando haya 3 clientes. Casos fuera de rango: `finanzas` + Santiago.
+- **Márgenes mínimos (decidido 2026-10-27):** la hora de Santiago se presupuesta a USD 15. En el abono tiene que quedar al menos 50% después de costos (n8n, hosting, herramientas; los mensajes de Meta se cobran aparte, al costo). El setup tiene que dejar al menos 40% sobre las horas de trabajo: precio mínimo = horas × 15 ÷ 0,6. Si una propuesta no llega, se sube el precio o se achica el alcance; nunca se cierra por debajo.
 - Combos: si un cliente toma 2 o más abonos, 10% de descuento en el total mensual.
 - Si un cliente pide algo que no está en el catálogo y el equipo lo puede hacer bien, se presupuesta igual (`finanzas` + Santiago).
 - Sin nicho fijo: trabajamos con pymes de cualquier rubro que tengan un problema que podamos resolver.

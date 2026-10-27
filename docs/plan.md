@@ -23,3 +23,4 @@ Versión completa y editable: documento "Plan de la Agencia de Automatización c
 | 2026-10-27 | Sin nicho fijo: cualquier rubro | Decisión de Santiago |
 | 2026-10-27 | Sin cotizador para Paolucci por ahora | Decisión de Santiago. Prioridad: conseguir clientes para la agencia |
 | 2026-10-27 | Precios de lanzamiento para marketing, web, SEO y estrategia | Referencias de mercado argentino 2026; se revisan con 3 clientes |
+| 2026-10-27 | Márgenes mínimos: hora USD 15, abono 50% después de costos, setup 40% sobre horas | Referencia: Santiago cobra $2.250.000/mes por ~195 h (unos USD 7,40/h); se duplica para cubrir horas no cobrables, impuestos y herramientas |
