@@ -4,7 +4,7 @@
 - **Servicio:** por definir: cotizador o bot de WhatsApp
 - **Etapa:** relevamiento
 - **Setup / abono:** caso propio, sin cargo. Sirve de vidriera para vender.
-- **Próximo paso:** elegir el servicio y que el analista escriba el brief · Santiago · [fecha]
+- **Próximo paso:** elegir el servicio; después el consultor escribe el brief y el estratega arma `contexto.md` · Santiago · [fecha]
 
 ## Objetivo
 
