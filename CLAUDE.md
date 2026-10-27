@@ -82,7 +82,6 @@ El **director** (Martín) coordina: sabe en qué está cada cliente, arma el equ
 
 - Cada agente tiene en su archivo una sección "Con quién trabajás": a quién consultar y para qué. Por ejemplo, Lucía le pregunta a Diego el margen antes de prometer un precio, y Facundo le pide los textos a Julieta.
 - Se consultan con la herramienta Agent, con preguntas concretas: máximo 2 consultas por tarea y sin devolverle la consulta a quien preguntó.
-- Para que puedan llamarse entre ellos, `.claude/settings.json` sube el límite de anidamiento de agentes a 2 (`CLAUDE_CODE_MAX_SUBAGENT_SPAWN_DEPTH`). No lo borres.
 - En cada entrega cuentan a quién consultaron. Martín (director) junta el trabajo cuando un proyecto necesita a varios.
 
 ## Cómo trabajamos
