@@ -183,6 +183,11 @@ dialog::backdrop{background:rgba(21,27,38,.45)}
 .relrow{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:center;font-size:14px;background:none;border:0;padding:0;text-align:left;color:inherit;cursor:pointer;font-family:inherit}
 .relrow .ph{width:28px;height:28px;border-radius:50%;background:linear-gradient(180deg,#f3f4f6,#e2e6ec);overflow:hidden}
 .relrow b{font-weight:600}
+.msg.ag .who .ph{display:inline-block;width:18px;height:18px;border-radius:50%;overflow:hidden;vertical-align:-5px;margin-right:6px;background:#e4e8ee}
+.msg.ag.lead{border-color:var(--ink);background:var(--surface)}
+.chipP.all .ph{background:var(--ink);color:#fff;display:grid;place-items:center}
+.toggle{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;margin-top:10px}
+.toggle input{width:18px;height:18px;accent-color:var(--ink)}
 .msg.note{align-self:center;background:transparent;color:var(--soft);font-size:13px;text-align:center}
 .compose{display:flex;gap:8px;align-items:flex-end}
 .compose textarea{flex:1;min-width:0;font:inherit;font-size:15px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink);resize:none;min-height:44px;max-height:140px}
@@ -419,9 +424,25 @@ document.getElementById("dlg-copy").addEventListener("click", e => copy(askText,
 
 /* Oficina: lista y foco */
 const roster = document.getElementById("roster");
-roster.innerHTML = team.map(t => `<button type="button" class="chipP" data-id="${t.id}" aria-pressed="false"><span class="ph" data-face="${t.id}">${face(t)}</span>${esc(t.nombre)}</button>`).join("");
+roster.innerHTML = `<button type="button" class="chipP all" data-id="todos" aria-pressed="false"><span class="ph"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></span>Altavoz</button>` + team.map(t => `<button type="button" class="chipP" data-id="${t.id}" aria-pressed="false"><span class="ph" data-face="${t.id}">${face(t)}</span>${esc(t.nombre)}</button>`).join("");
 roster.addEventListener("click", e => { const b = e.target.closest(".chipP"); if (b) select(b.dataset.id, true); });
+let ALL_REPLY = false;
 function select(id, fromList, move = true){
+  if (id === "todos") {
+    roster.querySelectorAll(".chipP").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === "todos"));
+    const f = document.getElementById("focus");
+    f.removeAttribute("style");
+    f.innerHTML = `<span class="ph" style="display:grid;place-items:center;background:var(--ink);color:#fff"><svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11v2a1 1 0 0 0 1 1h2l5 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></span>
+      <div><h3>Altavoz</h3><div class="meta">Todo el equipo · Martín modera</div>
+      <p class="c" style="margin-top:8px">Le hablás a todos a la vez. Martín elige quién tiene algo para aportar, cada uno responde desde su especialidad y al final él resume y reparte los próximos pasos.</p>
+      <div class="crew" style="margin-top:10px">${faces(team)}</div>
+      <label class="toggle"><input type="checkbox" id="all-reply" ${ALL_REPLY ? "checked" : ""}> Que respondan los 15</label></div>`;
+    document.getElementById("all-reply").onchange = e => { ALL_REPLY = e.target.checked; };
+    if (fromList) roster.querySelector('[data-id="todos"]').scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+    if (move) Office.overview();
+    if (typeof setAgent === "function") setAgent("todos");
+    return;
+  }
   const t = team.find(x => x.id === id); if (!t) return;
   roster.querySelectorAll(".chipP").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === id));
   if (fromList) roster.querySelector(`[data-id="${id}"]`).scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
@@ -803,6 +824,12 @@ const Office = (function(){
     ctl.autoRotate = false; document.getElementById("hint").hidden = true;
     tween = { t0: clock.getElapsedTime(), from: ctl.target.clone(), to: new THREE.Vector3(v.x, .9, v.z), z0: cam.zoom, z1: Math.max(cam.zoom, 2.1) };
   }
+  function overview(){
+    if (!started) return;
+    active = null; ring.visible = false;
+    const el = stage(), asp = el.clientWidth / el.clientHeight;
+    tween = { t0: clock.getElapsedTime(), from: ctl.target.clone(), to: new THREE.Vector3(0,.5,0), z0: cam.zoom, z1: asp < .95 ? .95 : Math.min(1.25, Math.max(.6, asp * .95)) };
+  }
   function pick(ev){
     const r = R.domElement.getBoundingClientRect();
     const m = new THREE.Vector2(((ev.clientX - r.left)/r.width)*2-1, -((ev.clientY - r.top)/r.height)*2+1);
@@ -843,7 +870,7 @@ const Office = (function(){
       R.domElement.addEventListener("pointerup", e => { if (down && Math.hypot(e.clientX-down[0], e.clientY-down[1]) < 6) pick(e); down = null; });
     } catch (err) { document.getElementById("fallback").hidden = false; }
   }
-  return { start, focus, portraits: () => { if (ok) try { portraits(); } catch (e) {} } };
+  return { start, focus, overview, portraits: () => { if (ok) try { portraits(); } catch (e) {} } };
 })();
 
 const tabs = ["oficina","equipo","servicios","plan","clientes","flujo"];
@@ -871,11 +898,15 @@ const MEM = {};
 const loadChat = id => { if (MEM[id]) return MEM[id].slice(); try { MEM[id] = JSON.parse(localStorage.getItem("chat:"+id) || "[]"); } catch { MEM[id] = []; } return MEM[id].slice(); };
 const saveChat = (id, turns) => { MEM[id] = turns.slice(-24); try { localStorage.setItem("chat:"+id, JSON.stringify(MEM[id])); } catch {} };
 function consultHtml(m){ return `<div class="msg cons"><b>${esc(m.from)}</b> le consultó a <b>${esc(m.to)}</b>: “${esc(m.q)}”${m.a ? `<br><br><b>${esc(m.to)}:</b> ${esc(m.a)}` : "…"}</div>`; }
+const bubble = (who, text, idAttr, lead) => { const c = team.find(x => x.id === who); return `<div class="msg ag${lead ? " lead" : ""}"${idAttr ? ` id="${idAttr}"` : ""}><span class="who">${c && current === "todos" ? `<span class="ph" data-face="${c.id}">${face(c)}</span>` : ""}${esc(c ? c.nombre : "")}${lead ? " · resumen" : ""}</span>${esc(text)}</div>`; };
 function renderChat(extra){
-  const t = team.find(x => x.id === current), box = document.getElementById("msgs");
+  const box = document.getElementById("msgs");
+  const t = team.find(x => x.id === current);
   const turns = loadChat(current);
-  const rows = turns.map(m => m.role === "user" ? `<div class="msg me">${esc(m.content)}</div>` : m.role === "consult" ? consultHtml(m) : `<div class="msg ag"><span class="who">${esc(t.nombre)}</span>${esc(m.content)}</div>`);
-  if (!turns.length) rows.push(`<div class="msg note">Escribile a ${esc(t.nombre)}. Por ejemplo: “${esc(SAMPLE_Q[current] || "¿qué me recomendás para esta semana?")}”</div>`);
+  const rows = turns.map(m => m.role === "user" ? `<div class="msg me">${esc(m.content)}</div>` : m.role === "consult" ? consultHtml(m) : bubble(m.who || current, m.content, "", m.lead));
+  if (!turns.length) rows.push(current === "todos"
+    ? `<div class="msg note">Hablale a todo el equipo. Por ejemplo: “Esta semana arrancamos con veterinarias de CABA, ¿qué necesita cada uno?”</div>`
+    : `<div class="msg note">Escribile a ${esc(t.nombre)}. Por ejemplo: “${esc(SAMPLE_Q[current] || "¿qué me recomendás para esta semana?")}”</div>`);
   box.innerHTML = rows.join("") + (extra || "");
   box.scrollTop = box.scrollHeight;
 }
@@ -889,6 +920,13 @@ const SAMPLE_Q = {
 function setAgent(id){
   if (chatCtl) chatCtl.abort();
   current = id;
+  if (id === "todos") {
+    document.getElementById("chat-in").placeholder = "Hablale a todo el equipo…";
+    document.getElementById("task-lbl").textContent = "¿Qué necesitás del equipo? Martín lo reparte";
+    document.getElementById("task-go").textContent = "Encargar al equipo";
+    document.getElementById("task-status").hidden = true;
+    renderChat(); return;
+  }
   const t = team.find(x => x.id === id);
   document.getElementById("chat-in").placeholder = `Escribile a ${t.nombre}…`;
   document.getElementById("task-lbl").textContent = `¿Qué necesitás que haga ${t.nombre}?`;
@@ -917,6 +955,7 @@ async function send(){
   if (!text || busy) return;
   const sample = window.claude ? await claude.use("sample") : null;
   if (!sample) { renderChat(`<div class="msg note">El chat funciona cuando abrís la oficina desde Claude.</div>`); return; }
+  if (current === "todos") return sendAll(sample, text);
   const t = team.find(x => x.id === current), id = current;
   const turns = loadChat(id); turns.push({ role:"user", content:text }); saveChat(id, turns);
   input.value = ""; busy = true; document.getElementById("chat-send").textContent = "Frenar";
@@ -954,6 +993,69 @@ async function send(){
     if (current === id) renderChat(e && e.code === "cancelled" ? "" : `<div class="msg note">${esc(CHAT_ERR[e && e.code] || "No se pudo responder. Probá de nuevo.")}</div>`);
   } finally { busy = false; chatCtl = null; document.getElementById("chat-send").textContent = "Enviar"; }
 }
+/* Altavoz: reunión con todo el equipo */
+async function sendAll(sample, text){
+  const id = "todos", input = document.getElementById("chat-in");
+  const before = loadChat(id);
+  const transcript = before.slice(-14).map(m => m.role === "user" ? `Santiago: ${m.content}` : `${(team.find(x => x.id === m.who) || {}).nombre || "Alguien"}: ${m.content}`).join("\n").slice(-6000);
+  const turns = before.slice(); turns.push({ role:"user", content:text }); saveChat(id, turns);
+  input.value = ""; busy = true; document.getElementById("chat-send").textContent = "Frenar";
+  chatCtl = new AbortController(); const signal = chatCtl.signal;
+  const live = document.createElement("div"); live.style.display = "contents"; live.id = "liveall";
+  renderChat(`<div class="msg note" id="mod">Martín está viendo a quién le toca…</div>`);
+  document.getElementById("msgs").append(live);
+  const staff = team.filter(x => x.id !== "director");
+  try {
+    let ids;
+    if (ALL_REPLY) ids = staff.map(x => x.id);
+    else {
+      try {
+        const pickd = await sample.json(`Sos Martín, director de una agencia de marketing y soluciones inteligentes para pymes. Santiago, el dueño, le habló a todo el equipo por altavoz. Elegí quiénes tienen algo concreto para aportar (entre 1 y 5, los más relevantes; no te incluyas).
+Equipo (id: nombre, rol): ${staff.map(x => `${x.id}: ${x.nombre}, ${x.role}`).join("; ")}.
+${transcript ? "Conversación reciente:\n" + transcript + "\n" : ""}Mensaje de Santiago: ${text}
+Respondé solo un array JSON de ids, por ejemplo ["comercial","finanzas"].`, { modelTier:"quick", cache:false, signal });
+        ids = (Array.isArray(pickd) ? pickd : []).map(String).filter(x => staff.some(s => s.id === x)).slice(0, 5);
+      } catch (e) { if (e && e.code === "cancelled") throw e; ids = []; }
+      if (!ids.length) ids = ["estratega","comercial","consultor"];
+    }
+    const mod = document.getElementById("mod");
+    if (mod) mod.textContent = `Martín le dio la palabra a ${ids.map(x => team.find(t => t.id === x).nombre).join(", ")}.`;
+    const answers = [];
+    await Promise.all(ids.map(async (cid, k) => {
+      const c = team.find(x => x.id === cid);
+      const slot = document.createElement("div"); slot.innerHTML = bubble(cid, "Pensando…", "lv-" + cid); live.append(slot.firstChild);
+      try {
+        const { text: a } = await sample([{ role:"user", content: rules(c) + `
+
+AHORA ESTÁS EN UNA REUNIÓN DE EQUIPO POR ALTAVOZ (esto reemplaza las indicaciones de largo y de herramientas de arriba). Santiago le habló a todo el equipo y Martín te dio la palabra.
+${transcript ? "Conversación reciente:\n" + transcript + "\n" : ""}Santiago, a todo el equipo: ${text}
+
+Respondé solo lo que aporta tu especialidad, en hasta 70 palabras, en primera persona y con tu personalidad. Si te sirve lo que dijo un compañero, nombralo. Si de verdad no tenés nada útil, respondé exactamente: PASO` }], { modelTier:"quick", cache:false, signal,
+          onText: ({ text }) => { const el = document.getElementById("lv-" + cid); if (el) el.outerHTML = bubble(cid, text, "lv-" + cid); } });
+        if (a.trim().toUpperCase().startsWith("PASO")) { document.getElementById("lv-" + cid)?.remove(); return; }
+        answers[k] = { role:"assistant", who: cid, content: a.trim() };
+      } catch (e) { if (e && e.code === "cancelled") throw e; document.getElementById("lv-" + cid)?.remove(); }
+    }));
+    const said = answers.filter(Boolean);
+    const store = loadChat(id); said.forEach(m => store.push(m)); saveChat(id, store);
+    const dir = team.find(x => x.id === "director");
+    const slot = document.createElement("div"); slot.innerHTML = bubble("director", "Armando el resumen…", "lv-director", true); live.append(slot.firstChild);
+    document.getElementById("msgs").scrollTop = 1e9;
+    const { text: sum } = await sample([{ role:"user", content: rules(dir) + `
+
+AHORA CERRÁS UNA REUNIÓN DE EQUIPO POR ALTAVOZ (esto reemplaza las indicaciones de largo y de herramientas de arriba).
+Santiago dijo: ${text}
+Respuestas del equipo:
+${said.map(m => `${team.find(x => x.id === m.who).nombre}: ${m.content}`).join("\n") || "(nadie tuvo algo para aportar)"}
+
+Cerrá en hasta 110 palabras: qué quedó claro, los próximos pasos con quién hace qué, y qué tiene que decidir Santiago. Sin títulos.` }], { cache:false, signal,
+      onText: ({ text }) => { const el = document.getElementById("lv-director"); if (el) el.outerHTML = bubble("director", text, "lv-director", true); document.getElementById("msgs").scrollTop = 1e9; } });
+    const fin = loadChat(id); fin.push({ role:"assistant", who:"director", content: sum.trim(), lead:true }); saveChat(id, fin);
+    if (current === id) renderChat();
+  } catch (e) {
+    if (current === id) renderChat(e && e.code === "cancelled" ? "" : `<div class="msg note">${esc(CHAT_ERR[e && e.code] || "La reunión se cortó. Probá de nuevo.")}</div>`);
+  } finally { busy = false; chatCtl = null; document.getElementById("chat-send").textContent = "Enviar"; }
+}
 document.getElementById("chat-send").onclick = () => busy ? chatCtl?.abort() : send();
 document.getElementById("chat-in").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey && !matchMedia("(pointer:coarse)").matches) { e.preventDefault(); send(); } });
 
@@ -963,12 +1065,13 @@ const dbReady = (window.claude ? claude.use("db") : Promise.resolve(null)).then(
 document.getElementById("task-go").onclick = async (ev) => {
   const btn = ev.currentTarget, box = document.getElementById("task-in"), task = box.value.trim(), st = document.getElementById("task-status");
   if (!task) { box.focus(); return; }
-  const t = team.find(x => x.id === current);
+  const group = current === "todos";
+  const t = group ? Object.assign({}, team.find(x => x.id === "director"), { nombre: "Equipo (Martín coordina)" }) : team.find(x => x.id === current);
   st.hidden = false;
   const db = await dbReady;
   if (!db) { st.textContent = "Los encargos funcionan cuando abrís la oficina desde Claude."; return; }
   btn.disabled = true; st.textContent = "Anotando…";
-  const charla = loadChat(current).slice(-12).map(m => m.role === "user" ? `Santiago: ${m.content}` : m.role === "consult" ? `(${m.from} le consultó a ${m.to}: ${m.q} — ${m.to}: ${m.a})` : `${t.nombre}: ${m.content}`).join("\n").slice(0, 12000);
+  const charla = loadChat(current).slice(-12).map(m => m.role === "user" ? `Santiago: ${m.content}` : m.role === "consult" ? `(${m.from} le consultó a ${m.to}: ${m.q} — ${m.to}: ${m.a})` : `${(team.find(x => x.id === (m.who || current)) || t).nombre}: ${m.content}`).join("\n").slice(0, 12000);
   try {
     const ref = await db.collection("tareas").add({ agente: t.id, nombre: t.nombre, pedido: task.slice(0, 4000), charla, estado: "pendiente", creada: Date.now() });
     box.value = "";
