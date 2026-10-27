@@ -246,7 +246,7 @@ dialog::backdrop{background:rgba(21,27,38,.45)}
         <label class="lbl" for="task-in" id="task-lbl" style="margin:0">¿Qué necesitás?</label>
         <textarea id="task-in" placeholder="Ej.: buscame 30 ferreterías de Rosario con su WhatsApp y escribí un primer mensaje para cada una"></textarea>
         <div><button class="btn" type="button" id="task-go">Encargar</button></div>
-        <p class="small">Queda anotado en la lista de abajo junto con lo que charlaron. El agente lo hace en Claude Code, guarda el resultado en el repositorio y te deja un resumen acá. Nada sale hacia un cliente sin tu aprobación.</p>
+        <p class="small">Se lo pasa al instante a Claude Code junto con lo que charlaron (si en ese momento no hay ninguna sesión escuchando, se hace en la ronda de las 12:39 o las 18:39). El agente lo hace, guarda el resultado en el repositorio y te deja un resumen acá. Nada sale hacia un cliente sin tu aprobación.</p>
         <div class="status" id="task-status" hidden></div>
       </div>
     </div>
@@ -970,9 +970,20 @@ document.getElementById("task-go").onclick = async (ev) => {
   btn.disabled = true; st.textContent = "Anotando…";
   const charla = loadChat(current).slice(-12).map(m => m.role === "user" ? `Santiago: ${m.content}` : m.role === "consult" ? `(${m.from} le consultó a ${m.to}: ${m.q} — ${m.to}: ${m.a})` : `${t.nombre}: ${m.content}`).join("\n").slice(0, 12000);
   try {
-    await db.collection("tareas").add({ agente: t.id, nombre: t.nombre, pedido: task.slice(0, 4000), charla, estado: "pendiente", creada: Date.now() });
-    st.textContent = `Anotado. ${t.nombre} lo toma en la próxima ronda de tareas y acá vas a ver cuando esté listo.`;
+    const ref = await db.collection("tareas").add({ agente: t.id, nombre: t.nombre, pedido: task.slice(0, 4000), charla, estado: "pendiente", creada: Date.now() });
     box.value = "";
+    /* Aviso inmediato a Claude: si hay una sesión escuchando la oficina, arranca ya */
+    let sent = false;
+    try {
+      const cm = window.claude ? await claude.use("comments") : null;
+      if (cm && await cm.canSendToClaude().catch(() => "off") === "available") {
+        const plain = s => s.replace(/[\u0000-\u001f\u007f-\u009f\u200b-\u200f\u2028-\u202e\u2060-\u206f\ufeff]+/g, " ").replace(/\s+/g, " ").trim();
+        const text = plain(`Encargo de la oficina · tarea ${ref.id} · para ${t.nombre} (${t.id}): ${task}`).slice(0, 1500);
+        await cm.sendToClaude({ anchor: await cm.anchorFor(document.getElementById("work")), text });
+        sent = true;
+      }
+    } catch (e) {}
+    st.textContent = sent ? `${t.nombre} ya está trabajando en esto. Cuando termine vas a ver el resumen en la lista de abajo.` : `Anotado. Ahora no hay nadie de Claude Code escuchando la oficina, así que ${t.nombre} lo toma en la próxima ronda (12:39 o 18:39).`;
   } catch (e) {
     st.textContent = e && e.code === "invalid_argument" ? "No tenés permiso para anotar tareas en esta oficina." : e && e.code === "quota_exceeded" ? "La lista de tareas está llena. Pedile a Claude que limpie las viejas." : "No se pudo anotar. Probá de nuevo.";
   } finally { btn.disabled = false; }
