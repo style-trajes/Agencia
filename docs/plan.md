@@ -13,7 +13,7 @@ Versión completa y editable: documento "Plan de la Agencia de Automatización c
 
 ## Esta semana
 - [x] Elegir el nicho de arranque: moto y autopartes (el caso Paolucci da credibilidad directa)
-- [x] Elegir el caso propio: cotizador para Paolucci (se graba mejor el antes y después, sale más rápido y no depende de la API de Meta; el bot va como segundo caso)
+- [ ] Caso propio en Paolucci: en pausa. Santiago no necesita el cotizador ahora.
 - [ ] Escribir la lista de 30 contactos
 - [x] Fijar precios de lanzamiento de todos los servicios (ver `CLAUDE.md`)
 
@@ -21,5 +21,5 @@ Versión completa y editable: documento "Plan de la Agencia de Automatización c
 | Fecha | Decisión | Por qué |
 | --- | --- | --- |
 | 2026-10-27 | Nicho: moto y autopartes | Paolucci es del rubro: demo y caso propio creíbles |
-| 2026-10-27 | Caso propio: cotizador de escapes para Paolucci | Antes y después fácil de grabar, entrega rápida, sin trámites con Meta |
+| 2026-10-27 | Sin cotizador para Paolucci por ahora | Decisión de Santiago. Prioridad: conseguir clientes para la agencia |
 | 2026-10-27 | Precios de lanzamiento para marketing, web, SEO y estrategia | Referencias de mercado argentino 2026; se revisan con 3 clientes |
