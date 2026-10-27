@@ -19,15 +19,16 @@ Resolvemos problemas concretos de pymes argentinas: que vendan más y que pierda
 | Servicio | Qué resuelve | Setup (USD) | Abono mensual (USD) |
 | --- | --- | --- | --- |
 | Contenido y redes | No tienen tiempo de publicar ni medir | Sin setup | 300 a 600 |
-| Publicidad paga (Meta, Google, Mercado Ads) | Gastan en anuncios sin saber qué vuelve | A definir por Santiago | A definir por Santiago + inversión en anuncios |
-| SEO local y Google Maps | No aparecen cuando los buscan cerca | A definir por Santiago | A definir por Santiago |
-| Web o landing que vende | Sin web, o una web que no trae consultas | A definir por Santiago | A definir por Santiago |
-| Estrategia y plan de marketing | No saben dónde poner la plata y el tiempo | A definir por Santiago | — |
+| Publicidad paga (Meta, Google, Mercado Ads) | Gastan en anuncios sin saber qué vuelve | 150 a 300 (cuentas, píxel y medición, primeras campañas) | 250 a 500 por plataforma + inversión en anuncios (mínimo sugerido USD 300/mes, la paga el cliente directo a la plataforma) |
+| SEO local y Google Maps | No aparecen cuando los buscan cerca | 150 a 300 (auditoría y puesta a punto del perfil) | 120 a 300 |
+| Web o landing que vende | Sin web, o una web que no trae consultas | Landing 300 a 600 · sitio 600 a 1.500 | 30 a 60 (hosting, cambios menores y medición) |
+| Estrategia y plan de marketing | No saben dónde poner la plata y el tiempo | 300 a 600 pago único (diagnóstico + plan a 90 días; se descuenta si contrata un abono en 30 días) | — |
 
 - Precios en dólares, cobrados en pesos al tipo de cambio del día.
 - Nunca se entrega sin abono. Cobro: 50% al aprobar, 50% al entregar; el abono se cobra por adelantado.
-- Los precios marcados "a definir" los fija Santiago (con ayuda de `finanzas`). Nadie los inventa.
-- Nicho de arranque: fabricantes, talleres y vendedores del rubro moto y autopartes (confirmar con Santiago).
+- Precios de lanzamiento (oct 2026), armados con referencias del mercado argentino: por debajo de agencias grandes, a la altura de un freelancer senior. Revisarlos cuando haya 3 clientes. Casos fuera de rango: `finanzas` + Santiago.
+- Combos: si un cliente toma 2 o más abonos, 10% de descuento en el total mensual.
+- Nicho de arranque: fabricantes, talleres y vendedores del rubro moto y autopartes (decidido 2026-10-27).
 
 ## El equipo
 
