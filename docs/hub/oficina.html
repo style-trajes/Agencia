@@ -1,0 +1,678 @@
+<title>Oficina de la Agencia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: maqueta suave — la oficina 3D es la portada; debajo, tarjetas pastel por área. Un solo mundo claro, a propósito. */
+:root{
+  color-scheme:light;
+  --bg:#f2f0f6; --surface:#ffffff; --ink:#2b2838; --soft:#77738a; --line:#e7e3ef; --sunk:#f6f4fa;
+  --accent:#6d5fd0;
+  --dir-t:#dfd9f7; --dir:#6d5fd0;
+  --neg-t:#ffe0d2; --neg:#d9734e;
+  --sol-t:#d4e7fb; --sol:#4384cf;
+  --mkt-t:#f7d9ec; --mkt:#bb5b9b;
+  --cli-t:#d2f0de; --cli:#3a9d6e;
+  --display:"Bricolage Grotesque",ui-rounded,"SF Pro Rounded",system-ui,sans-serif;
+  --body:"Manrope",ui-sans-serif,system-ui,sans-serif;
+  --r-lg:28px; --r-md:20px; --r-sm:12px;
+  --shadow:0 1px 2px rgba(43,40,56,.04),0 8px 24px -8px rgba(43,40,56,.12);
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:500 15px/1.55 var(--body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:20;background:var(--bg)}
+.gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.in{max-width:1120px;margin:0 auto}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:10px}
+
+header.top .in{padding-block:22px 6px;display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+.brand{font:600 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+h1{margin:6px 0 0;font:700 clamp(34px,8vw,52px)/1 var(--display);letter-spacing:-.02em}
+.stats{display:flex;flex-wrap:wrap;gap:8px}
+.stat{background:var(--surface);border-radius:999px;padding:8px 14px;box-shadow:var(--shadow);display:flex;gap:8px;align-items:baseline;font-size:13px;color:var(--soft)}
+.stat b{font:700 18px/1 var(--display);color:var(--ink);font-variant-numeric:tabular-nums}
+
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+nav .in{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-block:12px}
+nav a{flex:none;text-decoration:none;color:var(--soft);font:600 14px/1 var(--body);padding:10px 16px;border-radius:999px}
+nav a[aria-current="page"]{background:var(--ink);color:#fff}
+
+main .in{padding-block:8px 56px;display:flex;flex-direction:column;gap:18px}
+section{display:flex;flex-direction:column;gap:16px}
+section[hidden]{display:none!important}
+.h2 h2{margin:0;font:700 clamp(26px,6vw,34px)/1.1 var(--display);letter-spacing:-.01em}
+.h2 p{margin:4px 0 0;color:var(--soft);max-width:56ch}
+
+/* Escenario 3D */
+.stage{position:relative;height:min(64vh,620px);min-height:400px;border-radius:var(--r-lg);overflow:hidden;
+  background:radial-gradient(120% 90% at 20% 0%,#fff6ee 0%,rgba(255,246,238,0) 60%),radial-gradient(100% 80% at 100% 100%,#e4ecfb 0%,rgba(228,236,251,0) 60%),linear-gradient(160deg,#f7f1fa,#ece8f6);
+  box-shadow:var(--shadow);touch-action:none}
+@media (max-width:600px){.stage{height:420px;min-height:0}}
+.stage canvas{display:block;width:100%;height:100%}
+.pin{position:absolute;left:0;top:0;pointer-events:none;background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px 6px 6px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);white-space:nowrap;font:700 14px/1 var(--display)}
+.pin i{width:10px;height:10px;border-radius:50%;background:var(--c);margin-left:4px}
+.pin small{font:500 12px/1 var(--body);color:var(--soft)}
+.hint{position:absolute;left:12px;bottom:12px;font:600 12px/1 var(--body);color:var(--soft);background:rgba(255,255,255,.85);backdrop-filter:blur(6px);border-radius:999px;padding:8px 12px;pointer-events:none}
+.fallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;color:var(--soft)}
+
+/* Selección de personas */
+.roster{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding:2px 2px 6px}
+.chipP{flex:none;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:transparent;cursor:pointer;font:600 12px/1 var(--body);color:var(--ink);padding:0;width:64px}
+.chipP .ph{width:56px;height:56px;border-radius:50%;background:var(--t);display:grid;place-items:center;overflow:hidden;box-shadow:inset 0 0 0 3px transparent;transition:box-shadow .2s}
+.chipP[aria-pressed="true"] .ph{box-shadow:inset 0 0 0 3px var(--c)}
+.ph img{width:100%;height:100%;object-fit:cover}
+.ph .ini{font:700 18px/1 var(--display);color:var(--c)}
+
+.focus{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:14px;display:grid;grid-template-columns:72px minmax(0,1fr);gap:14px;align-items:center}
+.focus .ph{width:72px;height:72px;border-radius:20px}
+.focus h3{margin:0;font:700 22px/1.1 var(--display)}
+.focus .role{font-size:13px;color:var(--soft)}
+.focus p{margin:6px 0 0;font-size:14px}
+.focus .acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:700 14px/1 var(--body);padding:12px 16px;border-radius:999px;border:0;cursor:pointer;background:var(--ink);color:#fff}
+.btn.ghost{background:var(--sunk);color:var(--ink)}
+
+/* Tarjetas del equipo */
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.fchip{font:600 13px/1 var(--body);padding:9px 14px;border-radius:999px;border:0;background:var(--surface);color:var(--ink);cursor:pointer;box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:8px}
+.fchip i{width:10px;height:10px;border-radius:50%;background:var(--c)}
+.fchip[aria-pressed="true"]{background:var(--ink);color:#fff}
+.search{width:100%;font:inherit;padding:13px 16px;border-radius:999px;border:0;background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+@media (max-width:520px){.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.card{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column;border:0;padding:0;text-align:left;font:inherit;color:inherit;cursor:pointer;min-width:0}
+@media (prefers-reduced-motion:no-preference){.card{transition:transform .2s ease,box-shadow .2s ease}.card:hover{transform:translateY(-3px);box-shadow:0 2px 4px rgba(43,40,56,.05),0 18px 34px -12px rgba(43,40,56,.22)}}
+.card .pic{aspect-ratio:1/1;max-width:100%;background:var(--t);display:grid;place-items:center;position:relative}
+.card .pic img{width:100%;height:100%;object-fit:cover}
+.card .pic .ini{font:700 44px/1 var(--display);color:var(--c)}
+.card .area{position:absolute;left:10px;top:10px;font:700 11px/1 var(--body);background:rgba(255,255,255,.88);color:var(--c);padding:6px 9px;border-radius:999px}
+.card .txt{padding:12px 14px 14px;display:flex;flex-direction:column;gap:2px}
+.card .nm{font:700 20px/1.1 var(--display)}
+.card .rl{font-size:13px;color:var(--soft)}
+
+/* Ficha */
+dialog{border:0;padding:0;background:transparent;width:min(560px,calc(100vw - 24px));max-width:none;color:var(--ink)}
+dialog::backdrop{background:rgba(43,40,56,.35);backdrop-filter:blur(3px)}
+.sheet{background:var(--surface);border-radius:var(--r-lg);overflow:hidden;max-height:calc(100dvh - 40px);display:flex;flex-direction:column;box-shadow:0 30px 60px -20px rgba(43,40,56,.4)}
+.sheet .head{background:var(--t);padding:18px;display:grid;grid-template-columns:88px minmax(0,1fr) auto;gap:14px;align-items:center}
+.sheet .head .ph{width:88px;height:88px;border-radius:22px;background:rgba(255,255,255,.6)}
+.sheet h3{margin:0;font:700 30px/1 var(--display)}
+.sheet .head .role{font-size:13px;color:var(--ink);opacity:.75;margin-top:4px}
+.x{width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.75);color:var(--ink);font:700 16px/1 var(--body);cursor:pointer;align-self:start}
+.sheet .content{padding:18px;overflow:auto;display:flex;flex-direction:column;gap:16px}
+.sheet .content p{margin:0}
+.lbl{font:700 11px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:8px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font:600 12px/1.2 var(--body);padding:6px 10px;border-radius:999px;background:var(--sunk);color:var(--ink);overflow-wrap:anywhere}
+.tag.on{background:var(--t);color:var(--ink)}
+.ask{display:flex;gap:8px;align-items:center;background:var(--sunk);border-radius:16px;padding:8px 8px 8px 14px}
+.ask code{flex:1;min-width:0;font:600 13px/1.4 var(--body);overflow-wrap:anywhere}
+
+/* Servicios */
+.svc{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+@media (max-width:640px){.svc{grid-template-columns:minmax(0,1fr)}}
+.s{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0;position:relative;overflow:hidden}
+.s::before{content:"";position:absolute;inset:0 0 auto;height:64px;background:linear-gradient(180deg,var(--t),rgba(255,255,255,0))}
+.s > *{position:relative}
+.s .g{font:700 11px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.s h3{margin:0;font:700 19px/1.15 var(--display)}
+.s .res{margin:0;color:var(--soft);font-size:14px}
+.prices{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:auto}
+.price{background:var(--sunk);border-radius:14px;padding:10px 12px;min-width:0}
+.price small{display:block;font:700 10px/1 var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--soft);margin-bottom:5px}
+.price b{font:700 17px/1.2 var(--display);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.crew{display:flex;align-items:center;gap:8px}
+.faces{display:flex}
+.faces .ph{width:30px;height:30px;border-radius:50%;background:var(--t);border:2px solid var(--surface);margin-left:-8px;overflow:hidden;display:grid;place-items:center}
+.faces .ph:first-child{margin-left:0}
+.faces .ph .ini{font:700 11px/1 var(--display);color:var(--c)}
+.crew span{font-size:12px;color:var(--soft)}
+.terms{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}
+.term{background:var(--surface);border-radius:var(--r-md);padding:14px 16px;box-shadow:var(--shadow);font-size:14px}
+.term b{display:block;font:700 15px/1.3 var(--display);margin-bottom:2px}
+
+/* Plan */
+.panel{background:var(--surface);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px}
+.rail{position:relative;height:12px;border-radius:999px;background:var(--sunk)}
+.rail .fill{position:absolute;inset:0 auto 0 0;border-radius:999px;background:linear-gradient(90deg,var(--dir),var(--mkt))}
+.rail .now{position:absolute;top:50%;width:24px;height:24px;border-radius:50%;background:var(--surface);box-shadow:0 0 0 5px var(--dir-t),var(--shadow);transform:translate(-50%,-50%)}
+.phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (max-width:640px){.phases{grid-template-columns:minmax(0,1fr)}}
+.phx{border-radius:var(--r-md);padding:14px;background:var(--sunk);display:flex;flex-direction:column;gap:4px}
+.phx.on{background:var(--dir-t)}
+.phx .d{font-size:12px;color:var(--soft);font-weight:600}
+.phx h3{margin:0;font:700 19px/1.2 var(--display)}
+.phx p{margin:0;font-size:14px}
+.todo{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.todo li{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:16px;background:var(--sunk)}
+.tk{flex:none;width:24px;height:24px;border-radius:50%;background:var(--surface);box-shadow:inset 0 0 0 2px var(--line);display:grid;place-items:center}
+.tk.ok{background:var(--cli);box-shadow:none}
+.tk.ok::after{content:"";width:10px;height:5px;border-left:2.5px solid #fff;border-bottom:2.5px solid #fff;transform:rotate(-45deg) translate(1px,-1px)}
+.st{margin-left:auto;flex:none;font:700 12px/1 var(--body);padding:6px 10px;border-radius:999px}
+.st.done{background:var(--cli-t);color:var(--cli)}
+.st.next{background:var(--neg-t);color:var(--neg)}
+.st.pause{background:var(--line);color:var(--soft)}
+
+/* Clientes */
+.clients{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.client{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:6px}
+.client h3{margin:0;font:700 20px/1.2 var(--display)}
+.client p{margin:0;font-size:14px;color:var(--soft)}
+.slot{border-radius:var(--r-md);padding:16px;display:flex;flex-direction:column;gap:4px;color:var(--soft);background:repeating-linear-gradient(135deg,var(--sunk) 0 10px,transparent 10px 20px);border:2px dashed var(--line)}
+.slot b{color:var(--ink);font:700 18px/1.2 var(--display)}
+
+/* Flujo */
+.flow{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.flow li{background:var(--surface);border-radius:var(--r-md);box-shadow:var(--shadow);padding:14px 16px;display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start}
+.flow .num{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font:700 19px/1 var(--display);background:var(--sunk)}
+.flow .gate{background:var(--dir-t)}
+.flow .gate .num{background:var(--dir);color:#fff}
+.flow h3{margin:2px 0;font:700 17px/1.2 var(--display)}
+.flow p{margin:0;color:var(--soft);font-size:14px}
+.flow .faces{margin-top:8px}
+
+.foot{font-size:12px;color:var(--soft)}
+.empty{color:var(--soft)}
+</style>
+
+<header class="top gut"><div class="in">
+  <div>
+    <div class="brand">Agencia de marketing y soluciones inteligentes</div>
+    <h1>La oficina</h1>
+  </div>
+  <div class="stats">
+    <span class="stat"><b>15</b>en el equipo</span>
+    <span class="stat"><b id="k-svc">25</b>servicios</span>
+    <span class="stat"><b>0/3</b>abonos</span>
+    <span class="stat"><b id="k-days">—</b>días a la meta</span>
+  </div>
+</div></header>
+
+<nav class="gut" aria-label="Secciones"><div class="in">
+  <a href="#oficina">Oficina</a><a href="#equipo">Equipo</a><a href="#servicios">Servicios</a><a href="#plan">Plan</a><a href="#clientes">Clientes</a><a href="#flujo">Cómo trabajamos</a>
+</div></nav>
+
+<main class="gut"><div class="in">
+
+  <section id="s-oficina">
+    <div class="stage" id="stage">
+      <div class="pin" id="pin" hidden><i></i><span id="pin-n"></span><small id="pin-r"></small></div>
+      <div class="hint" id="hint">Tocá a alguien · arrastrá para girar</div>
+      <div class="fallback" id="fallback" hidden>No pudimos mostrar la oficina en este dispositivo. El equipo completo está en la pestaña Equipo.</div>
+    </div>
+    <div class="roster" id="roster" role="group" aria-label="Elegir a alguien del equipo"></div>
+    <div class="focus" id="focus"></div>
+  </section>
+
+  <section id="s-equipo" hidden>
+    <div class="h2"><h2>El equipo</h2><p>Tocá a cualquiera para ver qué sabe hacer y cómo pedirle trabajo.</p></div>
+    <input id="q" class="search" type="search" placeholder="Buscá por nombre, tarea o skill: Lucía, whatsapp, anuncios…" aria-label="Buscar en el equipo">
+    <div class="legend" id="areas" role="group" aria-label="Filtrar por área"></div>
+    <div id="cards" class="cards"></div>
+    <p id="none" class="empty" hidden>Nadie del equipo coincide con esa búsqueda.</p>
+  </section>
+
+  <section id="s-servicios" hidden>
+    <div class="h2"><h2>Servicios</h2><p>Precios en dólares, cobrados en pesos al tipo de cambio del día.</p></div>
+    <div class="legend" id="sgroups" role="group" aria-label="Filtrar servicios"></div>
+    <div id="svc" class="svc"></div>
+    <div class="terms">
+      <div class="term"><b>Forma de pago</b>Setup: 50% al aprobar y 50% al entregar. Abono por adelantado.</div>
+      <div class="term"><b>Combos</b>10% de descuento con 2 o más abonos.</div>
+      <div class="term"><b>A medida</b>Si no está en la lista y el equipo lo hace bien, se presupuesta.</div>
+    </div>
+  </section>
+
+  <section id="s-plan" hidden>
+    <div class="h2"><h2>Plan a 90 días</h2><p>Meta: 3 clientes pagando abono antes del 24 de enero. Cualquier rubro.</p></div>
+    <div class="panel">
+      <div class="rail"><div class="fill" id="fill"></div><div class="now" id="nowdot"></div></div>
+      <div class="phases">
+        <div class="phx" data-from="2026-10-27" data-to="2026-11-25"><span class="d">27 oct – 25 nov</span><h3>Armar la base</h3><p>Equipo, servicios, precios y propuesta.</p></div>
+        <div class="phx" data-from="2026-11-26" data-to="2026-12-25"><span class="d">26 nov – 25 dic</span><h3>Primeros clientes</h3><p>30 contactos, 10 diagnósticos, primer abono cobrado.</p></div>
+        <div class="phx" data-from="2026-12-26" data-to="2027-01-24"><span class="d">26 dic – 24 ene</span><h3>Repetir y crecer</h3><p>3 abonos, testimonios, 2 o 3 reels por semana.</p></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="lbl" style="margin:0">Esta semana</div>
+      <ul class="todo">
+        <li><span class="tk ok"></span>Equipo de 15 con sus skills<span class="st done">Hecho</span></li>
+        <li><span class="tk ok"></span>Catálogo de 25 servicios con precios<span class="st done">Hecho</span></li>
+        <li><span class="tk ok"></span>Sin nicho fijo: cualquier rubro<span class="st done">Hecho</span></li>
+        <li><span class="tk"></span>Lista de 30 negocios para contactar<span class="st next">Sigue</span></li>
+        <li><span class="tk"></span>Caso propio en Paolucci<span class="st pause">En pausa</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="s-clientes" hidden>
+    <div class="h2"><h2>Clientes</h2><p>Una carpeta por cliente en el repositorio.</p></div>
+    <div class="clients">
+      <article class="client"><div class="lbl" style="margin:0">Caso propio</div><h3>Paolucci Racing</h3><p>Escapes para moto, ATV y karting.</p><div><span class="st pause" style="margin:0;display:inline-block">En pausa</span></div></article>
+      <div class="slot"><b>Cliente 1</b>Lugar libre. Lucía arranca con la lista de 30 negocios.</div>
+      <div class="slot"><b>Cliente 2</b>Lugar libre.</div>
+      <div class="slot"><b>Cliente 3</b>Lugar libre.</div>
+    </div>
+  </section>
+
+  <section id="s-flujo" hidden>
+    <div class="h2"><h2>Cómo trabajamos</h2><p>En violeta, los pasos donde decide Santiago. Nada sale hacia un cliente sin su aprobación.</p></div>
+    <ol class="flow" id="flow"></ol>
+  </section>
+
+  <p class="foot">Foto del repositorio al 27 de octubre de 2026. Se actualiza cuando Claude vuelve a publicar la página.</p>
+</div></main>
+
+<dialog id="dlg" aria-labelledby="dlg-name">
+  <div class="sheet" id="sheet">
+    <div class="head"><div class="ph" id="dlg-ph"></div><div><h3 id="dlg-name"></h3><div class="role" id="dlg-role"></div></div><button class="x" type="button" id="dlg-x" aria-label="Cerrar">✕</button></div>
+    <div class="content">
+      <div><div class="lbl">Qué hace</div><p id="dlg-desc"></p></div>
+      <div><div class="lbl">Skills fijas</div><div class="tags" id="dlg-core"></div></div>
+      <div id="dlg-extra-w"><div class="lbl">Según la tarea</div><div class="tags" id="dlg-extra"></div></div>
+      <div><div class="lbl">Pedile trabajo en Claude Code</div><div class="ask"><code id="dlg-ask"></code><button class="btn" type="button" id="dlg-copy">Copiar</button></div></div>
+    </div>
+  </div>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/geometries/RoundedBoxGeometry.js"></script>
+<script>
+const AGENTS = [{"id": "consultor", "nombre": "Tomás", "desc": "Consultor de soluciones y procesos. Usalo para preparar el relevamiento, convertir notas de una reunión en un mapa del proceso del cliente, detectar dónde pierde tiempo o plata, elegir la solución (cotizador, bot, automatización, marketing) y escribir el brief que aprueba Santiago.", "core": ["process-mapper", "customer-research", "brainstorming"], "extra": ["competitors", "market-research", "revops", "writing-plans"]}, {"id": "director", "nombre": "Martín", "desc": "Director general y orquestador de la agencia. Usalo para saber en qué está cada cliente, decidir qué sigue, armar equipos para un proyecto, repartir tareas entre los especialistas y preparar el resumen del día o de la semana. Cuando no sepas a quién pedirle algo, pedíselo al director.", "core": ["writing-plans", "dispatching-parallel-agents", "marketing-plan"], "extra": []}, {"id": "comercial", "nombre": "Lucía", "desc": "Ejecutiva comercial de la agencia. Usalo para investigar prospectos, armar listas de contactos, escribir mensajes de primer contacto (WhatsApp, mail, Instagram, LinkedIn), preparar la reunión de diagnóstico, pedir una demo, redactar propuestas y manejar objeciones.", "core": ["prospecting", "cold-email", "sales-enablement", "offers"], "extra": ["competitor-profiling", "contract-and-proposal-writer", "copywriting", "customer-research", "marketing-psychology", "pricing"]}, {"id": "redactor", "nombre": "Julieta", "desc": "Redactora publicitaria (copywriter). Usalo para textos de landings y webs, mensajes de WhatsApp, emails y secuencias, textos de anuncios, guiones, descripciones de productos y para corregir o \"humanizar\" textos.", "core": ["copywriting", "copy-editing", "content-humanizer"], "extra": ["emails", "lead-magnets", "marketing-psychology", "offers", "sms"]}, {"id": "estratega", "nombre": "Valentina", "desc": "Estratega de negocio y marketing. Usalo para diagnosticar un negocio, definir a quién venderle y con qué mensaje, investigar mercado y competencia, armar planes de marketing y lanzamientos, y para la estrategia de la propia agencia.", "core": ["product-marketing", "marketing-plan", "competitor-profiling", "customer-research"], "extra": ["brainstorming", "competitors", "content-strategy", "launch", "market-research", "marketing-ideas", "marketing-psychology", "offers", "pricing"]}, {"id": "disenador", "nombre": "Camila", "desc": "Diseñadora gráfica y UX/UI. Usalo para identidad visual, guías de marca, diseño de pantallas y landings, piezas para redes, creatividades para anuncios, flyers, presentaciones y mejorar la experiencia de uso de una herramienta.", "core": ["frontend-design", "ux-researcher-designer", "canvas-design"], "extra": ["ad-creative", "image", "theme-factory"]}, {"id": "automatizador", "nombre": "Nicolás", "desc": "Ingeniero de automatización e IA. Usalo para construir flujos de n8n, bots de WhatsApp con IA, agentes de IA, integraciones entre sistemas (Mercado Libre, Tiendanube, Google Sheets, CRMs, facturación) y para armar demos de automatización para ventas.", "core": ["using-n8n-mcp-skills", "n8n-workflow-patterns", "n8n-agents", "n8n-error-handling"], "extra": ["mcp-builder", "n8n-binary-and-data", "n8n-code-javascript", "n8n-code-python", "n8n-code-tool", "n8n-expression-syntax", "n8n-mcp-tools-expert", "n8n-multi-instance", "n8n-node-configuration", "n8n-self-hosting", "n8n-subworkflows", "n8n-validation-expert", "systematic-debugging", "verification-before-completion", "writing-plans"]}, {"id": "calidad", "nombre": "Rocío", "desc": "Control de calidad. Usalo para revisar cualquier entrega (cotizador, bot, flujo, web, campaña, propuesta, contenido o reporte) antes de que la vea Santiago. Puntúa con plantillas/checklist-calidad.md y devuelve lo que no llega a 8/10.", "core": ["verification-before-completion", "webapp-testing", "copy-editing"], "extra": ["systematic-debugging"]}, {"id": "finanzas", "nombre": "Diego", "desc": "Administración y finanzas de la agencia. Usalo para definir y revisar precios, calcular rentabilidad por cliente y por servicio, presupuestar trabajos fuera del abono, proyectar ingresos, controlar cobros y preparar contratos o acuerdos de servicio.", "core": ["pricing-strategist", "financial-analyst", "contract-and-proposal-writer"], "extra": ["pricing"]}, {"id": "desarrollador-web", "nombre": "Facundo", "desc": "Desarrollador web. Usalo para construir cotizadores online, landings, formularios, sitios, catálogos y herramientas web para clientes, y demos rápidas con datos públicos de un prospecto.", "core": ["frontend-design", "webapp-testing", "verification-before-completion"], "extra": ["analytics", "conversion-tracking", "schema", "systematic-debugging", "test-driven-development", "web-artifacts-builder", "writing-plans"]}, {"id": "seo", "nombre": "Agustina", "desc": "Especialista en SEO y visibilidad. Usalo para optimizar el perfil de empresa en Google Maps, SEO local, auditorías de sitios, datos estructurados, arquitectura de páginas y para que el negocio aparezca en respuestas de ChatGPT, Gemini y otros buscadores con IA.", "core": ["local-seo-manager", "seo-audit", "ai-seo"], "extra": ["link-building", "programmatic-seo", "schema", "site-architecture"]}, {"id": "trafficker", "nombre": "Matías", "desc": "Especialista en publicidad paga. Usalo para planificar, armar, auditar y optimizar campañas en Meta (Facebook e Instagram), Google Ads y Mercado Ads, definir presupuestos, públicos y creatividades, e instalar el seguimiento de conversiones.", "core": ["ads", "ad-creative", "conversion-tracking"], "extra": ["ab-testing", "analytics", "attribution", "cro"]}, {"id": "exito-cliente", "nombre": "Florencia", "desc": "Éxito del cliente y soporte. Usalo para la puesta en marcha con un cliente nuevo, aplicar cambios pedidos dentro del abono (precios, textos, horarios), monitorear que las herramientas funcionen, detectar riesgo de baja, encontrar oportunidades de venta adicional y armar el reporte mensual.", "core": ["customer-success-manager", "churn-prevention", "onboarding"], "extra": ["referrals"]}, {"id": "contenido", "nombre": "Sofía", "desc": "Social media y contenido. Usalo para estrategia y calendario de redes, ideas y guiones de reels y TikTok, carruseles, captions, gestión de comunidad y para convertir un caso de éxito en contenido. Sirve para la agencia y para clientes con servicio de marketing.", "core": ["social", "content-strategy", "video"], "extra": ["community-marketing", "content-humanizer", "copywriting", "image", "marketing-ideas"]}, {"id": "analista-datos", "nombre": "Joaquín", "desc": "Analista de datos y crecimiento. Usalo para definir qué medir, instalar y auditar analítica (GA4, Tag Manager, píxeles), armar tableros, analizar resultados de campañas y herramientas, diseñar experimentos y mejorar la conversión de páginas y formularios.", "core": ["analytics", "cro", "ab-testing"], "extra": ["attribution", "conversion-tracking", "revops"]}]
+;
+const SERVICES = [{"g": "Soluciones inteligentes", "name": "Cotizador automático", "res": "Presupuestos que tardan horas o días", "setup": "400 a 900", "abono": "40 a 80", "inc": "Cotizador web desde el celular, precios en una planilla editable, resumen o PDF y aviso del contacto por WhatsApp o mail", "team": ["Tomás", "Facundo", "Camila"]}, {"g": "Soluciones inteligentes", "name": "Bot de WhatsApp con IA", "res": "Consultas repetidas y respuestas lentas", "setup": "300 a 700", "abono": "60 a 150 + mensajes de Meta", "inc": "Respuestas con información real del negocio, pase a una persona, horarios, toma de pedidos o turnos", "team": ["Tomás", "Nicolás", "Julieta"]}, {"g": "Soluciones inteligentes", "name": "Asistente de IA en Instagram y web", "res": "Mensajes de Instagram y la web sin responder", "setup": "300 a 700", "abono": "60 a 150", "inc": "Lo mismo que el bot, en mensajes directos de Instagram y en el chat de la web", "team": ["Nicolás", "Julieta"]}, {"g": "Soluciones inteligentes", "name": "Automatización de procesos", "res": "Copiar datos a mano entre sistemas", "setup": "300 a 1.000", "abono": "40 a 100", "inc": "Flujos que pasan datos solos entre sistemas (Mercado Libre, Tiendanube, planillas, facturación)", "team": ["Tomás", "Nicolás"]}, {"g": "Soluciones inteligentes", "name": "Cobranzas y administración automáticas", "res": "Facturas, recordatorios de pago y cobros que se olvidan", "setup": "250 a 600", "abono": "40 a 80", "inc": "Recordatorios de pago, avisos de vencimiento, conciliación con la planilla, alertas al dueño", "team": ["Nicolás", "Diego"]}, {"g": "Soluciones inteligentes", "name": "CRM y seguimiento de ventas", "res": "Consultas que se pierden y vendedores sin seguimiento", "setup": "300 a 800", "abono": "40 a 100", "inc": "Todas las consultas en un solo lugar, etapas de venta, recordatorios de seguimiento, reporte semanal", "team": ["Tomás", "Nicolás", "Joaquín"]}, {"g": "Soluciones inteligentes", "name": "Tablero del negocio", "res": "Ventas, gastos y stock dispersos en planillas", "setup": "250 a 700", "abono": "30 a 80", "inc": "Ventas, gastos, stock y publicidad en una pantalla que se actualiza sola", "team": ["Joaquín", "Facundo"]}, {"g": "Soluciones inteligentes", "name": "Agente de IA interno", "res": "El equipo pregunta siempre lo mismo (precios, procesos, stock)", "setup": "400 a 1.000", "abono": "50 a 120", "inc": "Asistente que responde al equipo con manuales, listas de precios y procesos del negocio", "team": ["Nicolás", "Tomás"]}, {"g": "Marketing y ventas", "name": "Contenido y redes", "res": "No tienen tiempo de publicar ni medir", "setup": "Sin setup", "abono": "300 a 600", "inc": "Estrategia, calendario mensual, piezas, captions y publicación", "team": ["Sofía", "Camila", "Julieta"]}, {"g": "Marketing y ventas", "name": "Producción de reels y video", "res": "Redes sin video o con videos que nadie mira", "setup": "Sin setup", "abono": "200 a 500 (8 a 12 piezas)", "inc": "Guiones, indicaciones de grabación, edición y textos", "team": ["Sofía", "Julieta"]}, {"g": "Marketing y ventas", "name": "Publicidad paga (Meta, Google)", "res": "Gastan en anuncios sin saber qué vuelve", "setup": "150 a 300", "abono": "250 a 500 por plataforma + inversión (mínimo sugerido 300, la paga el cliente)", "inc": "Medición instalada, campañas, creatividades, pruebas y optimización semanal", "team": ["Matías", "Camila", "Julieta", "Joaquín"]}, {"g": "Marketing y ventas", "name": "Mercado Libre: publicaciones y Mercado Ads", "res": "Publicaciones que no venden o publicidad que no rinde", "setup": "150 a 300", "abono": "150 a 400 + inversión", "inc": "Títulos, fichas, fotos y precios de publicaciones; campañas de Mercado Ads; rentabilidad real por venta", "team": ["Matías", "Julieta", "Diego"]}, {"g": "Marketing y ventas", "name": "SEO local y Google Maps", "res": "No aparecen cuando los buscan cerca", "setup": "150 a 300", "abono": "120 a 300", "inc": "Perfil de empresa completo, categorías, fotos, datos iguales en todos lados, publicaciones", "team": ["Agustina"]}, {"g": "Marketing y ventas", "name": "Reseñas y reputación", "res": "Pocas reseñas o reseñas malas sin responder", "setup": "100 a 200", "abono": "60 a 150", "inc": "Pedido automático de reseñas a clientes reales y respuestas a todas las reseñas", "team": ["Agustina", "Nicolás", "Julieta"]}, {"g": "Marketing y ventas", "name": "Email y WhatsApp marketing", "res": "Clientes que compraron una vez y no vuelven", "setup": "150 a 300", "abono": "100 a 250", "inc": "Base de clientes ordenada, secuencias de bienvenida, recompra y reactivación, envíos mensuales", "team": ["Julieta", "Nicolás"]}, {"g": "Marketing y ventas", "name": "Programa de referidos y fidelización", "res": "Dependen de clientes nuevos todo el tiempo", "setup": "200 a 500", "abono": "40 a 100", "inc": "Reglas del programa, beneficios, mensajes y seguimiento", "team": ["Valentina", "Julieta", "Nicolás"]}, {"g": "Marketing y ventas", "name": "Prospección para empresas B2B", "res": "Venden a empresas y no consiguen reuniones", "setup": "150 a 300", "abono": "200 a 500", "inc": "Lista de empresas objetivo, mensajes de primer contacto y seguimiento", "team": ["Lucía", "Julieta"]}, {"g": "Marketing y ventas", "name": "Web o landing que vende", "res": "Sin web, o una web que no trae consultas", "setup": "Landing 300 a 600 · sitio 600 a 1.500", "abono": "30 a 60", "inc": "Diseño, textos, medición y datos estructurados; publicación", "team": ["Facundo", "Camila", "Julieta", "Agustina"]}, {"g": "Marketing y ventas", "name": "Tienda online (Tiendanube o Shopify)", "res": "Venden solo por WhatsApp o en el local", "setup": "400 a 1.200", "abono": "50 a 150", "inc": "Armado en Tiendanube o Shopify, catálogo, medios de pago y envío, medición", "team": ["Facundo", "Camila", "Julieta"]}, {"g": "Marketing y ventas", "name": "Embudo de captación", "res": "Visitas que no dejan sus datos", "setup": "300 a 700", "abono": "40 a 100", "inc": "Landing, regalo descargable o descuento, secuencia de mensajes", "team": ["Valentina", "Facundo", "Julieta"]}, {"g": "Marketing y ventas", "name": "Identidad de marca", "res": "Logo y estética improvisados", "setup": "250 a 800, pago único", "abono": "—", "inc": "Logo, colores, tipografías, guía de uso y plantillas para redes", "team": ["Camila"]}, {"g": "Marketing y ventas", "name": "Fotos y piezas de producto con IA", "res": "Catálogo con fotos pobres o sin fotos", "setup": "100 a 300 por pack", "abono": "—", "inc": "Fotos de producto mejoradas, fondos, mockups y piezas para catálogo", "team": ["Camila"]}, {"g": "Consultoría y formación", "name": "Diagnóstico express", "res": "No saben por dónde empezar", "setup": "150 a 300, pago único (se descuenta si contrata en 30 días). Puerta de entrada", "abono": "", "inc": "Revisión de la presencia digital, la atención y los procesos; informe con 3 a 5 mejoras priorizadas y su costo", "team": ["Valentina", "Tomás"]}, {"g": "Consultoría y formación", "name": "Estrategia y plan de marketing", "res": "No saben dónde poner la plata y el tiempo", "setup": "300 a 600, pago único (diagnóstico + plan a 90 días; se descuenta si contrata un abono en 30 días)", "abono": "", "inc": "Diagnóstico completo, público, mensaje, canales y plan a 90 días con indicadores", "team": ["Valentina", "Joaquín", "Diego"]}, {"g": "Consultoría y formación", "name": "Taller de IA para equipos", "res": "El equipo no sabe usar IA en su trabajo", "setup": "150 a 400 por taller de 2 a 4 horas", "abono": "", "inc": "Taller práctico de 2 a 4 horas con casos del propio negocio y una guía para después", "team": ["Tomás", "Nicolás"]}]
+;
+const AREA = {
+  dir:{label:"Dirección"}, neg:{label:"Negocio"}, sol:{label:"Soluciones"}, mkt:{label:"Marketing"}, cli:{label:"Calidad y clientes"}
+};
+const ORDER = [
+  ["director","dir","Director"],["estratega","neg","Estratega"],["comercial","neg","Comercial"],["consultor","neg","Consultor"],["finanzas","neg","Administración"],
+  ["automatizador","sol","Automatizaciones e IA"],["desarrollador-web","sol","Desarrollador web"],
+  ["disenador","mkt","Diseñadora"],["redactor","mkt","Redactora"],["contenido","mkt","Contenido y redes"],["trafficker","mkt","Publicidad paga"],["seo","mkt","SEO"],["analista-datos","mkt","Analista de datos"],
+  ["calidad","cli","Control de calidad"],["exito-cliente","cli","Éxito del cliente"]
+];
+const ASK = {
+  "director":"¿en qué estamos hoy?","estratega":"armá el diagnóstico de [negocio]","comercial":"buscame 30 negocios de [rubro] para contactar",
+  "consultor":"prepará el relevamiento para [cliente]","finanzas":"calculá cuánto cobrar por [trabajo]","automatizador":"armá un bot de WhatsApp para [cliente]",
+  "desarrollador-web":"hacé una landing para [cliente]","disenador":"proponé una guía de marca para [cliente]","redactor":"escribí los textos de la landing de [cliente]",
+  "contenido":"armá el calendario de noviembre para [cliente]","trafficker":"planificá una campaña en Meta para [cliente]","seo":"auditá el perfil de Google Maps de [cliente]",
+  "analista-datos":"definí qué medir para [cliente]","calidad":"revisá la entrega de [cliente]","exito-cliente":"armá el reporte de octubre de [cliente]"
+};
+const FEM = new Set(["Valentina","Lucía","Camila","Julieta","Sofía","Agustina","Rocío","Florencia"]);
+const byId = Object.fromEntries(AGENTS.map(a => [a.id, a]));
+const team = ORDER.filter(([id]) => byId[id]).map(([id, area, role], i) => ({...byId[id], area, role, n:i+1}));
+const byName = Object.fromEntries(team.map(t => [t.nombre, t]));
+const tv = a => `--t:var(--${a}-t);--c:var(--${a})`;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fold = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+const initials = n => n.normalize("NFD").replace(/[̀-ͯ]/g,"").slice(0,2).toUpperCase();
+const PORTRAIT = {};
+const face = t => PORTRAIT[t.id] ? `<img src="${PORTRAIT[t.id]}" alt="">` : `<span class="ini">${initials(t.nombre)}</span>`;
+function refreshFaces(){ document.querySelectorAll("[data-face]").forEach(el => { const t = team.find(x => x.id === el.dataset.face); if (t) el.innerHTML = face(t); }); }
+
+/* Equipo */
+const cards = document.getElementById("cards");
+cards.innerHTML = team.map(t => `
+  <button type="button" class="card" data-id="${t.id}" data-area="${t.area}" style="${tv(t.area)}" data-text="${esc(fold(t.nombre+" "+t.role+" "+t.id+" "+t.desc+" "+t.core.join(" ")+" "+t.extra.join(" ")))}">
+    <span class="pic"><span class="area">${esc(AREA[t.area].label)}</span><span data-face="${t.id}" style="display:contents">${face(t)}</span></span>
+    <span class="txt"><span class="nm">${esc(t.nombre)}</span><span class="rl">${esc(t.role)}</span></span>
+  </button>`).join("");
+let area = "all";
+const areas = document.getElementById("areas");
+areas.innerHTML = [["all","Todos"], ...Object.entries(AREA).map(([k,v]) => [k, v.label])]
+  .map(([k,l]) => `<button type="button" class="fchip" data-a="${k}" aria-pressed="${k==="all"}" style="${k==="all"?"":tv(k)}">${k==="all"?"":"<i></i>"}${esc(l)}</button>`).join("");
+const q = document.getElementById("q");
+function filterCards(){
+  const v = fold(q.value.trim()); let n = 0;
+  cards.querySelectorAll(".card").forEach(c => { const ok = (area==="all" || c.dataset.area===area) && (!v || c.dataset.text.includes(v)); c.hidden = !ok; if (ok) n++; });
+  document.getElementById("none").hidden = n > 0;
+}
+areas.addEventListener("click", e => { const b = e.target.closest("[data-a]"); if (!b) return; area = b.dataset.a; areas.querySelectorAll("[data-a]").forEach(x => x.setAttribute("aria-pressed", x===b)); filterCards(); });
+q.addEventListener("input", filterCards);
+cards.addEventListener("click", e => { const c = e.target.closest(".card"); if (c) openAgent(c.dataset.id); });
+
+/* Ficha */
+const dlg = document.getElementById("dlg");
+let askText = "";
+function openAgent(id){
+  const t = team.find(x => x.id === id); if (!t) return;
+  document.getElementById("sheet").setAttribute("style", tv(t.area));
+  const ph = document.getElementById("dlg-ph"); ph.dataset.face = t.id; ph.innerHTML = face(t);
+  document.getElementById("dlg-name").textContent = t.nombre;
+  document.getElementById("dlg-role").textContent = `${t.role} · ${AREA[t.area].label}`;
+  document.getElementById("dlg-desc").textContent = t.desc;
+  document.getElementById("dlg-core").innerHTML = t.core.map(s => `<span class="tag on">${esc(s)}</span>`).join("");
+  document.getElementById("dlg-extra").innerHTML = t.extra.map(s => `<span class="tag">${esc(s)}</span>`).join("");
+  document.getElementById("dlg-extra-w").hidden = !t.extra.length;
+  askText = `${t.nombre}, ${ASK[t.id] ?? ""}`;
+  document.getElementById("dlg-ask").textContent = askText;
+  document.getElementById("dlg-copy").textContent = "Copiar";
+  if (dlg.open) return;
+  if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open","");
+}
+document.getElementById("dlg-x").addEventListener("click", () => dlg.close());
+dlg.addEventListener("click", e => { if (e.target === dlg) dlg.close(); });
+function copy(text, b, sel){
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents(sel); const s = getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent = "Seleccionado"; };
+  try { navigator.clipboard.writeText(text).then(() => b.textContent = "Copiado", fallback); } catch { fallback(); }
+}
+document.getElementById("dlg-copy").addEventListener("click", e => copy(askText, e.currentTarget, document.getElementById("dlg-ask")));
+
+/* Oficina: lista de personas y tarjeta de foco */
+const roster = document.getElementById("roster");
+roster.innerHTML = team.map(t => `<button type="button" class="chipP" data-id="${t.id}" aria-pressed="false" style="${tv(t.area)}"><span class="ph" data-face="${t.id}">${face(t)}</span>${esc(t.nombre)}</button>`).join("");
+roster.addEventListener("click", e => { const b = e.target.closest(".chipP"); if (b) select(b.dataset.id, true); });
+let selected = null;
+function select(id, fromList, move = true){
+  const t = team.find(x => x.id === id); if (!t) return;
+  selected = id;
+  roster.querySelectorAll(".chipP").forEach(b => b.setAttribute("aria-pressed", b.dataset.id === id));
+  if (fromList) roster.querySelector(`[data-id="${id}"]`).scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  const f = document.getElementById("focus");
+  f.setAttribute("style", tv(t.area));
+  f.innerHTML = `<span class="ph" data-face="${t.id}" style="background:var(--t);display:grid;place-items:center;overflow:hidden">${face(t)}</span>
+    <div><h3>${esc(t.nombre)}</h3><div class="role">${esc(t.role)} · ${esc(AREA[t.area].label)}</div><p>${esc(t.desc.split(". Usalo para")[0].replace(/\.$/,""))}.</p></div>
+    <div class="acts"><button class="btn" type="button" id="f-open">Ver ficha completa</button><button class="btn ghost" type="button" id="f-copy">Copiar pedido</button></div>`;
+  document.getElementById("f-open").onclick = () => openAgent(id);
+  document.getElementById("f-copy").onclick = e => copy(`${t.nombre}, ${ASK[t.id] ?? ""}`, e.currentTarget, f.querySelector("h3"));
+  if (move) Office.focus(id);
+}
+
+/* Servicios */
+const GA = {"Soluciones inteligentes":"sol","Marketing y ventas":"mkt","Consultoría y formación":"neg"};
+const crewOf = names => names.map(n => byName[n]).filter(Boolean);
+const faces = list => `<span class="faces">${list.map(t => `<span class="ph" data-face="${t.id}" style="${tv(t.area)}" title="${esc(t.nombre)}">${face(t)}</span>`).join("")}</span>`;
+const svc = document.getElementById("svc");
+svc.innerHTML = SERVICES.map(s => { const c = crewOf(s.team); const a = GA[s.g] || "sol";
+  return `<article class="s" data-g="${esc(s.g)}" style="${tv(a)}">
+    <div class="g">${esc(s.g)}</div><h3>${esc(s.name)}</h3><p class="res">${esc(s.res)}</p>
+    <div class="prices"><div class="price"><small>${s.abono ? "Setup" : "Precio"}</small><b>${esc(s.setup.replace(/ a /g," – "))}</b></div>
+    ${s.abono ? `<div class="price"><small>Abono / mes</small><b>${esc(s.abono.replace(/ a /g," – "))}</b></div>` : ""}</div>
+    ${c.length ? `<div class="crew">${faces(c)}<span>${esc(c.map(t=>t.nombre).join(", "))}</span></div>` : ""}
+  </article>`; }).join("");
+document.getElementById("k-svc").textContent = SERVICES.length;
+const sg = document.getElementById("sgroups");
+sg.innerHTML = [["all","Todos"], ...[...new Set(SERVICES.map(s => s.g))].map(g => [g,g])].map(([k,l]) => `<button type="button" class="fchip" data-g="${esc(k)}" aria-pressed="${k==="all"}" style="${k==="all"?"":tv(GA[k]||"sol")}">${k==="all"?"":"<i></i>"}${esc(l)}</button>`).join("");
+sg.addEventListener("click", e => { const b = e.target.closest("[data-g]"); if (!b) return; const g = b.dataset.g;
+  sg.querySelectorAll("[data-g]").forEach(x => x.setAttribute("aria-pressed", x===b));
+  svc.querySelectorAll(".s").forEach(s => s.hidden = !(g==="all" || s.dataset.g===g)); });
+
+/* Flujo */
+const FLOW = [
+  [false,"Conseguir el cliente","Lucía consigue el prospecto y pide una demo con sus datos públicos.",["Lucía","Facundo","Nicolás"]],
+  [false,"Entender el negocio","Valentina escribe el contexto del cliente y Tomás releva y escribe el brief.",["Valentina","Tomás"]],
+  [true,"Santiago aprueba","El brief y la propuesta. Nada se construye antes.",[]],
+  [false,"Construir","Los especialistas hacen su parte según el brief.",["Nicolás","Facundo","Camila","Julieta","Sofía","Matías","Agustina"]],
+  [false,"Control de calidad","Rocío revisa con el checklist. Menos de 8/10 vuelve a quien lo hizo.",["Rocío"]],
+  [true,"Santiago aprueba","La entrega, y la presenta al cliente.",[]],
+  [false,"Abono","Florencia acompaña al cliente con los números de Joaquín y la administración de Diego.",["Florencia","Joaquín","Diego"]],
+  [false,"Contarlo","Sofía convierte el caso en contenido, con permiso del cliente.",["Sofía"]]
+];
+document.getElementById("flow").innerHTML = FLOW.map(([gate,t,p,names],i) => `
+  <li class="${gate?"gate":""}"><span class="num">${i+1}</span><div><h3>${esc(t)}</h3><p>${esc(p)}</p>${names.length ? faces(crewOf(names)) : ""}</div></li>`).join("");
+
+/* Plan */
+const start = new Date("2026-10-27T00:00:00-03:00"), end = new Date("2027-01-24T23:59:00-03:00"), now = new Date();
+const pct = Math.min(100, Math.max(0, (now - start) / (end - start) * 100));
+document.getElementById("fill").style.width = pct + "%";
+document.getElementById("nowdot").style.left = pct + "%";
+document.getElementById("k-days").textContent = Math.max(0, Math.ceil((end - now) / 86400000));
+document.querySelectorAll(".phx").forEach(p => { const a = new Date(p.dataset.from+"T00:00:00-03:00"), b = new Date(p.dataset.to+"T23:59:00-03:00"); if (now >= a && now <= b) p.classList.add("on"); });
+if (!document.querySelector(".phx.on")) document.querySelector(".phx").classList.add("on");
+
+/* ---------- Oficina 3D ---------- */
+const Office = (function(){
+  const ok = !!(window.THREE && THREE.OrbitControls && THREE.RoundedBoxGeometry);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let started = false, active = null, R, scene, cam, ctl, clock, raf, people = {}, ring, tween = null;
+  const stage = () => document.getElementById("stage");
+  const col = h => new THREE.Color(h).convertSRGBToLinear();
+  const mat = (h, o) => new THREE.MeshStandardMaterial(Object.assign({ color: col(h), roughness: .85, metalness: 0 }, o || {}));
+  const RB = (w,h,d,r) => new THREE.RoundedBoxGeometry(w,h,d,4,r);
+  const AC = {
+    dir:{t:"#dfd9f7",c:"#8b7fe0"}, neg:{t:"#ffe0d2",c:"#f0957a"}, sol:{t:"#d4e7fb",c:"#6aa5e6"}, mkt:{t:"#f7d9ec",c:"#d983bd"}, cli:{t:"#d2f0de",c:"#5fbf8f"}
+  };
+  const SKIN = ["#f6d2b8","#e8b894","#d39b75","#a8714f","#f3c7a6","#c88a63"];
+  const HAIR = ["#3a2a22","#5a3a28","#2a2526","#8a5a36","#c9935b","#4b3427","#e3c08a"];
+  function add(o, p){ (p||scene).add(o); return o; }
+  function mesh(g, m, x, y, z, p){ const o = new THREE.Mesh(g, m); o.position.set(x,y,z); o.castShadow = true; o.receiveShadow = true; return add(o, p); }
+
+  function character(t, i){
+    const g = new THREE.Group();
+    const a = AC[t.area], skin = SKIN[i % SKIN.length], hair = HAIR[(i*5+2) % HAIR.length];
+    const body = mesh(new THREE.SphereGeometry(.34, 32, 24), mat(a.c), 0, .98, 0, g); body.scale.set(1, 1.15, .85);
+    const collar = mesh(new THREE.CylinderGeometry(.12,.14,.08,20), mat(skin), 0, 1.33, 0, g);
+    const head = mesh(new THREE.SphereGeometry(.27, 32, 24), mat(skin, {roughness:.7}), 0, 1.6, 0, g);
+    const hm = mat(hair, {roughness:.95});
+    const cap = mesh(new THREE.SphereGeometry(.285, 32, 16, 0, Math.PI*2, 0, Math.PI*.52), hm, 0, 1.63, .03, g); cap.rotation.x = .5;
+    if (FEM.has(t.nombre)) { const back = mesh(RB(.5,.5,.18,.09), hm, 0, 1.42, .17, g); }
+    else { const fr = mesh(new THREE.SphereGeometry(.12, 16, 12), hm, .1, 1.82, -.12, g); }
+    const eyeM = mat("#2b2838", {roughness:.4});
+    mesh(new THREE.SphereGeometry(.032, 12, 10), eyeM, -.09, 1.57, -.255, g);
+    mesh(new THREE.SphereGeometry(.032, 12, 10), eyeM, .09, 1.57, -.255, g);
+    const blush = mat("#f2a3a0", {transparent:true, opacity:.55});
+    mesh(new THREE.SphereGeometry(.045, 12, 10), blush, -.15, 1.5, -.22, g).scale.set(1,.6,.4);
+    mesh(new THREE.SphereGeometry(.045, 12, 10), blush, .15, 1.5, -.22, g).scale.set(1,.6,.4);
+    const arm = new THREE.SphereGeometry(.1, 16, 12);
+    const aL = mesh(arm, mat(a.c), -.3, 1.0, -.2, g); aL.scale.set(1,1,2.2);
+    const aR = mesh(arm, mat(a.c), .3, 1.0, -.2, g); aR.scale.set(1,1,2.2);
+    g.userData = { id: t.id, head };
+    g.traverse(o => o.userData.id = t.id);
+    return g;
+  }
+
+  function desk(x, z, a, t, i){
+    const g = add(new THREE.Group()); g.position.set(x, 0, z); g.rotation.y = -Math.PI/2;
+    const wood = mat("#ecdcc8", {roughness:.7}), white = mat("#ffffff"), dark = mat("#3a3650", {roughness:.5});
+    mesh(RB(1.4,.08,.8,.035), wood, 0, .76, 0, g);
+    [[-.62,-.32],[.62,-.32],[-.62,.32],[.62,.32]].forEach(([p,q]) => mesh(new THREE.CylinderGeometry(.03,.03,.72,12), white, p, .36, q, g));
+    mesh(RB(.66,.42,.05,.03), dark, 0, 1.12, -.24, g);
+    const scr = new THREE.Mesh(new THREE.PlaneGeometry(.58,.34), new THREE.MeshBasicMaterial({ color: col(AC[a].t) })); scr.position.set(0,1.12,-.213); g.add(scr);
+    mesh(new THREE.CylinderGeometry(.03,.05,.2,12), dark, 0, .88, -.24, g);
+    mesh(RB(.44,.03,.15,.012), white, 0, .81, .06, g);
+    mesh(new THREE.CylinderGeometry(.05,.045,.11,16), mat(AC[a].c), .5, .85, .08, g);
+    if (i % 3 === 0) { mesh(new THREE.CylinderGeometry(.07,.06,.12,16), mat("#f4ece4"), -.52, .86, -.18, g); mesh(new THREE.SphereGeometry(.12,12,10), mat("#86c49b"), -.52, 1.0, -.18, g); }
+    const chair = mat(AC[a].t);
+    mesh(RB(.56,.1,.52,.05), chair, 0, .5, .66, g);
+    mesh(RB(.56,.56,.1,.05), chair, 0, .82, .94, g);
+    mesh(new THREE.CylinderGeometry(.04,.04,.42,10), white, 0, .24, .66, g);
+    mesh(new THREE.CylinderGeometry(.22,.22,.03,20), white, 0, .03, .66, g);
+    const p = character(t, i); p.position.set(0, 0, .64); g.add(p);
+    p.userData.phase = i * .8; people[t.id] = p;
+    return g;
+  }
+
+  function plant(x, z, s){
+    mesh(new THREE.CylinderGeometry(.24*s,.19*s,.42*s,24), mat("#f4ece4"), x, .21*s, z);
+    const leaf = mat("#7fbf95"), leaf2 = mat("#9bd1ab");
+    for (let k=0;k<6;k++){ const a = k*1.05; mesh(new THREE.SphereGeometry(.2*s,16,12), k%2?leaf:leaf2, x+Math.cos(a)*.14*s, (.62+ (k%3)*.14)*s, z+Math.sin(a)*.14*s); }
+  }
+
+  function board(){
+    const c = document.createElement("canvas"); c.width = 1024; c.height = 560; const x = c.getContext("2d");
+    x.fillStyle = "#ffffff"; x.fillRect(0,0,1024,560);
+    x.fillStyle = "#2b2838"; x.font = "700 210px 'Bricolage Grotesque', system-ui, sans-serif"; x.textBaseline = "top"; x.fillText("0/3", 70, 70);
+    x.fillStyle = "#77738a"; x.font = "600 52px Manrope, system-ui, sans-serif"; x.fillText("abonos activos", 78, 300);
+    x.fillStyle = "#8b7fe0"; x.fillText(document.getElementById("k-days").textContent + " días a la meta", 78, 380);
+    const tx = new THREE.CanvasTexture(c); tx.encoding = THREE.sRGBEncoding; tx.anisotropy = 4;
+    mesh(RB(3.3,1.9,.08,.06), mat("#ffffff"), .6, 1.95, -4.9);
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(3.1,1.7), new THREE.MeshBasicMaterial({ map: tx })); m.position.set(.6,1.95,-4.855); scene.add(m);
+  }
+
+  function build(){
+    scene = new THREE.Scene();
+    scene.add(new THREE.HemisphereLight(col("#ffffff"), col("#d8cfe6"), .75));
+    const sun = new THREE.DirectionalLight(col("#fff1e2"), 1.25); sun.position.set(-6, 14, 8);
+    sun.castShadow = true; const S = innerWidth < 600 ? 1024 : 2048; sun.shadow.mapSize.set(S,S);
+    Object.assign(sun.shadow.camera, { left:-11, right:11, top:9, bottom:-9, near:1, far:40 }); sun.shadow.bias = -.0006; sun.shadow.radius = 6;
+    scene.add(sun);
+    const fill = new THREE.DirectionalLight(col("#e3ecff"), .35); fill.position.set(8,6,-4); scene.add(fill);
+
+    const W = 15.4, D = 10.6;
+    const floor = mesh(RB(W,.5,D,.22), mat("#faf8fc"), 0, -.25, 0); floor.castShadow = false;
+    mesh(RB(W+.3,.22,D+.3,.11), mat("#e4dcef"), 0, -.6, 0).castShadow = false;
+    const wall = mat("#ffffff");
+    mesh(RB(W,3,.2,.08), wall, 0, 1.5, -D/2+.1);
+    mesh(RB(.2,3,D,.08), wall, -W/2+.1, 1.5, 0);
+    const sky = new THREE.MeshBasicMaterial({ color: col("#dbe8fb") });
+    [-3.2, -.4, 2.4].forEach(z => { mesh(RB(.08,1.3,1.8,.04), mat("#ffffff"), -W/2+.22, 1.75, z); const w = new THREE.Mesh(new THREE.PlaneGeometry(1.6,1.1), sky); w.rotation.y = Math.PI/2; w.position.set(-W/2+.27,1.75,z); scene.add(w); });
+    [["#ffe0d2",-4.2,1.2],["#d2f0de",4.6,.9],["#f7d9ec",5.9,1.2]].forEach(([h,x,w]) => { mesh(RB(w,.8,.05,.03), mat(h), x, 2.0, -D/2+.24); });
+
+    /* Sala del director */
+    const glass = new THREE.MeshPhysicalMaterial({ color: col("#e8eefc"), transparent:true, opacity:.28, roughness:.1, metalness:0, depthWrite:false });
+    const gw1 = new THREE.Mesh(RB(.06,2.3,3.0,.02), glass); gw1.position.set(-3.7,1.15,-3.5); scene.add(gw1);
+    const gw2 = new THREE.Mesh(RB(3.7,2.3,.06,.02), glass); gw2.position.set(-5.55,1.15,-2.0); scene.add(gw2);
+
+    /* Alfombras por área */
+    const rug = (x,z,w,d,a) => { const r = mesh(RB(w,.04,d,.02), mat(AC[a].t), x, .02, z); r.castShadow = false; };
+
+    const layout = [
+      ["dir", -5.6, -3.6, 1],
+      ["neg", -1.4, -3.4, 2],
+      ["sol", 4.4, -3.4, 1],
+      ["mkt", -2.2, 1.6, 3],
+      ["cli", 4.6, 1.6, 1]
+    ];
+    let i = 0;
+    layout.forEach(([a, cx, cz, cols]) => {
+      const list = team.filter(t => t.area === a);
+      const rows = Math.ceil(list.length / cols), sx = 2.25, sz = 1.75;
+      rug(cx + (cols-1)*sx/2 - (a==="dir"?0:0), cz + (rows-1)*sz/2, cols*sx + .3, rows*sz + .5, a);
+      list.forEach((t, k) => {
+        const c = k % cols, r = Math.floor(k / cols);
+        desk(cx + c*sx, cz + r*sz, a, t, i++);
+      });
+    });
+
+    /* Rincón de reuniones */
+    const tbl = mesh(new THREE.CylinderGeometry(.95,.95,.08,48), mat("#ecdcc8",{roughness:.7}), -5.3, .76, 3.1);
+    mesh(new THREE.CylinderGeometry(.08,.3,.72,20), mat("#ffffff"), -5.3, .36, 3.1);
+    for (let k=0;k<5;k++){ const an = k/5*Math.PI*2+.3; mesh(RB(.46,.42,.46,.12), mat(["#ffe0d2","#dfd9f7","#d2f0de","#f7d9ec","#d4e7fb"][k]), -5.3+Math.cos(an)*1.35, .32, 3.1+Math.sin(an)*1.35); }
+    const sofa = mat("#dfd9f7");
+    mesh(RB(2.4,.45,.9,.2), sofa, .9, .32, 4.4); mesh(RB(2.4,.6,.28,.14), sofa, .9, .7, 4.75);
+    mesh(RB(.3,.55,.9,.14), sofa, -.25, .5, 4.4); mesh(RB(.3,.55,.9,.14), sofa, 2.05, .5, 4.4);
+
+    /* Biblioteca */
+    mesh(RB(.5,2.2,1.6,.05), mat("#ffffff"), -7.2+.45, 1.1, .95);
+    ["#f0957a","#6aa5e6","#d983bd","#5fbf8f","#8b7fe0","#f5c96b"].forEach((h,k) => mesh(RB(.3,.38,.12,.02), mat(h), -6.72, .6+Math.floor(k/3)*.75, .55+(k%3)*.22+Math.floor(k/3)*.1));
+
+    plant(6.9,-4.5,1.3); plant(-6.85,4.6,1.2); plant(6.9,4.6,1.0); plant(2.5,-4.6,.9);
+    board();
+
+    ring = new THREE.Mesh(new THREE.RingGeometry(.55,.7,48), new THREE.MeshBasicMaterial({ color: col("#8b7fe0"), transparent:true, opacity:.9 }));
+    ring.rotation.x = -Math.PI/2; ring.visible = false; scene.add(ring);
+
+    const el = stage(), w = el.clientWidth, h = el.clientHeight, asp = w/h;
+    const V = 15;
+    cam = new THREE.OrthographicCamera(-V*asp/2, V*asp/2, V/2, -V/2, .1, 200);
+    cam.position.set(16, 15, 16); cam.zoom = asp < .95 ? .95 : Math.min(1.25, Math.max(.6, asp * .95)); cam.updateProjectionMatrix();
+    ctl = new THREE.OrbitControls(cam, R.domElement);
+    ctl.target.set(0,.5,0); ctl.enablePan = false; ctl.enableDamping = true; ctl.dampingFactor = .08;
+    ctl.minZoom = .45; ctl.maxZoom = 3.2; ctl.minPolarAngle = .5; ctl.maxPolarAngle = 1.15;
+    ctl.minAzimuthAngle = -.1; ctl.maxAzimuthAngle = 1.65;
+    ctl.autoRotate = !reduce; ctl.autoRotateSpeed = .35;
+    ctl.addEventListener("start", () => { ctl.autoRotate = false; document.getElementById("hint").hidden = true; tween = null; });
+  }
+
+  function resize(){
+    if (!R) return;
+    const el = stage(), w = el.clientWidth, h = el.clientHeight, asp = w/h, V = 15;
+    R.setSize(w, h, false);
+    Object.assign(cam, { left:-V*asp/2, right:V*asp/2, top:V/2, bottom:-V/2 }); cam.updateProjectionMatrix();
+  }
+
+  function loop(){
+    raf = requestAnimationFrame(loop);
+    const t = clock.getElapsedTime();
+    if (!reduce) Object.values(people).forEach(p => { p.position.y = Math.abs(Math.sin(t*1.4 + p.userData.phase)) * .025; p.userData.head.rotation.y = Math.sin(t*.6 + p.userData.phase) * .3; });
+    if (tween) {
+      const k = Math.min(1, (t - tween.t0) / .9), e = 1 - Math.pow(1-k, 3);
+      ctl.target.lerpVectors(tween.from, tween.to, e); cam.zoom = tween.z0 + (tween.z1 - tween.z0) * e; cam.updateProjectionMatrix();
+      if (k >= 1) tween = null;
+    }
+    if (ring.visible) { const s = 1 + Math.sin(t*3)*.06; ring.scale.set(s,s,s); }
+    ctl.update();
+    R.render(scene, cam);
+    const pin = document.getElementById("pin");
+    if (active && people[active]) {
+      const v = new THREE.Vector3(); people[active].userData.head.getWorldPosition(v); v.y += .55; v.project(cam);
+      const el = stage();
+      pin.hidden = false;
+      pin.style.transform = `translate(-50%,-100%) translate(${(v.x*.5+.5)*el.clientWidth}px,${(-v.y*.5+.5)*el.clientHeight}px)`;
+    } else pin.hidden = true;
+  }
+
+  function focus(id){
+    if (!started || !people[id]) return;
+    active = id;
+    const t = team.find(x => x.id === id), p = people[id], v = new THREE.Vector3();
+    p.getWorldPosition(v);
+    ring.position.set(v.x, .06, v.z); ring.material.color = col(AC[t.area].c); ring.visible = true;
+    const pin = document.getElementById("pin");
+    pin.style.setProperty("--c", AC[t.area].c);
+    document.getElementById("pin-n").textContent = t.nombre;
+    document.getElementById("pin-r").textContent = t.role;
+    ctl.autoRotate = false; document.getElementById("hint").hidden = true;
+    tween = { t0: clock.getElapsedTime(), from: ctl.target.clone(), to: new THREE.Vector3(v.x, .8, v.z), z0: cam.zoom, z1: Math.max(cam.zoom, 1.9) };
+  }
+
+  function pick(ev){
+    const r = R.domElement.getBoundingClientRect();
+    const m = new THREE.Vector2(((ev.clientX - r.left)/r.width)*2-1, -((ev.clientY - r.top)/r.height)*2+1);
+    const ray = new THREE.Raycaster(); ray.setFromCamera(m, cam);
+    const hit = ray.intersectObjects(Object.values(people), true)[0];
+    if (hit) select(hit.object.userData.id, true);
+  }
+
+  function portraits(){
+    const pr = new THREE.WebGLRenderer({ antialias:true, alpha:true, preserveDrawingBuffer:true });
+    pr.setSize(320, 320); pr.outputEncoding = THREE.sRGBEncoding; pr.toneMapping = THREE.ACESFilmicToneMapping; pr.toneMappingExposure = 1.05;
+    team.forEach((t, i) => {
+      const s = new THREE.Scene();
+      s.add(new THREE.HemisphereLight(col("#ffffff"), col("#d8cfe6"), .9));
+      const l = new THREE.DirectionalLight(col("#fff1e2"), 1.1); l.position.set(-2, 4, -5); s.add(l);
+      const c = character(t, i); c.rotation.y = -.4; s.add(c);
+      const pc = new THREE.PerspectiveCamera(26, 1, .1, 50); pc.position.set(-.55, 1.75, -3.4); pc.lookAt(0, 1.32, 0);
+      pr.render(s, pc);
+      PORTRAIT[t.id] = pr.domElement.toDataURL("image/png");
+    });
+    pr.dispose();
+    refreshFaces();
+  }
+
+  function start(){
+    if (started) { resize(); return; }
+    if (!ok) { document.getElementById("fallback").hidden = false; document.getElementById("hint").hidden = true; return; }
+    try {
+      started = true;
+      R = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+      R.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+      R.outputEncoding = THREE.sRGBEncoding; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
+      R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap;
+      stage().prepend(R.domElement);
+      clock = new THREE.Clock();
+      build(); resize(); loop();
+      addEventListener("resize", resize);
+      let down = null;
+      R.domElement.addEventListener("pointerdown", e => down = [e.clientX, e.clientY]);
+      R.domElement.addEventListener("pointerup", e => { if (down && Math.hypot(e.clientX-down[0], e.clientY-down[1]) < 6) pick(e); down = null; });
+    } catch (err) { document.getElementById("fallback").hidden = false; }
+  }
+  return { start, focus, portraits: () => { if (ok) try { portraits(); } catch (e) {} } };
+})();
+
+/* Pestañas */
+const tabs = ["oficina","equipo","servicios","plan","clientes","flujo"];
+function show(){
+  const h = location.hash.slice(1), cur = tabs.includes(h) ? h : "oficina";
+  tabs.forEach(t => document.getElementById("s-"+t).hidden = t !== cur);
+  document.querySelectorAll("nav a").forEach(a => a.getAttribute("href")==="#"+cur ? a.setAttribute("aria-current","page") : a.removeAttribute("aria-current"));
+  if (cur === "oficina") requestAnimationFrame(() => Office.start());
+}
+addEventListener("hashchange", show);
+Office.portraits();
+show();
+select("director", false, false);
+</script>
