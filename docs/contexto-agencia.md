@@ -6,7 +6,7 @@
 Soluciones inteligentes (cotizadores, bots de WhatsApp con IA, automatizaciones) y marketing (contenido, publicidad, SEO local, webs, estrategia) para pymes argentinas. Precios en `CLAUDE.md`.
 
 ## A quién le vende
-Dueños de pymes argentinas. Nicho de arranque: fabricantes, talleres y vendedores del rubro moto y autopartes (a confirmar).
+Dueños de pymes argentinas de cualquier rubro.
 
 ## Problemas y dolores de sus clientes
 [en palabras de sus clientes]
@@ -33,7 +33,7 @@ Caso propio en Paolucci Racing (en preparación).
 [WhatsApp, Instagram, Mercado Libre, web, local, vendedores; qué funciona hoy]
 
 ## Objetivos
-3 clientes del mismo nicho pagando abono antes del 24 de enero de 2027 (ver `docs/plan.md`).
+3 clientes pagando abono antes del 24 de enero de 2027 (ver `docs/plan.md`).
 
 ## Publicidad (si hace)
 [plataformas, presupuesto mensual, costo por resultado]

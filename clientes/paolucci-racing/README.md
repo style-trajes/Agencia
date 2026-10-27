@@ -8,7 +8,7 @@
 
 ## Objetivo
 
-Tener funcionando y grabado un antes y después real para mostrar a prospectos del rubro moto (hito de la fase 1 del plan).
+Tener funcionando y grabado un antes y después real para mostrar a prospectos (hito de la fase 1 del plan).
 
 ## Historial
 | Fecha | Qué pasó |
