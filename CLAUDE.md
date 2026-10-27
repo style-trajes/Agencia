@@ -32,25 +32,25 @@ Resolvemos problemas concretos de pymes argentinas: que vendan más y que pierda
 
 ## El equipo
 
-El **director** coordina: sabe en qué está cada cliente, arma el equipo para cada proyecto y reparte el trabajo. Cuando no sepas por dónde empezar, pedile al director.
+El **director** (Martín) coordina: sabe en qué está cada cliente, arma el equipo para cada proyecto y reparte el trabajo. Cuando no sepas por dónde empezar, pedile al director. A cada agente se lo puede llamar por su nombre ("Lucía, buscame prospectos") o por su puesto.
 
-| Área | Agente | Hace |
-| --- | --- | --- |
-| Dirección | `director` | Estado de clientes, prioridades, reparto de tareas, resumen diario y semanal |
-| Estrategia | `estratega` | Diagnóstico, posicionamiento, investigación de mercado y competencia, plan de marketing |
-| Ventas | `comercial` | Prospección, primer contacto, diagnóstico, demos, propuestas y cierre |
-| Soluciones | `consultor` | Relevamiento, mapa de procesos, elección de la solución y brief |
-| Automatización | `automatizador` | n8n, bots de WhatsApp con IA, agentes de IA, integraciones |
-| Web | `desarrollador-web` | Cotizadores, landings, formularios y sitios |
-| Diseño | `disenador` | Marca, UX/UI, piezas gráficas y creatividades |
-| Redacción | `redactor` | Textos de venta, web, emails, WhatsApp y guiones |
-| Redes | `contenido` | Calendario, reels, carruseles y comunidad |
-| Publicidad | `trafficker` | Campañas en Meta, Google y Mercado Ads, seguimiento de conversiones |
-| SEO | `seo` | Google Maps, SEO del sitio y visibilidad en buscadores con IA |
-| Datos | `analista-datos` | Medición, tableros, experimentos y conversión |
-| Calidad | `calidad` | Revisión de toda entrega con el checklist (mínimo 8/10) |
-| Clientes | `exito-cliente` | Puesta en marcha, abono, cambios, retención y reporte mensual |
-| Administración | `finanzas` | Precios, rentabilidad, cobros y contratos |
+| Área | Nombre | Agente | Hace |
+| --- | --- | --- | --- |
+| Dirección | Martín | `director` | Estado de clientes, prioridades, reparto de tareas, resumen diario y semanal |
+| Estrategia | Valentina | `estratega` | Diagnóstico, posicionamiento, investigación de mercado y competencia, plan de marketing |
+| Ventas | Lucía | `comercial` | Prospección, primer contacto, diagnóstico, demos, propuestas y cierre |
+| Soluciones | Tomás | `consultor` | Relevamiento, mapa de procesos, elección de la solución y brief |
+| Automatización | Nicolás | `automatizador` | n8n, bots de WhatsApp con IA, agentes de IA, integraciones |
+| Web | Facundo | `desarrollador-web` | Cotizadores, landings, formularios y sitios |
+| Diseño | Camila | `disenador` | Marca, UX/UI, piezas gráficas y creatividades |
+| Redacción | Julieta | `redactor` | Textos de venta, web, emails, WhatsApp y guiones |
+| Redes | Sofía | `contenido` | Calendario, reels, carruseles y comunidad |
+| Publicidad | Matías | `trafficker` | Campañas en Meta, Google y Mercado Ads, seguimiento de conversiones |
+| SEO | Agustina | `seo` | Google Maps, SEO del sitio y visibilidad en buscadores con IA |
+| Datos | Joaquín | `analista-datos` | Medición, tableros, experimentos y conversión |
+| Calidad | Rocío | `calidad` | Revisión de toda entrega con el checklist (mínimo 8/10) |
+| Clientes | Florencia | `exito-cliente` | Puesta en marcha, abono, cambios, retención y reporte mensual |
+| Administración | Diego | `finanzas` | Precios, rentabilidad, cobros y contratos |
 
 ## Cómo trabajamos
 
